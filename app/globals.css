@@ -7,3 +7,11 @@
 html {
   font-family: "Poppins";
 }
+
+input {
+  inherits: none;
+}
+
+button {
+  inherits: none;
+}

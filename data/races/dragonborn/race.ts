@@ -2,6 +2,8 @@ import { Race } from "../types";
 
 export const Dragonborn: Race = {
   name: "Dragonborn",
+  picture:
+    "https://www.dndbeyond.com/avatars/thumbnails/6/340/420/618/636272677995471928.png",
   expansion: "Player's Handbook / Basic Rules",
   traits: {
     abilityScoreIncrease: {

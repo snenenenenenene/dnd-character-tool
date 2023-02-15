@@ -2,6 +2,7 @@ import { DraconicAncestry } from "./dragonborn/types";
 
 export interface Race {
   name: string;
+  picture?: string;
   expansion?: string;
   traits?: Traits & { draconicAncestry?: Array<DraconicAncestry> };
   variants?: Array<Variant>;

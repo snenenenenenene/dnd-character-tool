@@ -1,0 +1,102 @@
+import { Ability, Class, Expansion, HitDie } from "./types";
+
+export const classes: Class[] = [
+  {
+    name: "Barbarian",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d12,
+    primaryAbility: [Ability.strength],
+    saves: [Ability.strength, Ability.constitution],
+  },
+  {
+    name: "Bard",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.charisma],
+    saves: [Ability.dexterity, Ability.charisma],
+  },
+  {
+    name: "Cleric",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.wisdom],
+    saves: [Ability.wisdom, Ability.charisma],
+  },
+  {
+    name: "Druid",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.wisdom],
+    saves: [Ability.intelligence, Ability.wisdom],
+  },
+  {
+    name: "Fighter",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d10,
+    primaryAbility: [Ability.strength, Ability.dexterity],
+    saves: [Ability.strength, Ability.constitution],
+  },
+  {
+    name: "Monk",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.dexterity, Ability.wisdom],
+    saves: [Ability.strength, Ability.dexterity],
+  },
+  {
+    name: "Paladin",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d10,
+    primaryAbility: [Ability.strength, Ability.charisma],
+    saves: [Ability.wisdom, Ability.charisma],
+  },
+  {
+    name: "Ranger",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d10,
+    primaryAbility: [Ability.dexterity, Ability.wisdom],
+    saves: [Ability.strength, Ability.dexterity],
+  },
+  {
+    name: "Rogue",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.dexterity],
+    saves: [Ability.dexterity, Ability.intelligence],
+  },
+  {
+    name: "Sorcerer",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d6,
+    primaryAbility: [Ability.charisma],
+    saves: [Ability.constitution, Ability.charisma],
+  },
+  {
+    name: "Warlock",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.charisma],
+    saves: [Ability.wisdom, Ability.charisma],
+  },
+  {
+    name: "Wizard",
+    expansion: Expansion["Player's Handbook / Basic Rules"],
+    hitDie: HitDie.d6,
+    primaryAbility: [Ability.intelligence],
+    saves: [Ability.intelligence, Ability.wisdom],
+  },
+  {
+    name: "Artificer",
+    expansion: Expansion["Tasha's Cauldron of Everything"],
+    hitDie: HitDie.d8,
+    primaryAbility: [Ability.intelligence],
+    saves: [Ability.constitution, Ability.intelligence],
+  },
+  {
+    name: "Blood Hunter",
+    expansion: Expansion["Critical Role"],
+    // TODO: blood hunters should be able to pick between strength or dexterity & intelligence or wisdom
+    primaryAbility: [Ability.strength, Ability.intelligence],
+    saves: [Ability.dexterity, Ability.intelligence],
+  },
+];

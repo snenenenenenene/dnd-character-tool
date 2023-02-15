@@ -5,26 +5,26 @@ interface Props {
   id?: string;
   placeholder?: string;
   value?: any;
-  type?: "submit" | "button" | "reset" | undefined;
+  type?: "text" | "textarea" | "password" | "email" | "number";
   onChange?: (e: any) => void;
 }
 
 export const Input = ({
   className,
   id,
-  type,
+  type = "text",
   placeholder,
   value,
   onChange,
 }: Props) => {
   return (
     <input
-      className={`  cursor-pointer text-xl rounded-md border-2 border-light-primary py-4 px-8 h-20 w-60 justify-center flex text-light-primary active:border-light-accent transition-all  ${className}`}
+      className={`uppercase cursor-pointer text-xl rounded-md border-2 border-light-primary py-4 px-8 h-16 w-full justify-center flex text-light-primary active:border-light-accent transition-all  ${className}`}
       onChange={onChange}
       id={id}
       type={type}
       value={value}
       placeholder={placeholder}
-    ></input>
+    />
   );
 };

@@ -8,7 +8,10 @@ export const LoginModal = () => {
     setShowModal((showModal) => !showModal);
   };
   return (
-    <div onClick={() => toggleModal} className="">
+    <div
+      onClick={() => toggleModal()}
+      className="absolute w-screen h-screen inset-0 bg-[#00000033]"
+    >
       LoginModal
     </div>
   );
