@@ -1,31 +1,36 @@
+import { useSheetStore } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
 import { Race } from "@/data/races/types";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
-interface Sheet {
+export interface Sheet {
   name: string;
-  race?: Race;
-  class?: Class[];
+  race: Race | null;
+  class: Class[] | null;
 }
 interface ListArgs {
   sheets: Sheet[];
 }
 
 export const List = ({ sheets }: ListArgs) => {
+  const router = useRouter();
+  const setCurrentSheet = useSheetStore((state) => state.setCurrentSheet);
+  function setCharacter(characterName: string) {
+    setCurrentSheet(characterName);
+    router.push(`/sheets/${characterName}`);
+  }
   return (
     <div className="flex flex-col gap-8 w-full">
       {sheets ? (
         sheets.map((sheet, i) => (
-          <Link
+          <button
             className="w-full flex justify-center items-center h-10 border-b-2 border-light-primary hover:bg-light-primary px-8 py-3 hover:text-light-text"
-            tabIndex={0}
-            typeof="button"
             key={i}
-            href={`/sheets/${sheet.name}`}
+            onClick={() => setCharacter(sheet.name)}
           >
             {sheet.name}
-          </Link>
+          </button>
         ))
       ) : (
         <p>No sheets! Create a sheet and start your adventure!</p>

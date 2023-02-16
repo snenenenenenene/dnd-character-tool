@@ -12,11 +12,13 @@ export default function SheetList() {
   const [showTitleModal, setShowTitleModal] = useState<boolean>(false);
   const [characterName, setCharacterName] = useState<string>();
   const addSheet = useSheetStore((state) => state.addSheet);
+  const setCurrentSheet = useSheetStore((state) => state.setCurrentSheet);
   const router = useRouter();
   function createCharacter() {
     if (characterName && characterName !== "") {
-      addSheet({ name: characterName });
-      router.push("/sheets/new");
+      addSheet({ name: characterName, race: null, class: null });
+      setCurrentSheet(characterName);
+      router.push(`/sheets/${characterName}`);
     }
   }
   return (
