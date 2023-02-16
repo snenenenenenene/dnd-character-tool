@@ -16,7 +16,7 @@ export const Sidebar = () => {
   ];
 
   return (
-    <nav className="w-20 h-full bg-light-primary flex flex-col py-1 drop-shadow-2xl text-light-secondary">
+    <nav className="w-20 h-full bg-light-primary flex flex-col drop-shadow-2xl text-light-secondary">
       {/* <h1 className=" text-3xl font-bold mx-auto text-center"></h1> */}
       <section className="flex w-full h-full flex-col ">
         {routes.map((route) => (
