@@ -51,7 +51,9 @@ export const useSheetStore = create<sheetstate>()(
           set((state: any) => ({
             currentSheet: {
               ...state.currentSheet,
-              class: state.class.filter((c: Class, i: number) => i !== index),
+              class: state.currentSheet.class.filter(
+                (c: Class, i: number) => i !== index
+              ),
             },
           })),
         addSheet: (sheet) =>
