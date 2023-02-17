@@ -31,8 +31,8 @@ export default function ClassSelection() {
                     key={_class.name}
                     value={_class.name}
                     onClick={() => {
-                      if (currentSheet?.class?.length! < 2) {
-                        setClass(_class);
+                      if (currentSheet.class.length < 2) {
+                        setClass([...currentSheet.class, _class]);
                       }
                     }}
                   >
@@ -48,8 +48,8 @@ export default function ClassSelection() {
       <section className="w-full h-full flex px-8">
         <section className="flex w-full h-full">
           {currentSheet?.class &&
-            currentSheet?.class.length > 0 &&
-            currentSheet?.class.map((c, i) => (
+            currentSheet?.class?.length > 0 &&
+            currentSheet?.class?.map((c, i) => (
               <CharacterForm currClass={c} classIndex={i} key={c.name} />
             ))}
         </section>

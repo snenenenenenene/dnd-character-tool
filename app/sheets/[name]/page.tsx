@@ -28,6 +28,8 @@ export default function Sheets() {
                 {races.map((race: Race) => (
                   <button
                     className={`${
+                      //@ts-ignore
+                      //TODO: FIX THIS ERROR
                       currentSheet?.race?.name === race.name
                         ? "border-light-accent shadow-lg"
                         : "border-light-secondary"
@@ -40,6 +42,7 @@ export default function Sheets() {
                       console.log(currentSheet);
                     }}
                   >
+                    {/* // TODO: ADD NEXTJS IMAGE TAG */}
                     <img
                       className="w-36 h-36 object-contain"
                       loading="lazy"

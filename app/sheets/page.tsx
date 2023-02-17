@@ -16,7 +16,7 @@ export default function SheetList() {
   const router = useRouter();
   function createCharacter() {
     if (characterName && characterName !== "") {
-      addSheet({ name: characterName, race: null, class: null });
+      addSheet({ name: characterName, race: {}, class: [] });
       setCurrentSheet(characterName);
       router.push(`/sheets/${characterName}`);
     }
