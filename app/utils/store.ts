@@ -11,7 +11,8 @@ interface sheetstate {
   sheets: Array<Sheet>;
   currentSheet: Sheet;
   setRace: (race: Race) => void;
-  setClass: (_class: Class) => void;
+  setClass: (_class: Class[] | []) => void;
+  removeClass: (index: number) => void;
   setCurrentSheet: (name: string) => void;
   updateCurrentSheet: (key: string, value: any) => void;
 
@@ -42,11 +43,15 @@ export const useSheetStore = create<sheetstate>()(
           set((state: any) => ({
             currentSheet: { ...state.currentSheet, race: race },
           })),
-        setClass: (_class: any) =>
+        setClass: (_class: Class[]) =>
+          set((state: any) => ({
+            currentSheet: { ...state.currentSheet, class: _class },
+          })),
+        removeClass: (index: number) =>
           set((state: any) => ({
             currentSheet: {
               ...state.currentSheet,
-              class: [...state.currentSheet.class, _class],
+              class: state.class.filter((c: Class, i: number) => i !== index),
             },
           })),
         addSheet: (sheet) =>
