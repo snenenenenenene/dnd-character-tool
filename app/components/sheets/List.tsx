@@ -6,8 +6,8 @@ import React from "react";
 
 export interface Sheet {
   name: string;
-  race: Race | null;
-  class: Class[] | null;
+  race: Race | {};
+  class: Class[] | [];
 }
 interface ListArgs {
   sheets: Sheet[];
