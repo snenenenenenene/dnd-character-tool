@@ -10,7 +10,7 @@ import React from "react";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 
 export default function Sheets() {
-  const currentSheet = useSheetStore((state) => state.currentSheet);
+  const currentSheet: any = useSheetStore((state) => state.currentSheet);
   const setRace = useSheetStore((state) => state.setRace);
 
   const groups = _.groupBy(races, "expansion");
@@ -28,8 +28,6 @@ export default function Sheets() {
                 {races.map((race: Race) => (
                   <button
                     className={`${
-                      //@ts-ignore
-                      //TODO: FIX THIS ERROR
                       currentSheet?.race?.name === race.name
                         ? "border-light-accent shadow-lg"
                         : "border-light-secondary"
