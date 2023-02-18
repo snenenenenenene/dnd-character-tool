@@ -1,0 +1,32 @@
+/* For Webkit-based browsers (Chrome, Safari and Opera) */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+.labelText{
+    text-align: left;
+}
+.inputText{
+    text-align: right;
+}
+
+.initiative-item{
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-color: rgb(229 231 235);
+    font-size: 0.75rem; /* 12px */
+    line-height: 1rem; /* 16px */
+    padding-left: 0.5rem; /* 8px */
+    padding-top: 0.5rem;
+}
+
+.active{
+    border-color: green;
+}
