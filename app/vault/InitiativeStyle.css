@@ -18,8 +18,8 @@
 }
 
 .initiative-item{
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-top-width: 5px;
+    border-bottom-width: 5px;
     border-color: rgb(229 231 235);
     font-size: 0.75rem; /* 12px */
     line-height: 1rem; /* 16px */

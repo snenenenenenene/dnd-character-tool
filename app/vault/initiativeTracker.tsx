@@ -15,7 +15,8 @@ export default function InitiativeTracker() {
 }
 
 class InitiativeList extends React.Component<{}, any> {
-    nextCharacter: number = 0;
+    activeCharacter: number = 0;
+    nextCharacter: number = 1;
     constructor(props: {}) {
         super(props);
         this.state = { inputList: [] };
@@ -25,9 +26,9 @@ class InitiativeList extends React.Component<{}, any> {
 
     addItem() {
         const inputList = this.state.inputList;
-        this.setState({
-            inputList: inputList.concat(
-                <div className="initiative-item" key={inputList.length}>
+        let className:string = "initiative-item"
+        const itemToAdd = (
+            <div className={className} key={inputList.length} id={inputList.length}>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
                         <label htmlFor="name" className="block text-gray-500 font-bold labelText mb-1 md:mb-0 pr-4">Name</label>
@@ -46,17 +47,28 @@ class InitiativeList extends React.Component<{}, any> {
                 </div>
             </div>
             )
+
+        this.setState({
+            inputList: inputList.concat(itemToAdd)
         });
+
+        for (let index = 0; index < inputList.length; index++) {
+            if(index != 0) document.getElementById(index.toString())?.classList.remove("active")
+            else document.getElementById(index.toString())?.classList.add("active")
+        }
     }
 
     next(){
         const inputList = this.state.inputList;
-        // inputList[this.nextCharacter]
-        console.log(inputList[this.nextCharacter])
+        document.getElementById(this.activeCharacter.toString())?.classList.toggle("active")
+        document.getElementById(this.nextCharacter.toString())?.classList.toggle("active")
         if(this.nextCharacter == inputList.length - 1){this.nextCharacter = 0}
         else{this.nextCharacter++}
+        if(this.activeCharacter == inputList.length - 1){this.activeCharacter = 0}
+        else{this.activeCharacter++}
+        // inputList[this.nextCharacter]
+        // inputList[this.nextCharacter].classList
     }
-
     render(): React.ReactNode {
         return (
             <div>
