@@ -60,6 +60,7 @@ class InitiativeList extends React.Component<{}, any> {
 
         this.setState({
             inputList: inputList.concat(itemToAdd)
+            
         });
 
         this.activeCharacter = 0;
@@ -67,7 +68,8 @@ class InitiativeList extends React.Component<{}, any> {
         for (let index = 0; index < inputList.length; index++) {
             document.getElementById(index.toString())?.classList.remove("active")
         }
-        document.getElementById("0")?.classList.add("active")
+        let index = this.initiativeOrder[0] || 0
+        document.getElementById(index.toString())?.classList.add("active")
     }
 
     next() {
@@ -81,34 +83,36 @@ class InitiativeList extends React.Component<{}, any> {
     }
 
     sort() {
-        let inputList = this.state.inputList;
+        const inputList = this.state.inputList.sort((a, b) => a.key > b.key ? 1 : -1);
         let itemList: JSX.Element[] = [];
         let initiativeList: HTMLInputElement[] = [];
 
-        for(let i = 0; i<inputList.length; i++){
+        for (let i = 0; i < inputList.length; i++) {
             this.initiativeOrder[i] = i;
-            itemList[i] = inputList[i]
-            initiativeList[i] = document.getElementById("initiative_" + i.toString()) as HTMLInputElement
+            itemList[i] = inputList[i];
+            initiativeList[i] = document.getElementById("initiative_" + i.toString()) as HTMLInputElement;
         }
 
-        for(let i = 0; i < inputList.length-1; i++){
-            for (let j = 0; j < inputList.length-1; j++) {
+        for (let i = 0; i < inputList.length - 1; i++) {
+            for (let j = 0; j < inputList.length - 1; j++) {
                 const initiativeNumber = (Number(initiativeList[j].value) || 0)
-                const nextInitiative = (Number(initiativeList[j+1].value) || 0)
-                
-                if(initiativeNumber < nextInitiative) this.swapIndexes(itemList, initiativeList,j);
+                const nextInitiative = (Number(initiativeList[j + 1].value) || 0)
+
+                if (initiativeNumber < nextInitiative) this.swapIndexes(itemList, initiativeList, j);
             }
         }
+
         this.setState({
             inputList: itemList
         });
 
-        for(let i = 0; i < inputList.length-1; i++){
+        for (let i = 0; i < inputList.length - 1; i++) {
             document.getElementById(i.toString())?.classList.remove("active")
         }
         document.getElementById(this.initiativeOrder[0].toString())?.classList.toggle("active")
     }
-    swapIndexes(itemList: JSX.Element[], initiativeList: HTMLInputElement[], firstIndex: number){
+    
+    swapIndexes(itemList: JSX.Element[], initiativeList: HTMLInputElement[], firstIndex: number) {
         let nextIndex = firstIndex++;
 
         let tempItem = itemList[firstIndex];
