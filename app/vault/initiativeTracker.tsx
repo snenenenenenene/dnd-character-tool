@@ -75,7 +75,7 @@ class InitiativeList extends React.Component<{}, any> {
     next() {
         const inputList = this.state.inputList;
         document.getElementById(this.initiativeOrder[this.activeCharacter].toString())?.classList.toggle("active")
-        document.getElementById(this.initiativeOrder[this.nextCharacter].toString())?.classList.toggle("active")
+        document.getElementById(this.initiativeOrder[this.nextCharacter].toString())?.classList.toggle("active");
         if (this.nextCharacter == inputList.length - 1) { this.nextCharacter = 0 }
         else { this.nextCharacter++ }
         if (this.activeCharacter == inputList.length - 1) { this.activeCharacter = 0 }
@@ -109,7 +109,7 @@ class InitiativeList extends React.Component<{}, any> {
         for (let i = 0; i < inputList.length - 1; i++) {
             document.getElementById(i.toString())?.classList.remove("active")
         }
-        document.getElementById(this.initiativeOrder[0].toString())?.classList.toggle("active")
+        document.getElementById(this.initiativeOrder[0].toString())?.classList.add("active")
     }
     
     swapIndexes(itemList: JSX.Element[], initiativeList: HTMLInputElement[], firstIndex: number) {
@@ -133,9 +133,8 @@ class InitiativeList extends React.Component<{}, any> {
             <div>
                 <button type="button" onClick={this.addItem}>Add a character</button>
                 <div></div>
-                <button type="button" onClick={this.next}>Next</button>
-                <div></div>
-                <button type="button" onClick={this.sort}>Sort</button>
+                <button type="button" onClick={this.next} className="w-1/2">Next</button>
+                <button type="button" onClick={this.sort} className="w-1/2">Sort</button>
 
                 {this.state.inputList.map(function (input, index) {
                     return input;
