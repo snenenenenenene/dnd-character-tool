@@ -45,6 +45,14 @@ class InitiativeList extends React.Component<{}, any> {
                         <input id="health" type={"number"} min="0" className="inputText bg-gray-100 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" />
                     </div>
                 </div>
+                <div className="md:flex md:items-center mb-6">
+                    <div className="md:w-1/3">
+                        <label htmlFor="initiative" className="block text-gray-500 font-bold labelText mb-1 md:mb-0 pr-4">Initiative</label>
+                    </div>
+                    <div className="md:w-2/3 items-end">
+                        <input id="initiative" type={"number"} min="0" className="inputText bg-gray-100 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" />
+                    </div>
+                </div>
             </div>
         )
 
