@@ -47,7 +47,7 @@ class InitiativeList extends React.Component<{}, any> {
                 </div>
                 <div className="md:flex md:items-center mb-6">
                     <div className="md:w-1/3">
-                        <label htmlFor="initiative" className="block text-gray-500 font-bold labelText mb-1 md:mb-0 pr-4">Initiative</label>
+                        <label htmlFor="initiative" id={"initiative_" + inputList.length} className="block text-gray-500 font-bold labelText mb-1 md:mb-0 pr-4">Initiative</label>
                     </div>
                     <div className="md:w-2/3 items-end">
                         <input id="initiative" type={"number"} min="0" className="inputText bg-gray-100 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" />
@@ -77,12 +77,21 @@ class InitiativeList extends React.Component<{}, any> {
         if (this.activeCharacter == inputList.length - 1) { this.activeCharacter = 0 }
         else { this.activeCharacter++ }
     }
+
+    sort() {
+        const inputList = this.state.inputList;
+        document.getElementById(this.activeCharacter.toString())?.classList.toggle("active")
+        document.getElementById(this.nextCharacter.toString())?.classList.toggle("active")
+    }
+
     render(): React.ReactNode {
         return (
             <div>
                 <button type="button" onClick={this.addItem}>Add a character</button>
                 <div></div>
                 <button type="button" onClick={this.next}>Next</button>
+                <div></div>
+                <button type="button" onClick={this.sort}>Sort</button>
 
                 {this.state.inputList.map(function (input, index) {
 
