@@ -19,7 +19,7 @@ export const Input = ({
 }: Props) => {
   return (
     <input
-      className={`uppercase cursor-pointer text-xl rounded-md border-2 border-light-primary py-4 px-8 h-16 w-full justify-center flex text-light-primary active:border-light-accent transition-all  ${className}`}
+      className={`bg-gray-100 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-2 border-gray-100 ${className}`}
       onChange={onChange}
       id={id}
       type={type}

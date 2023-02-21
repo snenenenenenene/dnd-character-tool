@@ -11,7 +11,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="h-screen w-screen bg-light-secondary text-light-primary flex">
         <Sidebar />
-        <div className="w-full h-full px-12 py-8 flex flex-col">{children}</div>
+        <div className="w-full h-full pl-32 py-8 flex flex-col">{children}</div>
       </body>
     </html>
   );

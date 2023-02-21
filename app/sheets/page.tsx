@@ -11,14 +11,19 @@ export default function SheetList() {
   const sheets = useSheetStore((state) => state.sheets);
   const [showTitleModal, setShowTitleModal] = useState<boolean>(false);
   const [characterName, setCharacterName] = useState<string>();
+
   const addSheet = useSheetStore((state) => state.addSheet);
-  const setCurrentSheet = useSheetStore((state) => state.setCurrentSheet);
+  const selectSheet = useSheetStore((state) => state.selectSheet);
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+
   const router = useRouter();
   function createCharacter() {
     if (characterName && characterName !== "") {
-      addSheet({ name: characterName, race: {}, class: [] });
-      setCurrentSheet(characterName);
-      router.push(`/sheets/${characterName}`);
+      addSheet(characterName);
+      if (selectedSheet) {
+        selectSheet(selectedSheet.name);
+        router.push(`/sheets/${selectedSheet?.name}`);
+      }
     }
   }
   return (
@@ -34,6 +39,7 @@ export default function SheetList() {
       {showTitleModal && (
         <div
           className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
+          typeof="button"
           data-value="parent"
           onClick={(event: any) => {
             event.preventDefault();

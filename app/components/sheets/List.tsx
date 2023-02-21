@@ -15,11 +15,14 @@ interface ListArgs {
 
 export const List = ({ sheets }: ListArgs) => {
   const router = useRouter();
-  const setCurrentSheet = useSheetStore((state) => state.setCurrentSheet);
-  function setCharacter(characterName: string) {
-    setCurrentSheet(characterName);
-    router.push(`/sheets/${characterName}`);
+  const selectSheet = useSheetStore((state: any) => state.selectSheet);
+  const selectedSheet = useSheetStore((state: any) => state.selectedSheet);
+
+  async function setCharacter(characterName: string) {
+    selectSheet(characterName);
+    router.push(`/sheets/${selectedSheet?.name}`);
   }
+
   return (
     <div className="flex flex-col gap-8 w-full">
       {sheets ? (
