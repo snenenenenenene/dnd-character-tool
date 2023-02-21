@@ -1,5 +1,6 @@
 export interface Class {
   name?: string;
+  image?: string;
   expansion?: Expansion;
   hitDie?: HitDie;
   primaryAbility?: Ability[];
@@ -21,6 +22,14 @@ export enum Ability {
   "wisdom",
   "intelligence",
 }
+
+export type AbilityType =
+  | "strength"
+  | "constitution"
+  | "dexterity"
+  | "charisma"
+  | "wisdom"
+  | "intelligence";
 
 export enum Expansion {
   "Player's Handbook / Basic Rules",
