@@ -12,6 +12,9 @@ export const races: Array<Race> = [
     picture:
       "https://www.dndbeyond.com/avatars/thumbnails/6/254/420/618/636271781394265550.png",
     expansion: "Player's Handbook / Basic Rules",
+    traits: {
+      abilityScoreIncrease: { dexterity: +2 },
+    },
   },
   {
     name: "Elf",

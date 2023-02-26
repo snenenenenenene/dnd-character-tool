@@ -1,5 +1,6 @@
 export interface Class {
   name?: string;
+  level: number;
   image?: string;
   expansion?: Expansion;
   hitDie?: HitDie;

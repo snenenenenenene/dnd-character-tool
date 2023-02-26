@@ -9,6 +9,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d12,
     primaryAbility: [Ability.strength],
     saves: [Ability.strength, Ability.constitution],
+    level: 0,
   },
   {
     name: "Bard",
@@ -18,6 +19,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.charisma],
     saves: [Ability.dexterity, Ability.charisma],
+    level: 0,
   },
   {
     name: "Cleric",
@@ -27,6 +29,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.wisdom],
     saves: [Ability.wisdom, Ability.charisma],
+    level: 0,
   },
   {
     name: "Druid",
@@ -36,6 +39,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.wisdom],
     saves: [Ability.intelligence, Ability.wisdom],
+    level: 0,
   },
   {
     name: "Fighter",
@@ -45,6 +49,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d10,
     primaryAbility: [Ability.strength, Ability.dexterity],
     saves: [Ability.strength, Ability.constitution],
+    level: 0,
   },
   {
     name: "Monk",
@@ -54,6 +59,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.dexterity, Ability.wisdom],
     saves: [Ability.strength, Ability.dexterity],
+    level: 0,
   },
   {
     name: "Paladin",
@@ -63,6 +69,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d10,
     primaryAbility: [Ability.strength, Ability.charisma],
     saves: [Ability.wisdom, Ability.charisma],
+    level: 0,
   },
   {
     name: "Ranger",
@@ -72,6 +79,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d10,
     primaryAbility: [Ability.dexterity, Ability.wisdom],
     saves: [Ability.strength, Ability.dexterity],
+    level: 0,
   },
   {
     name: "Rogue",
@@ -81,6 +89,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.dexterity],
     saves: [Ability.dexterity, Ability.intelligence],
+    level: 0,
   },
   {
     name: "Sorcerer",
@@ -90,6 +99,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d6,
     primaryAbility: [Ability.charisma],
     saves: [Ability.constitution, Ability.charisma],
+    level: 0,
   },
   {
     name: "Warlock",
@@ -99,6 +109,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.charisma],
     saves: [Ability.wisdom, Ability.charisma],
+    level: 0,
   },
   {
     name: "Wizard",
@@ -108,6 +119,7 @@ export const classes: Class[] = [
     hitDie: HitDie.d6,
     primaryAbility: [Ability.intelligence],
     saves: [Ability.intelligence, Ability.wisdom],
+    level: 0,
   },
   {
     name: "Artificer",
@@ -115,6 +127,8 @@ export const classes: Class[] = [
     hitDie: HitDie.d8,
     primaryAbility: [Ability.intelligence],
     saves: [Ability.constitution, Ability.intelligence],
+    level: 0,
+    image: "",
   },
   {
     name: "Blood Hunter",
@@ -124,5 +138,7 @@ export const classes: Class[] = [
     // TODO: blood hunters should be able to pick between strength or dexterity & intelligence or wisdom
     primaryAbility: [Ability.strength, Ability.intelligence],
     saves: [Ability.dexterity, Ability.intelligence],
+    level: 0,
+    hitDie: HitDie.d6,
   },
 ];

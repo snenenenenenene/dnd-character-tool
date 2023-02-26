@@ -23,6 +23,23 @@ import { persist, devtools } from "zustand/middleware";
 
 export interface Sheet {
   name: string;
+  level?: number;
+  stats?: {
+    strength?: number;
+    dexterity?: number;
+    constitution?: number;
+    intelligence?: number;
+    wisdom?: number;
+    charisma?: number;
+  };
+  thrownStats?: {
+    strength?: number;
+    dexterity?: number;
+    constitution?: number;
+    intelligence?: number;
+    wisdom?: number;
+    charisma?: number;
+  };
   race: Race;
   class: Class[];
 }
@@ -44,7 +61,7 @@ type StoreState = {
   sheets?: Sheet[] | any;
   selectedSheet?: Sheet | null | any;
   selectSheet?: (name: string) => void | any;
-  updateSelectedSheet?: (update: SheetUpdate) => void | any;
+  updateSelectedSheet: (update: SheetUpdate) => void | any;
   addSheet?: (name: string) => void | any;
 };
 
