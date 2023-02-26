@@ -1,14 +1,9 @@
-import { useSheetStore } from "@/app/utils/store";
+import { Sheet, useSheetStore } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
 import { Race } from "@/data/races/types";
 import { useRouter } from "next/navigation";
 import React from "react";
 
-export interface Sheet {
-  name: string;
-  race: Race | {};
-  class: Class[] | [];
-}
 interface ListArgs {
   sheets: Sheet[];
 }
@@ -18,10 +13,10 @@ export const List = ({ sheets }: ListArgs) => {
   const selectSheet = useSheetStore((state: any) => state.selectSheet);
   const selectedSheet = useSheetStore((state: any) => state.selectedSheet);
 
-  async function setCharacter(characterName: string) {
+  const setCharacter = async (characterName: string) => {
     selectSheet(characterName);
     router.push(`/sheets/${selectedSheet?.name}`);
-  }
+  };
 
   return (
     <div className="flex flex-col gap-8 w-full">
@@ -32,7 +27,11 @@ export const List = ({ sheets }: ListArgs) => {
             key={i}
             onClick={() => setCharacter(sheet.name)}
           >
-            {sheet.name}
+            <section className="flex gap-10">
+              <p>{sheet.name}</p>
+              <p>{sheet.race.name}</p>
+              <p>Level: {sheet.level}</p>
+            </section>
           </button>
         ))
       ) : (
