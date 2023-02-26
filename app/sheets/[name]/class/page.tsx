@@ -6,7 +6,7 @@ import Link from "next/link";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 import { CharacterForm } from "@/app/components/character/CharacterForm";
 import { classes } from "@/data/classes/classes";
-import { useSheetStore } from "@/app/utils/store";
+import { Sheet, useSheetStore } from "@/app/utils/store";
 import { Class, Expansion } from "@/data/classes/types";
 
 export default function ClassSelection() {
@@ -42,6 +42,7 @@ export default function ClassSelection() {
                     onClick={() => {
                       if (selectedSheet!.class.length < 2) {
                         updateSelectedSheet({
+                          ...selectedSheet,
                           class: [...selectedSheet!.class, _class],
                         });
                       }
@@ -57,7 +58,7 @@ export default function ClassSelection() {
       </section>
 
       <section className="w-full h-full flex px-8">
-        <section className="flex w-full h-full gap-20">
+        <section className="flex w-full h-full gap-5 pr-4">
           {selectedSheet?.class &&
             selectedSheet?.class?.length > 0 &&
             selectedSheet?.class?.map((c: Class, i: number) => (

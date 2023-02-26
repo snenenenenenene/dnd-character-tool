@@ -11,7 +11,7 @@ import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 
 export default function Sheets() {
   const selectedSheet: Sheet = useSheetStore((state) => state.selectedSheet);
-  const updateSelectedSheet = useSheetStore(
+  const updateSelectedSheet: any = useSheetStore(
     (state) => state.updateSelectedSheet
   );
 
@@ -38,10 +38,71 @@ export default function Sheets() {
                     key={race.name}
                     value={race.name}
                     onClick={() => {
-                      console.log(selectedSheet);
-                      updateSelectedSheet({ race: race });
-
-                      console.log(selectedSheet);
+                      updateSelectedSheet({
+                        ...selectedSheet,
+                        race: race,
+                        stats: {
+                          strength:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.strength) +
+                                10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.strength || 0
+                            ),
+                          dexterity:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.dexterity) +
+                                10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.dexterity || 0
+                            ),
+                          constitution:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.constitution) +
+                                10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.constitution || 0
+                            ),
+                          intelligence:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.intelligence) +
+                                10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.intelligence || 0
+                            ),
+                          wisdom:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.wisdom) + 10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.wisdom || 0
+                            ),
+                          charisma:
+                            Math.floor(
+                              (Number(selectedSheet.thrownStats?.charisma) +
+                                10) /
+                                2
+                            ) +
+                            Number(
+                              selectedSheet.race.traits?.abilityScoreIncrease
+                                ?.charisma || 0
+                            ),
+                        },
+                      });
                     }}
                   >
                     {/* // TODO: ADD NEXTJS IMAGE TAG */}
