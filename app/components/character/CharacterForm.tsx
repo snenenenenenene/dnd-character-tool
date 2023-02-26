@@ -33,7 +33,7 @@ export const CharacterForm = ({ currClass, classIndex }: CharacterFormArgs) => {
         <GiFlamer />
       </button>
       <section className="flex justify-between h-48">
-        <h4 className="text-8xl font-bold">{currClass?.name}</h4>
+        <h4 className="text-6xl font-bold">{currClass?.name}</h4>
         <img src={currClass?.image} className="w-40 h-40 object-contain" />
       </section>
       <label htmlFor="level">Level</label>
