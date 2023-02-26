@@ -32,6 +32,14 @@ export interface Sheet {
     wisdom?: number;
     charisma?: number;
   };
+  currency?: {
+    gold?: number;
+    silver?: number;
+    copper?: number;
+    electrum?: number;
+    platinum?: number;
+  };
+  weapons?: [];
   thrownStats?: {
     strength?: number;
     dexterity?: number;
@@ -57,11 +65,20 @@ interface SheetUpdate {
 //   addSheet: (name: string) => void;
 // }
 
+interface Campaign {
+  name: string;
+  sheets: Sheet[];
+}
+
 type StoreState = {
+  campaigns: Campaign[];
   sheets?: Sheet[] | any;
+  selectedCampaign?: Campaign | null | any;
   selectedSheet?: Sheet | null | any;
+  selectCampaign?: (name: string) => void | any;
   selectSheet?: (name: string) => void | any;
   updateSelectedSheet: (update: SheetUpdate) => void | any;
+  addCampaign?: (name: string) => void | any;
   addSheet?: (name: string) => void | any;
 };
 
@@ -70,11 +87,20 @@ export const useSheetStore = create<StoreState>()(
     persist(
       (set) => ({
         sheets: [],
+        campaigns: [],
+        selectedCampaign: null,
         selectedSheet: null,
         selectSheet: (name: string) =>
           set((state) => ({
             selectedSheet:
               state.sheets.find((sheet: Sheet) => sheet.name === name) || null,
+          })),
+        selectCampaign: (name: string) =>
+          set((state) => ({
+            selectedCampaign:
+              state.campaigns.find(
+                (campaign: Campaign) => campaign.name === name
+              ) || null,
           })),
         updateSelectedSheet: (update: SheetUpdate) =>
           set((state) => {
@@ -94,12 +120,23 @@ export const useSheetStore = create<StoreState>()(
             }
             return state;
           }),
+        addCampaign: (name: string) =>
+          set((state) => {
+            const campaign: Campaign = {
+              name,
+              sheets: [],
+            };
+            return {
+              campaigns: [...state.campaigns, campaign],
+              selectedCampaign: campaign,
+            };
+          }),
         addSheet: (name: string) =>
           set((state) => {
             const sheet: Sheet = {
               name,
               race: races[0],
-              class: [classes[0], classes[1]],
+              class: [],
             };
             return {
               sheets: [...state.sheets, sheet],
