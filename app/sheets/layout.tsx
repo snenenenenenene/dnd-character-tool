@@ -1,5 +1,5 @@
+"use client";
 import React from "react";
-
 interface LayoutArgs {
   children: React.ReactNode;
 }
