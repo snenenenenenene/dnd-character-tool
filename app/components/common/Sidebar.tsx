@@ -1,9 +1,14 @@
+/* eslint-disable no-unused-vars */
 "use client";
 import { useSheetStore } from "@/app/utils/store";
 import Link from "next/link";
 import React from "react";
 import { GiDiceEightFacesEight, GiFlamingSheet } from "react-icons/gi";
-export const Sidebar = () => {
+
+interface SidebarArgs {
+  setShowAuthModal: (showAuthModal: any) => any;
+}
+export const Sidebar = ({ setShowAuthModal }: SidebarArgs) => {
   const routes = [
     {
       title: "Sheet Tool",
@@ -32,7 +37,12 @@ export const Sidebar = () => {
         ))}
       </section>
       <section>
-        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 mx-4 mb-3 "></div>
+        <button
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 mx-4 mb-3 "
+          onClick={() =>
+            setShowAuthModal((showAuthModal: any) => !showAuthModal)
+          }
+        />
       </section>
     </nav>
   );
