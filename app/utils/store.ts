@@ -71,6 +71,8 @@ interface Campaign {
 }
 
 type StoreState = {
+  user: any;
+  setUser: (user: any) => void;
   campaigns: Campaign[];
   sheets?: Sheet[] | any;
   selectedCampaign?: Campaign | null | any;
@@ -86,6 +88,8 @@ export const useSheetStore = create<StoreState>()(
   devtools(
     persist(
       (set) => ({
+        user: null,
+        setUser: (user: any) => set({ user }),
         sheets: [],
         campaigns: [],
         selectedCampaign: null,
