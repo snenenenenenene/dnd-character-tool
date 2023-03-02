@@ -36,3 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 .env
+
+database/pb_migrations
+database/pb_data/logs.*
