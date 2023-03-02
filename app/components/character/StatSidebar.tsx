@@ -1,34 +1,56 @@
 "use client";
-import { useSheetStore } from "@/app/utils/store";
-import React from "react";
+import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
+import React, { useEffect, useState } from "react";
 import { Input } from "../common/Input";
 
-export const StatSidebar = () => {
-  // type Stats = Record<AbilityType, number>;
-  const updateSelectedSheet = useSheetStore(
-    (state) => state.updateSelectedSheet
-  );
+export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
+  const [sheet, setSheet] = useState<any>({});
+  const [updating, setUpdating] = useState<any>({});
 
-  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  useEffect(() => {
+    getSheetWithId(sheetId).then((res) => {
+      setSheet(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!updating) {
+      setUpdating(true);
+      updateSheet();
+    }
+  }, [sheet?.data]);
+
+  function updateSheet() {
+    setUpdating(true);
+    updateSheetWithId(sheetId, sheet?.data, sheet?.campaign, sheet?.user)
+      .then((res) => {
+        setSheet(res);
+        console.log(res);
+        setUpdating(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUpdating(false);
+      });
+  }
 
   return (
-    <section className="flex w-1/6 border-l gap-2 border-light-tertiary flex-col h-full items-center px-12">
+    <section className="flex w-48 fixed right-0 top-0 gap-2 border-light-secondary border-l-2 flex-col h-full items-center px-12">
       <h1 className={"uppercase font-medium"}>Level</h1>
       <Input
         className="w-16 h-16 text-center text-3xl px-0 py-0"
+        type="number"
         id="strength"
-        value={selectedSheet?.level}
-        onChange={(e) =>
-          updateSelectedSheet({ ...selectedSheet, level: e.target.value })
-        }
+        value={sheet?.data?.level}
+        onChange={(e) => setSheet({ ...sheet?.data, level: e.target.value })}
       />
       <h1 className={"uppercase font-medium"}>STRENGTH</h1>
       <Input
         className="w-16 h-16 text-center text-3xl px-0 py-0"
         id="strength"
         value={
-          (selectedSheet.stats?.strength > 0 && "+") +
-          selectedSheet?.stats?.strength
+          (sheet?.data?.stats?.strength > 0 && "+") +
+          sheet?.data?.stats?.strength
         }
       />
       <input
@@ -37,17 +59,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        value={selectedSheet?.thrownStats?.strength}
+        value={sheet?.data?.thrownStats?.strength}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              strength: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              strength: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data?.stats,
+                strength: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data?.thrownStats,
+                strength: e.target.value,
+              },
             },
           })
         }
@@ -56,8 +81,8 @@ export const StatSidebar = () => {
       <Input
         className="w-16 h-16 text-center text-3xl px-0 py-0"
         value={
-          (selectedSheet.stats?.dexterity > 0 && "+") +
-          selectedSheet?.stats?.dexterity
+          (sheet?.data?.stats?.dexterity > 0 && "+") +
+          sheet?.data?.stats?.dexterity
         }
         id="dexterity"
       />
@@ -67,17 +92,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        value={selectedSheet?.thrownStats?.dexterity}
+        value={sheet?.data?.thrownStats?.dexterity}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              dexterity: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              dexterity: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data.stats,
+                dexterity: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data.thrownStats,
+                dexterity: e.target.value,
+              },
             },
           })
         }
@@ -85,8 +113,8 @@ export const StatSidebar = () => {
       <h1 className={"uppercase font-medium"}>CONSTITUTION</h1>
       <Input
         value={
-          (selectedSheet.stats?.constitution > 0 && "+") +
-          selectedSheet?.stats?.constitution
+          (sheet?.data?.stats?.constitution > 0 && "+") +
+          sheet?.data?.stats?.constitution
         }
         className="w-16 h-16 text-center text-3xl px-0 py-0 px-0 py-0"
         id="constitution"
@@ -97,17 +125,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        value={selectedSheet?.thrownStats?.constitution}
+        value={sheet?.data?.thrownStats?.constitution}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              constitution: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              constitution: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data?.stats,
+                constitution: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data?.thrownStats,
+                constitution: e.target.value,
+              },
             },
           })
         }
@@ -115,8 +146,8 @@ export const StatSidebar = () => {
       <h1 className={"uppercase font-medium"}>INTELLIGENCE</h1>
       <Input
         value={
-          (selectedSheet.stats?.intelligence > 0 && "+") +
-          selectedSheet?.stats?.intelligence
+          (sheet?.data?.stats?.intelligence > 0 && "+") +
+          sheet?.data?.stats?.intelligence
         }
         className="w-16 h-16 text-center text-3xl px-0 py-0"
         id="strength"
@@ -127,17 +158,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        value={selectedSheet?.thrownStats?.intelligence}
+        value={sheet?.data?.thrownStats?.intelligence}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              intelligence: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              intelligence: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data?.stats,
+                intelligence: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data?.thrownStats,
+                intelligence: e.target.value,
+              },
             },
           })
         }
@@ -145,8 +179,7 @@ export const StatSidebar = () => {
       <h1 className={"uppercase font-medium"}>WISDOM</h1>
       <Input
         value={
-          (selectedSheet.stats?.wisdom > 0 && "+") +
-          selectedSheet?.stats?.wisdom
+          (sheet?.data?.stats?.wisdom > 0 && "+") + sheet?.data?.stats?.wisdom
         }
         className="w-16 h-16 text-center text-3xl px-0 py-0"
         id="strength"
@@ -157,17 +190,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        value={selectedSheet?.thrownStats?.wisdom}
+        value={sheet?.data?.thrownStats?.wisdom}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              wisdom: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              wisdom: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data?.stats,
+                wisdom: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data.thrownStats,
+                wisdom: e.target.value,
+              },
             },
           })
         }
@@ -175,8 +211,8 @@ export const StatSidebar = () => {
       <h1 className={"uppercase font-medium"}>CHARISMA</h1>
       <Input
         value={
-          (selectedSheet.stats?.charisma > 0 && "+") +
-          selectedSheet?.stats?.charisma
+          (sheet?.data?.stats?.charisma > 0 && "+") +
+          sheet?.data?.stats?.charisma
         }
         className="w-16 h-16 text-center text-3xl px-0 py-0"
         id="strength"
@@ -187,20 +223,20 @@ export const StatSidebar = () => {
         type={"number"}
         min={3}
         max={18}
-        type={"number"}
-        min={3}
-        max={18}
-        value={selectedSheet?.thrownStats?.charisma}
+        value={sheet?.data?.thrownStats?.charisma}
         onChange={(e) =>
-          updateSelectedSheet({
-            ...selectedSheet,
-            stats: {
-              ...selectedSheet.stats,
-              charisma: Math.floor(Number(e.target.value) - 10 / 2),
-            },
-            thrownStats: {
-              ...selectedSheet.thrownStats,
-              charisma: e.target.value,
+          setSheet({
+            ...sheet,
+            data: {
+              ...sheet?.data,
+              stats: {
+                ...sheet?.data.stats,
+                charisma: Math.floor(Number(e.target.value) - 10 / 2),
+              },
+              thrownStats: {
+                ...sheet?.data.thrownStats,
+                charisma: e.target.value,
+              },
             },
           })
         }
