@@ -6,6 +6,79 @@ export interface Class {
   hitDie?: HitDie;
   primaryAbility?: Ability[];
   saves?: Ability[];
+  proficiencies?: {
+    armor?: ArmorTypes[];
+    weapons?: WeaponTypes[];
+    tools?: ToolTypes[];
+    savingThrows?: Ability[];
+    skills?: {
+      amount: number;
+      options: SkillTypes[];
+    };
+  };
+  features?: {
+    name: string;
+    description: string;
+    level: number;
+  }[];
+}
+
+export enum ArmorTypes {
+  "light",
+  "medium",
+  "heavy",
+  "shields",
+}
+
+export enum WeaponTypes {
+  "simple",
+  "martial",
+  "ranged",
+  "melee",
+  "daggers",
+  "darts",
+  "slings",
+  "quarterstaffs",
+  "light crossbows",
+  "shortswords",
+  "hand crossbows",
+  "longswords",
+  "rapiers",
+  "scimitars",
+  "shortbows",
+  "longbows",
+  "sickles",
+  "spears",
+  "maces",
+  "flails",
+}
+
+export enum ToolTypes {
+  "artisan's tools",
+  "gaming sets",
+  "musical instruments",
+  "other",
+}
+
+export enum SkillTypes {
+  "acrobatics",
+  "animal handling",
+  "arcana",
+  "athletics",
+  "deception",
+  "history",
+  "insight",
+  "intimidation",
+  "investigation",
+  "medicine",
+  "nature",
+  "perception",
+  "performance",
+  "persuasion",
+  "religion",
+  "sleight of hand",
+  "stealth",
+  "survival",
 }
 
 export enum HitDie {
