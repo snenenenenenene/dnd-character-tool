@@ -69,8 +69,6 @@ export const CharacterForm = ({ currClass, classIndex }: CharacterFormArgs) => {
               ...selectedSheet,
               class: newClass,
             });
-          } else {
-            console.log("no...");
           }
         }}
         placeholder="0"
