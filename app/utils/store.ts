@@ -16,7 +16,7 @@ import { THEME_TYPES } from "./themeUtils";
 
 export interface Sheet {
   name: string;
-  level?: number;
+  level: number;
   stats?: {
     strength?: number;
     dexterity?: number;
@@ -180,6 +180,14 @@ export const useSheetStore = create<StoreState>()(
                 intelligence: 3,
                 wisdom: 3,
                 charisma: 3,
+              },
+              stats: {
+                strength: -4,
+                dexterity: -4,
+                constitution: -4,
+                intelligence: -4,
+                wisdom: -4,
+                charisma: -4,
               },
             };
 
