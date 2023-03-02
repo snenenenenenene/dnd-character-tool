@@ -9,6 +9,7 @@ import { classes } from "@/data/classes/classes";
 import { Class, Expansion } from "@/data/classes/types";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function ClassSelection(context: any) {
   const groups = _.groupBy(classes, "expansion");
@@ -32,7 +33,7 @@ export default function ClassSelection(context: any) {
 
   return (
     <div className="w-full h-full flex">
-      <section className="w-60 text-center border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll">
+      <section className="w-60 text-center pt-5 border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll">
         <section className="border-b-2 border-light-secondary dark:border-dark-secondary pb-5 hover:bg-light-secondary hover:dark:bg-dark-secondary hover:text-light-primary hover:dark:text-dark-primary">
           <Image
             src={sheet?.data?.race?.picture}
@@ -58,23 +59,33 @@ export default function ClassSelection(context: any) {
                     key={_class.name}
                     value={_class.name}
                     onClick={() => {
-                      if (sheet?.data?.class?.length < 2) {
-                        setSheet((sheet: any) => {
-                          return {
-                            ...sheet,
-                            data: {
-                              ...sheet?.data,
-                              class: [...sheet.data.class, _class],
-                            },
-                          };
-                        });
+                      //accumulate all levels of all classes
+                      let total = 0;
+                      sheet?.data?.class?.forEach((c: any) => {
+                        total += c.level;
+                      });
 
-                        console.log(sheet);
-                        updateSheet();
-                        // updatesheet?.data({
-                        //   ...sheet?.data,
-                        //   class: [...sheet?.data!.class, _class],
-                        // });
+                      if (sheet?.data?.class?.length < 2) {
+                        if (total >= sheet?.data?.level)
+                          return toast.error(
+                            "You have reached the maximum level for your character."
+                          );
+                        updateSheetWithId(
+                          context.params.id,
+                          {
+                            ...sheet?.data,
+                            class: [...sheet.data.class, _class],
+                          },
+                          sheet?.campaign,
+                          sheet?.user!
+                        )
+                          .then((res: any) => {
+                            console.log(res);
+                            setSheet(res);
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
                       }
                     }}
                   >
@@ -87,25 +98,32 @@ export default function ClassSelection(context: any) {
         })}
       </section>
 
-      <section className="w-full h-full flex px-8">
+      <section className="w-full h-full flex px-8 pt-5">
         <section className="flex w-full h-full gap-5 pr-4">
           {sheet?.data?.class &&
             sheet?.data?.class?.length > 0 &&
             sheet?.data?.class?.map((c: Class, i: number) => (
-              <CharacterForm currClass={c} classIndex={i} key={c.name} />
+              <CharacterForm
+                setSheet={setSheet}
+                sheetId={context.params.id}
+                sheet={sheet}
+                currClass={c}
+                classIndex={i}
+                key={c.name}
+              />
             ))}
         </section>
       </section>
 
       <Link
-        href={"/sheets/new/classes"}
+        href={`/sheets/${context.params.id}/classes`}
         className="fixed bottom-32 right-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center shadow-lg hover:to-cyan-500 transition-colors text-xl"
       >
         <GiBroadheadArrow />
       </Link>
 
       <Link
-        href={"/sheets/new"}
+        href={`/sheets/${context.params.id}`}
         className="fixed bottom-32 left-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center shadow-lg hover:to-cyan-500 transition-colors text-xl"
       >
         <GiBoomerang />
