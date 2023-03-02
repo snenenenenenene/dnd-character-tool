@@ -1,37 +1,36 @@
 import { Sheet, useSheetStore } from "@/app/utils/store";
-import { Class } from "@/data/classes/types";
-import { Race } from "@/data/races/types";
 import { useRouter } from "next/navigation";
 import React from "react";
 
+interface SheetResponse {
+  id: string;
+  data: Sheet;
+  campaign: string;
+}
 interface ListArgs {
-  sheets: Sheet[];
+  sheets?: SheetResponse[];
 }
 
 export const List = ({ sheets }: ListArgs) => {
   const router = useRouter();
-  const selectSheet = useSheetStore((state: any) => state.selectSheet);
-  const selectedSheet = useSheetStore((state: any) => state.selectedSheet);
-
-  const setCharacter = async (characterName: string) => {
-    selectSheet(characterName);
-    router.push(`/sheets/${selectedSheet?.name}`);
-  };
+  const selectSheet = useSheetStore((state) => state.selectSheet);
 
   return (
     <div className="flex flex-col gap-8 w-full">
-      {sheets ? (
-        sheets.map((sheet, i) => (
+      {sheets && sheets.length > 0 ? (
+        sheets?.map((sheet, i) => (
           <button
-            className="w-full flex justify-center items-center h-10 border-b-2 border-light-primary hover:bg-light-primary px-8 py-3 hover:text-light-text"
+            className="w-1/2 flex justify-between items-center h-10 border-b-2 border-light-primary hover:bg-light-primary px-8 py-3 hover:text-light-secondary"
             key={i}
-            onClick={() => setCharacter(sheet.name)}
+            onClick={() => {
+              selectSheet(sheet?.data?.name);
+              router.push(`/sheets/${sheet?.id}`);
+            }}
           >
-            <section className="flex gap-10">
-              <p>{sheet.name}</p>
-              <p>{sheet.race.name}</p>
-              <p>Level: {sheet.level}</p>
-            </section>
+            <p>{sheet?.data?.name}</p>
+            <p>{sheet?.data?.race?.name}</p>
+            <p>Level: {sheet?.data?.level}</p>
+            <p>{sheet?.campaign ? sheet?.campaign : <>None</>}</p>
           </button>
         ))
       ) : (

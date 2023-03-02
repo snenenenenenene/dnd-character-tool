@@ -2,13 +2,14 @@
 "use client";
 import { Sidebar } from "./components/common/Sidebar";
 import "./globals.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./components/common/Button";
 import { Input } from "./components/common/Input";
 import PocketBase from "pocketbase";
 import { useSheetStore } from "./utils/store";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { applyThemePreference } from "./utils/themeUtils";
 
 export default function RootLayout({
   children,
@@ -20,7 +21,6 @@ export default function RootLayout({
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [toggleSignUp, setToggleSignUp] = useState<boolean>(false);
-  const user = useSheetStore((state) => state.user);
   const setUser = useSheetStore((state) => state.setUser);
   const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
 
@@ -33,8 +33,6 @@ export default function RootLayout({
       password: password,
       passwordConfirm: password,
     });
-
-    console.log("aaa");
 
     login();
   }
@@ -52,10 +50,12 @@ export default function RootLayout({
   }
   return (
     <html lang="en">
-      <body className="h-screen w-screen bg-light-secondary text-light-primary flex">
+      <body className="h-screen w-screen bg-light-primary dark:bg-dark-primary dark:text-dark-secondary text-light-secondary flex">
         <ToastContainer />
         <Sidebar setShowAuthModal={setShowAuthModal} />
-        <div className="w-full h-full pl-32 py-8 flex flex-col">{children}</div>
+        <div className="w-full h-full pl-20 pb-10 flex flex-col">
+          {children}
+        </div>
         {showAuthModal && (
           <div
             className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"

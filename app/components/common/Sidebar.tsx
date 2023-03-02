@@ -1,14 +1,22 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import { useSheetStore } from "@/app/utils/store";
+import { applyThemePreference } from "@/app/utils/themeUtils";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import { GiDiceEightFacesEight, GiFlamingSheet } from "react-icons/gi";
 
 interface SidebarArgs {
   setShowAuthModal: (showAuthModal: any) => any;
 }
 export const Sidebar = ({ setShowAuthModal }: SidebarArgs) => {
+  const theme = useSheetStore((state) => state.theme);
+  const toggleTheme = useSheetStore((state) => state.toggleTheme);
+
+  useEffect(() => {
+    applyThemePreference(theme);
+  }, [theme]);
+
   const routes = [
     {
       title: "Sheet Tool",
@@ -23,12 +31,12 @@ export const Sidebar = ({ setShowAuthModal }: SidebarArgs) => {
   ];
 
   return (
-    <nav className="w-20 h-full fixed bg-light-primary flex flex-col drop-shadow-2xl text-light-secondary">
+    <nav className="w-20 h-full fixed bg-light-primary dark:bg-dark-primary dark:bg-text-secondary flex flex-col text-light-secondary border-r-2 border-light-secondary dark:border-dark-secondary">
       {/* <h1 className=" text-3xl font-bold mx-auto text-center"></h1> */}
       <section className="flex w-full h-full flex-col ">
         {routes.map((route) => (
           <Link
-            className="w-full h-20 flex hover:bg-light-secondary transition-all hover:text-light-primary justify-center text-4xl items-center text-white"
+            className="w-full h-20 flex hover:bg-light-secondary hover:dark:bg-dark-secondary transition-all hover:text-light-primary justify-center text-4xl items-center  hover:dark:text-dark-primary dark:text-dark-secondary text-light-secondary"
             href={route.route}
             key={route.title}
           >
@@ -42,6 +50,12 @@ export const Sidebar = ({ setShowAuthModal }: SidebarArgs) => {
           onClick={() =>
             setShowAuthModal((showAuthModal: any) => !showAuthModal)
           }
+        />
+      </section>
+      <section>
+        <button
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 dark:from-red-500 dark:to-orange-500 mx-4 mb-3 "
+          onClick={() => toggleTheme()}
         />
       </section>
     </nav>
