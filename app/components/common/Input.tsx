@@ -19,7 +19,7 @@ export const Input = ({
 }: Props) => {
   return (
     <input
-      className={`bg-gray-100 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 border-2 border-gray-100 ${className}`}
+      className={`bg-light-primary font-semibold text-2xl appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-light-accent border-2 border-light-secondary ${className}`}
       onChange={onChange}
       id={id}
       type={type}
