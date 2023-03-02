@@ -6,7 +6,7 @@ interface Props {
   placeholder?: string;
   value?: any;
   type?: "text" | "textarea" | "password" | "email" | "number";
-  onChange?: (e: any) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({
