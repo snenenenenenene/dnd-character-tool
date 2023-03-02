@@ -53,9 +53,7 @@ export default function RootLayout({
       <body className="h-screen w-screen bg-light-primary dark:bg-dark-primary dark:text-dark-secondary text-light-secondary flex">
         <ToastContainer />
         <Sidebar setShowAuthModal={setShowAuthModal} />
-        <div className="w-full h-full pl-20 pb-10 flex flex-col">
-          {children}
-        </div>
+        <div className="w-full h-full pl-20 flex flex-col">{children}</div>
         {showAuthModal && (
           <div
             className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
