@@ -9,16 +9,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        darkMode: "class",
         light: {
-          primary: "#000",
-          secondary: "#fff",
+          primary: "#FFF6F0",
+          secondary: "#262523",
           tertiary: "#c4c4c4",
           text: "#FFFFFF",
           accent: "#4444a0",
         },
         dark: {
-          primary: "#0C2340",
-          secondary: "#663300",
+          primary: "#262523",
+          secondary: "#FFF6F0",
           tertiary: "#BF9B30",
           text: "#FFFFFF",
         },
