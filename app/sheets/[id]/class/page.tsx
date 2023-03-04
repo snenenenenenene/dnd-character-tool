@@ -21,16 +21,6 @@ export default function ClassSelection(context: any) {
     });
   }, []);
 
-  function updateSheet() {
-    updateSheetWithId(context.params.id, sheet.data, sheet.campaign, sheet.user)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }
-
   return (
     <div className="w-full h-full flex">
       <section className="w-60 text-center pt-5 border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll">
