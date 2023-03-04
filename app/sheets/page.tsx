@@ -6,7 +6,9 @@ import { Input } from "../components/common/Input";
 import { List } from "../components/sheets/List";
 import { useSheetStore } from "../utils/store";
 import Select from "react-select";
-import { getAllCampaigns, getAllSheets } from "../utils/apiCalls";
+import { addSheet, getAllCampaigns, getAllSheets } from "../utils/apiCalls";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 export default function SheetList() {
   const [showTitleModal, setShowTitleModal] = useState<boolean>(false);
@@ -15,15 +17,18 @@ export default function SheetList() {
   const [sheets, setSheets]: any = useState();
   const [campaign, setCampaign] = useState<string>();
   const user = useSheetStore((state) => state.user);
-  const addSheet = useSheetStore((state) => state.addSheet);
+  const router = useRouter();
 
   async function createCharacter() {
     if (characterName && characterName !== "") {
-      await addSheet(characterName, campaign);
-      getAllSheets({ userId: user?.record?.id }).then((res) => {
-        setSheets(res);
-      });
-      setShowTitleModal(false);
+      addSheet(characterName, user.record.id, campaign)
+        .then((res: any) => {
+          toast.success("Created sheet successfully");
+          router.push(`/sheets/${res.id}/race`);
+        })
+        .catch(() => {
+          toast.error("Failed to create sheet");
+        });
     }
   }
   useEffect(() => {
@@ -40,8 +45,6 @@ export default function SheetList() {
 
     getAllSheets({ userId: user?.record?.id })
       .then((res) => {
-        console.log(user.record);
-        console.log(res);
         setSheets(res);
       })
       .catch((err) => {

@@ -1,177 +1,123 @@
 "use client";
 
-import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet } from "@/app/utils/store";
-import { races } from "@/data/races/races";
-import { Race } from "@/data/races/types";
-import _ from "lodash";
-import Image from "next/image";
-
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
+import Link from "next/link";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
-import { useStateWithCallbackLazy } from "use-state-with-callback";
+import { CharacterForm } from "@/app/components/character/CharacterForm";
+import { classes } from "@/data/classes/classes";
+import { Class, Expansion } from "@/data/classes/types";
+import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
+import Image from "next/image";
+import { toast } from "react-toastify";
 
-export default function Sheets(context: any) {
-  const [sheet, setSheet] = useState<{
-    data: Sheet;
-    campaign: string;
-    user: string;
-  } | null>(null);
+export default function ClassSelection(context: any) {
+  const groups = _.groupBy(classes, "expansion");
+  const [sheet, setSheet] = useState<any>();
 
   useEffect(() => {
-    getSheetWithId(context.params.id)
-      .then((res: any) => {
-        setSheet(res);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    getSheetWithId(context.params.id).then((res) => {
+      setSheet(res);
+    });
   }, []);
 
-  const groups = _.groupBy(races, "expansion");
-
   return (
-    <div className="w-full relative h-full flex flex-col">
-      <section
-        id="title"
-        className="w-full py-5 flex items-center border-b-2 pl-10 border-light-secondary"
-      >
-        <h1 className="text-xl font-semibold ">Pick your race</h1>
-      </section>
-
-      <section className="flex flex-col px-10">
-        {Object.entries(groups).map(([expansion, races]) => {
+    <div className="w-full h-full flex">
+      <section className="w-60 text-center  border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll">
+        <Link
+          href={`/sheets/${sheet?.id}/race`}
+          className="border-b-2 pt-3 border-light-secondary dark:border-dark-secondary pb-5 hover:bg-light-secondary hover:dark:bg-dark-secondary hover:text-light-primary hover:dark:text-dark-primary"
+        >
+          <Image
+            src={sheet?.data?.race?.picture}
+            alt={sheet?.data?.race?.name}
+            className="w-40 h-40 object-contain"
+            width={160}
+            height={160}
+          />
+          <h2 className="mx-auto text-xl font-semibold ">
+            {sheet?.data?.race?.name}
+          </h2>
+        </Link>
+        {Object.entries(groups).map(([expansion, c]: any) => {
           return (
-            <>
-              <h3 className="font-bold uppercase py-4" key={expansion}>
-                {expansion}
+            <div key={Expansion[expansion]}>
+              <h3 className="font-bold uppercase py-4">
+                {Expansion[expansion]}
               </h3>
-              <section className="grid gap-4 grid-cols-3 mx-auto">
-                {races.map((race: Race) => (
+              <section className="flex flex-col w-full">
+                {c.map((_class: Class) => (
                   <button
-                    className={`${
-                      sheet?.data?.race?.name === race.name
-                        ? "border-light-accent shadow-lg"
-                        : "border-light-primary"
-                    }  border-2  transition-all filter hover:drop-shadow-lg flex justify-center items-center hover:border-light-secondary h-48 w-60 flex-col py-1`}
-                    key={race?.name}
-                    value={race?.name}
+                    className="w-full transition-all filter hover:drop-shadow-lg flex justify-center items-center hover:dark:bg-dark-secondary hover:dark:text-dark-primary hover:bg-light-secondary hover:text-light-primary flex-col py-2"
+                    key={_class.name}
+                    value={_class.name}
                     onClick={() => {
-                      updateSheetWithId(
-                        context.params.id,
-                        {
-                          ...sheet?.data,
-                          race: race,
-                        },
-                        sheet?.campaign,
-                        sheet?.user!
-                      )
-                        .then((res: any) => {
-                          console.log(res);
-                          setSheet(res);
-                        })
-                        .catch((err) => {
-                          console.log(err);
-                        });
+                      //accumulate all levels of all classes
+                      let total = 0;
+                      sheet?.data?.class?.forEach((c: any) => {
+                        total += c.level;
+                      });
 
-                      // setSheet((prev: any) => ({
-
-                      //   ...prev,
-                      //   data: {
-                      //     ...prev?.data,
-                      //     race: race,
-                      //     stats: {
-                      //       strength:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.strength) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.strength || 0
-                      //         ),
-                      //       dexterity:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.dexterity) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.dexterity || 0
-                      //         ),
-                      //       constitution:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.constitution) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.constitution || 0
-                      //         ),
-                      //       intelligence:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.intelligence) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.intelligence || 0
-                      //         ),
-                      //       wisdom:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.wisdom) + 10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.wisdom || 0
-                      //         ),
-                      //       charisma:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.charisma) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.charisma || 0
-                      //         ),
-                      //     },
-                      //   },
-                      // })),
-                      //   () => updateSheet();
+                      if (sheet?.data?.class?.length < 2) {
+                        if (total >= sheet?.data?.level)
+                          return toast.error(
+                            "You have reached the maximum level for your character."
+                          );
+                        updateSheetWithId(
+                          context.params.id,
+                          {
+                            ...sheet?.data,
+                            class: [...sheet.data.class, _class],
+                          },
+                          sheet?.campaign,
+                          sheet?.user!
+                        )
+                          .then((res: any) => {
+                            console.log(res);
+                            setSheet(res);
+                          })
+                          .catch((err) => {
+                            console.log(err);
+                          });
+                      }
                     }}
                   >
-                    {/* // TODO: ADD NEXTJS IMAGE TAG */}
-                    <Image
-                      className="w-36 h-36 object-contain"
-                      width={144}
-                      height={144}
-                      alt={race.name}
-                      src={race?.picture!}
-                    />
-                    <h4 className="uppercase font-medium mt-2">{race.name}</h4>
+                    <h4>{_class.name}</h4>
                   </button>
                 ))}
               </section>
-            </>
+            </div>
           );
         })}
       </section>
+
+      <section className="w-full h-full flex px-8 pt-5">
+        <section className="flex w-full h-full gap-5 pr-4">
+          {sheet?.data?.class &&
+            sheet?.data?.class?.length > 0 &&
+            sheet?.data?.class?.map((c: Class, i: number) => (
+              <CharacterForm
+                setSheet={setSheet}
+                sheetId={context.params.id}
+                sheet={sheet}
+                currClass={c}
+                classIndex={i}
+                key={c.name}
+              />
+            ))}
+        </section>
+      </section>
+
       <Link
-        href={`/sheets/${context.params.id}/class`}
-        className="fixed bottom-32 z-50 right-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center hover:to-cyan-500 transition-colors text-xl"
+        href={`/sheets/${context.params.id}/classes`}
+        className="fixed bottom-32 right-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center shadow-lg hover:to-cyan-500 transition-colors text-xl"
       >
         <GiBroadheadArrow />
       </Link>
+
       <Link
-        href={"/sheets"}
-        className="fixed bottom-32 left-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center hover:to-cyan-500 transition-colors text-xl"
+        href={`/sheets/${context.params.id}`}
+        className="fixed bottom-32 left-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center shadow-lg hover:to-cyan-500 transition-colors text-xl"
       >
         <GiBoomerang />
       </Link>

@@ -69,7 +69,7 @@ type StoreState = {
   updateSelectedSheet: (update: SheetUpdate) => void | any;
   updateUsers: (users: any, campaignId: any, campaign: any) => void | any;
   addCampaign: (name: string) => void | any;
-  addSheet: (name: string, campaignId?: string) => any;
+  addSheet: (name: string, campaignId?: string) => void | any;
 };
 
 const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
@@ -160,54 +160,12 @@ export const useSheetStore = create<StoreState>()(
           }),
         addSheet: (name, campaignId) =>
           set((state) => {
-            const sheet: Sheet = {
-              name,
-              race: races[0],
-              class: [],
-              level: 0,
-              currency: {
-                gold: 0,
-                silver: 0,
-                copper: 0,
-                electrum: 0,
-                platinum: 0,
-              },
-              weapons: [],
-              thrownStats: {
-                strength: 3,
-                dexterity: 3,
-                constitution: 3,
-                intelligence: 3,
-                wisdom: 3,
-                charisma: 3,
-              },
-              stats: {
-                strength: -4,
-                dexterity: -4,
-                constitution: -4,
-                intelligence: -4,
-                wisdom: -4,
-                charisma: -4,
-              },
-            };
+            console.log(state);
 
-            pb.collection("sheets")
-              .create({
-                data: sheet,
-                user: state.user.record.id,
-                campaign: campaignId ? campaignId : null,
-              })
-              .then(() => {
-                toast.success("Created sheet successfully");
-              })
-              .catch((err) => {
-                toast.error("Failed to create sheet");
-              });
-
-            return {
-              sheets: [...state.sheets, sheet],
-              selectedSheet: sheet,
-            };
+            // return {
+            //   sheets: [...state.sheets, sheet],
+            //   selectedSheet: sheet,
+            // };
           }),
       }),
       {

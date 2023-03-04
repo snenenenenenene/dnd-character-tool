@@ -73,7 +73,9 @@ export const List = ({ sheets }: ListArgs) => {
           </button>
         ))
       ) : (
-        <p>No sheets! Create a sheet and start your adventure!</p>
+        <section className="w-full h-full justify-center items-center uppercase font-bold text-3xl flex py-20 px-10">
+          <p>No sheets! Create a sheet and start your adventure!</p>
+        </section>
       )}
       {showModal && (
         <div
