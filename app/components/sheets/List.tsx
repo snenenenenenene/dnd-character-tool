@@ -6,6 +6,7 @@ import { GiPencil } from "react-icons/gi";
 import Select from "react-select";
 import { Button } from "../common/Button";
 import { Input } from "../common/Input";
+import { Modal } from "../common/Modal";
 
 interface SheetResponse {
   id: string;
@@ -77,76 +78,50 @@ export const List = ({ sheets }: ListArgs) => {
           <p>No sheets! Create a sheet and start your adventure!</p>
         </section>
       )}
-      {showModal && (
-        <div
-          id="modal-background"
-          className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
-          typeof="button"
-          data-value="parent"
-          onClick={(e) => {
-            e.preventDefault();
-            let dataValue = (e.target as HTMLElement).getAttribute(
-              "data-value"
-            );
-            if (dataValue === "parent") {
-              setShowModal(false);
-            }
-          }}
-        >
-          <div
-            id="modal-foreground"
-            data-value="child"
-            className="w-1/3 h-1/2 min-w-[500px] flex flex-col justify-center gap-8 items-center bg-light-secondary rounded-md"
-          >
-            <Input
-              value={sheet?.data.name}
-              className="w-80"
-              onChange={(e) => {
-                updateSheetWithId(
-                  sheet?.id,
-                  { ...sheet?.data, name: e.target.value },
-                  sheet?.campaign,
-                  sheet?.user!
-                )
-                  .then((res: any) => {
-                    console.log(res);
-                    setSheet(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              }}
-              placeholder="Character name"
-            />
 
-            <Select
-              options={options}
-              onChange={(campaign: any) => setCampaign(campaign.value)}
-              noOptionsMessage={() => "No campaigns found"}
-              placeholder="Select a campaign"
-            />
-            <Button
-              onClick={() =>
-                updateSheetWithId(
-                  sheet?.id,
-                  sheet?.data,
-                  campaign,
-                  sheet?.user!
-                )
-                  .then((res: any) => {
-                    console.log(res);
-                    setSheet(res);
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  })
-              }
-            >
-              Update
-            </Button>
-          </div>
-        </div>
-      )}
+      <Modal showModal={showModal} setShowModal={setShowModal}>
+        <Input
+          value={sheet?.data.name}
+          className="w-80"
+          onChange={(e) => {
+            updateSheetWithId(
+              sheet?.id,
+              { ...sheet?.data, name: e.target.value },
+              sheet?.campaign,
+              sheet?.user!
+            )
+              .then((res: any) => {
+                console.log(res);
+                setSheet(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }}
+          placeholder="Character name"
+        />
+
+        <Select
+          options={options}
+          onChange={(campaign: any) => setCampaign(campaign.value)}
+          noOptionsMessage={() => "No campaigns found"}
+          placeholder="Select a campaign"
+        />
+        <Button
+          onClick={() =>
+            updateSheetWithId(sheet?.id, sheet?.data, campaign, sheet?.user!)
+              .then((res: any) => {
+                console.log(res);
+                setSheet(res);
+              })
+              .catch((err) => {
+                console.log(err);
+              })
+          }
+        >
+          Update
+        </Button>
+      </Modal>
     </div>
   );
 };

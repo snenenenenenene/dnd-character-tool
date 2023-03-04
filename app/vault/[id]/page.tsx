@@ -16,6 +16,7 @@ import {
 import { Race } from "@/data/races/types";
 import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
 import Image from "next/image";
+import { Modal } from "@/app/components/common/Modal";
 
 function UserEntry({
   userId,
@@ -66,14 +67,14 @@ function UserEntry({
 
 export default function Campaign(context: any) {
   const updateUsers = useSheetStore((state) => state.updateUsers);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [options, setOptions] = useState([]);
   const [campaign, setCampaign] = useState<{ name: string; users: string[] }>();
   const [users, setUsers] = useState([]);
   const user = useSheetStore((state) => state.user);
 
   function toggleModal() {
-    setOpenModal((openModal) => !openModal);
+    setShowModal((showModal) => !showModal);
     getAllUsers().then((res) => {
       const arr: any = [];
       res.map((user: any) => {
@@ -134,41 +135,26 @@ export default function Campaign(context: any) {
           </div>
         )}
 
-        {openModal && (
-          <div
-            className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
-            typeof="button"
-            data-value="parent"
-            onClick={(event: any) => {
-              event.preventDefault();
-              let dataValue = (event.target as HTMLElement).getAttribute(
-                "data-value"
-              );
-              if (dataValue === "parent") {
-                setOpenModal((openModal) => !openModal);
-              }
-            }}
-          >
-            <div
-              data-value="child"
-              className="w-1/3 h-1/2 min-w-[500px] flex flex-col justify-center gap-8 items-center bg-light-secondary rounded-md"
-            >
-              <Select
-                isMulti={true}
-                options={options}
-                onChange={(users: any) =>
-                  setUsers(users.map((user: any) => user.value))
-                }
-                className="basic-multi-select w-3/4"
-                classNamePrefix="select"
-                placeholder="Select users"
-                noOptionsMessage={() => "No users"}
-              />
+        <Modal showModal={showModal} setShowModal={setShowModal}>
+          <Select
+            isMulti={true}
+            options={options}
+            onChange={(users: any) =>
+              setUsers(users.map((user: any) => user.value))
+            }
+            className="basic-multi-select w-3/4"
+            classNamePrefix="select"
+            placeholder="Select users"
+            noOptionsMessage={() => "No users"}
+          />
 
-              <Button onClick={() => DoUpdateUsers()}>Confirm</Button>
-            </div>
-          </div>
-        )}
+          <Button
+            className="w-full m-2 mt-auto"
+            onClick={() => DoUpdateUsers()}
+          >
+            Confirm
+          </Button>
+        </Modal>
       </div>
       <InitiativeTracker />
     </div>

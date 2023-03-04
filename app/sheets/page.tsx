@@ -9,9 +9,10 @@ import Select from "react-select";
 import { addSheet, getAllCampaigns, getAllSheets } from "../utils/apiCalls";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { Modal } from "../components/common/Modal";
 
 export default function SheetList() {
-  const [showTitleModal, setShowTitleModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [characterName, setCharacterName] = useState<string>("");
   const [options, setOptions] = useState<any>([]);
   const [sheets, setSheets]: any = useState();
@@ -61,48 +62,36 @@ export default function SheetList() {
       <button
         id="add-sheet-button"
         className="absolute bottom-5 right-5 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center shadow-lg hover:to-cyan-500 transition-colors text-xl"
-        onClick={() => setShowTitleModal((showTitleModal) => !showTitleModal)}
+        onClick={() => setShowModal(true)}
       >
         <GiDiamondHilt />
       </button>
 
-      {showTitleModal && (
-        <div
-          id="modal-background"
-          className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
-          typeof="button"
-          data-value="parent"
-          onClick={(e) => {
-            e.preventDefault();
-            let dataValue = (e.target as HTMLElement).getAttribute(
-              "data-value"
-            );
-            if (dataValue === "parent") {
-              setShowTitleModal((showTitleModal) => !showTitleModal);
-            }
-          }}
-        >
-          <div
-            id="modal-foreground"
-            data-value="child"
-            className="w-1/3 h-1/2 min-w-[500px] flex flex-col justify-center gap-8 items-center bg-light-secondary rounded-md"
-          >
+      {showModal && (
+        <Modal showModal={showModal} setShowModal={setShowModal}>
+          <section className="flex w-full h-full pt-10 flex-col justify-center items-center gap-10">
             <Input
               value={characterName}
-              className="w-80"
+              className="w-1/2"
               onChange={(e) => setCharacterName(e.target.value)}
               placeholder="Character name"
             />
 
             <Select
+              className="w-1/2"
               options={options}
               onChange={(campaign: any) => setCampaign(campaign.value)}
               noOptionsMessage={() => "No campaigns found"}
               placeholder="Select a campaign"
             />
-            <Button onClick={() => createCharacter()}>Create</Button>
-          </div>
-        </div>
+            <Button
+              className="w-11/12 mb-8 mt-auto"
+              onClick={() => createCharacter()}
+            >
+              Create
+            </Button>
+          </section>
+        </Modal>
       )}
     </>
   );
