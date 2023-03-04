@@ -14,6 +14,8 @@ import {
   updateCampaign,
 } from "@/app/utils/apiCalls";
 import { Race } from "@/data/races/types";
+import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
+import Image from "next/image";
 
 function UserEntry({
   userId,
@@ -36,19 +38,33 @@ function UserEntry({
   }, []);
 
   return (
-    <div className="w-full pr-10 flex items-center gap-8">
-      <img className="object-contain w-32 h-32" src={sheet?.race?.picture} />
+    <div className="w-full pr-10 flex items-center border-b-2 py-8 border-light-secondary dark:border-dark-secondary">
+      <Image
+        alt={sheet?.race.name}
+        className="object-contain w-32 h-32"
+        width={128}
+        height={128}
+        src={sheet?.race?.picture!}
+      />
       {sheet && (
-        <p className="uppercase font-semibold text-3xl">{sheet?.name}</p>
+        <>
+          <section className="flex flex-col">
+            <p className="uppercase font-semibold text-3xl">{sheet?.name}</p>
+            <p>{user?.username}</p>
+          </section>
+          <button
+            className="text-3xl ml-auto font-bold w-14 h-14 dark:bg-dark-secondary dark:text-dark-primary hover:bg-light-primary hover:text-light-secondary bg-light-secondary text-light-primary rounded-full flex justify-center items-center my-auto"
+            onClick={() => {}}
+          >
+            <GiFlamingSheet />
+          </button>
+        </>
       )}
-      <p className="ml-auto">{user?.username}</p>
     </div>
   );
 }
 
 export default function Campaign(context: any) {
-  const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
-
   const updateUsers = useSheetStore((state) => state.updateUsers);
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [options, setOptions] = useState([]);
@@ -101,10 +117,10 @@ export default function Campaign(context: any) {
     <div className="w-full h-full flex">
       <div className="w-full h-full">
         <button
-          className="w-full flex justify-center items-center h-10 border-b-2 border-light-primary hover:bg-light-primary px-8 py-3 hover:text-light-text"
+          className="fixed bottom-20 right-5 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center hover:to-cyan-500 transition-colors text-xl"
           onClick={() => toggleModal()}
         >
-          Add user
+          <GiEmbryo />
         </button>
         {campaign?.users && (
           <div className="w-full flex flex-col gap-4">

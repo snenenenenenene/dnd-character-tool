@@ -46,11 +46,13 @@ export default function Page({ children }: LayoutArgs) {
   return (
     <div className="w-full h-full flex  flex-col">
       <section className="flex w-full h-full overflow-y-scroll">
-        <section className="w-64 text-center border-r-2 border-r-light h-full pr-8 overflow-y-scroll">
-          <h1>Vault</h1>
+        <section className="w-64 text-center border-r-2 border-r-light-secondary flex flex-col h-full overflow-y-scroll">
+          <section className="h-20 border-b-2 text-3xl font-bold uppercase border-light-secondary dark:border-dark-secondary flex justify-center items-center">
+            <h1>Vault</h1>
+          </section>
           {campaigns.map((campaign: any) => (
             <button
-              className="border-b-2 border-light-secondary transition-all filter hover:drop-shadow-lg flex justify-center items-center hover:border-b-light-accent flex-col py-1"
+              className="border-b-2 border-light-secondary flex justify-center items-center hover:text-light-primary hover:bg-light-secondary hover:dark:bg-dark-secondary hover:dark:text-dark-primary flex-col py-4"
               key={campaign.name}
               value={campaign.name}
               onClick={() => {
