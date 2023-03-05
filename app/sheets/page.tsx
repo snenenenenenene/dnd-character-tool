@@ -67,32 +67,30 @@ export default function SheetList() {
         <GiDiamondHilt />
       </button>
 
-      {showModal && (
-        <Modal showModal={showModal} setShowModal={setShowModal}>
-          <section className="flex w-full h-full pt-10 flex-col justify-center items-center gap-10">
-            <Input
-              value={characterName}
-              className="w-1/2"
-              onChange={(e) => setCharacterName(e.target.value)}
-              placeholder="Character name"
-            />
+      <Modal showModal={showModal} setShowModal={setShowModal}>
+        <section className="flex w-full h-full pt-10 flex-col justify-center items-center gap-10">
+          <Input
+            value={characterName}
+            className="w-1/2"
+            onChange={(e) => setCharacterName(e.target.value)}
+            placeholder="Character name"
+          />
 
-            <Select
-              className="w-1/2"
-              options={options}
-              onChange={(campaign: any) => setCampaign(campaign.value)}
-              noOptionsMessage={() => "No campaigns found"}
-              placeholder="Select a campaign"
-            />
-            <Button
-              className="w-11/12 mb-8 mt-auto"
-              onClick={() => createCharacter()}
-            >
-              Create
-            </Button>
-          </section>
-        </Modal>
-      )}
+          <Select
+            className="w-1/2"
+            options={options}
+            onChange={(campaign: any) => setCampaign(campaign.value)}
+            noOptionsMessage={() => "No campaigns found"}
+            placeholder="Select a campaign"
+          />
+          <Button
+            className="w-11/12 mb-8 mt-auto"
+            onClick={() => createCharacter()}
+          >
+            Create
+          </Button>
+        </section>
+      </Modal>
     </>
   );
 }
