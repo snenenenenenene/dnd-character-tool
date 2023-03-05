@@ -12,7 +12,7 @@ export const Modal = ({ showModal, setShowModal, children }: ModalArgs) => {
     <>
       {showModal && (
         <div
-          className="w-screen flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
+          className="w-screen  z-50 flex justify-center items-center h-screen absolute inset-0 bg-[#00000060]"
           typeof="button"
           data-value="parent"
           onClick={(e: any) => {
