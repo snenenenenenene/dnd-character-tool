@@ -6,7 +6,7 @@ import Link from "next/link";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 import { ClassEditor } from "@/app/components/character/ClassEditor";
 import { classes } from "@/data/classes/classes";
-import { Class, Expansion } from "@/data/classes/types";
+import { Class, Expansion, SkillTypes } from "@/data/classes/types";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import Image from "next/image";
 import { toast } from "react-toastify";
@@ -19,6 +19,48 @@ export default function ClassSelection(context: any) {
   const [sheet, setSheet] = useState<Sheet>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedClass, setSelectedClass] = useState<Class>();
+  const [selectedSkills, setSelectedSkills] = useState<any>([]);
+
+  function handleSelectedSkills(skill: any) {
+    if (
+      selectedSkills.length >=
+      sheet?.data?.class[0].proficiencies?.skills?.amount
+    )
+      return toast.error(
+        `You've already selected the maximum number of ${sheet?.data?.class[0].proficiencies?.skills?.amount} skills`
+      );
+
+    if (
+      !sheet?.data?.class[0].proficiencies?.skills?.options
+        .map((s: any) => SkillTypes[s])
+        .includes(skill)
+    )
+      return toast.error("You can't be proficient in this skill");
+
+    setSelectedSkills([...selectedSkills, skill]);
+    if (sheet.data.level < 5) sheet.data.skills[skill] += 2;
+    else if (sheet.data.level < 9) sheet.data.skills[skill] += 3;
+    else if (sheet.data.level < 13) sheet.data.skills[skill] += 4;
+    updateSheetWithId(
+      context.params.id,
+      {
+        ...sheet?.data,
+        skills: {
+          ...sheet?.data?.skills,
+          [skill]: sheet.data.skills[skill],
+        },
+      },
+      sheet?.campaign,
+      sheet?.user!
+    )
+      .then((res: any) => {
+        setSheet(res);
+        setShowModal(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     getSheetWithId(context.params.id).then((res: any) => {
@@ -91,9 +133,36 @@ export default function ClassSelection(context: any) {
           {sheet?.data?.class && sheet?.data?.class?.length > 0 && (
             <>
               <p>Max HP</p>
-              <p>{sheet?.data.hitPoints.max}</p>
+              <p>{sheet?.data?.hitPoints?.max}</p>
             </>
           )}
+          <p>Skills</p>
+          {sheet &&
+            Object.entries(sheet?.data?.skills!).map((skill: any) => (
+              <label
+                className={`${
+                  sheet?.data?.class[0].proficiencies?.skills?.options
+                    .map((s: any) => SkillTypes[s])
+                    .includes(skill[0])
+                    ? "font-semibold text-light-accent"
+                    : "text-light-secondary font-medium"
+                } uppercase font-medium`}
+                key={skill[0]}
+              >
+                <input
+                  type={"radio"}
+                  className="mr-2"
+                  checked={selectedSkills.includes(skill[0])}
+                  onChange={() => {
+                    handleSelectedSkills(skill[0]);
+                  }}
+                />
+
+                {`${skill[0]}: ${skill[1]}`}
+              </label>
+            ))}
+
+          <p>{sheet?.data?.skills?.acrobatics}</p>
         </section>
       </section>
 
@@ -141,7 +210,29 @@ export default function ClassSelection(context: any) {
                   context.params.id,
                   {
                     ...sheet?.data,
-                    class: [...sheet?.data?.class!, selectedClass],
+                    class: [...sheet?.data?.class, selectedClass],
+                    skills: {
+                      // eslint-disable-next-line no-unsafe-optional-chaining
+                      ...sheet?.data?.skills,
+                      acrobatics: 0,
+                      "animal handling": 0,
+                      arcana: 0,
+                      athletics: 0,
+                      deception: 0,
+                      history: 0,
+                      insight: 0,
+                      intimidation: 0,
+                      investigation: 0,
+                      medicine: 0,
+                      nature: 0,
+                      perception: 0,
+                      performance: 0,
+                      persuasion: 0,
+                      religion: 0,
+                      "sleight of hand": 0,
+                      stealth: 0,
+                      survival: 0,
+                    },
                   },
                   sheet?.campaign,
                   sheet?.user!

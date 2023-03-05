@@ -28,7 +28,7 @@ export interface SheetData {
   stats?: Stats;
   skills: {
     acrobatics?: number;
-    animalHandling?: number;
+    "animal handling"?: number;
     arcana?: number;
     athletics?: number;
     deception?: number;
@@ -42,7 +42,7 @@ export interface SheetData {
     performance?: number;
     persuasion?: number;
     religion?: number;
-    sleightOfHand?: number;
+    "sleight of hand"?: number;
     stealth?: number;
     survival?: number;
   };

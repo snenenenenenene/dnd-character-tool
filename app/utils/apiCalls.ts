@@ -73,7 +73,7 @@ export async function addSheet(
     },
     skills: {
       acrobatics: 0,
-      animalHandling: 0,
+      "animal handling": 0,
       arcana: 0,
       athletics: 0,
       deception: 0,
@@ -87,7 +87,7 @@ export async function addSheet(
       performance: 0,
       persuasion: 0,
       religion: 0,
-      sleightOfHand: 0,
+      "sleight of hand": 0,
       stealth: 0,
       survival: 0,
     },
