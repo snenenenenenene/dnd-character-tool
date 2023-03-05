@@ -1,8 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet, useSheetStore } from "@/app/utils/store";
+import { Sheet } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
-import { Race } from "@/data/races/types";
 import React, { useState } from "react";
 import { GiFlamer } from "react-icons/gi";
 import { Input } from "../common/Input";
@@ -11,26 +10,21 @@ interface CharacterFormArgs {
   currClass: any;
   classIndex: number;
   setSheet: React.Dispatch<any>;
-  sheet: {
-    data: Sheet;
-    campaign: string;
-    user: string;
-  };
+  sheet: Sheet;
   sheetId: string;
 }
 
-export const CharacterForm = ({
+export const ClassEditor = ({
   currClass,
   classIndex,
   sheet,
   setSheet,
   sheetId,
 }: CharacterFormArgs) => {
-  const [level, setLevel] = useState<number>(0);
   const [featuresVisible, setFeaturesVisible] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col w-1/2 relative px-10" key={currClass?.name}>
+    <div className="flex flex-col w-full relative px-10" key={currClass?.name}>
       <button
         className="w-8 h-8 flex justify-center items-center text-2xl bg-gradient-to-r from-yellow-500 to-red-500 shadow-2xl absolute top-0 right-0 rounded-full"
         onClick={() =>
