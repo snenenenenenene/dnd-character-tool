@@ -4,7 +4,7 @@
 // import { races } from "@/data/races/races";
 // import { Race } from "@/data/races/types";
 import { classes } from "@/data/classes/classes";
-import { Class } from "@/data/classes/types";
+import { Class, SkillTypes } from "@/data/classes/types";
 import { races } from "@/data/races/races";
 import { Race } from "@/data/races/types";
 import { create } from "zustand";
@@ -14,33 +14,48 @@ import { toast } from "react-toastify";
 import { updateCampaign } from "./apiCalls";
 import { THEME_TYPES } from "./themeUtils";
 
-export interface Sheet {
+export interface SheetData {
   name: string;
   level: number;
-  stats?: {
-    strength?: number;
-    dexterity?: number;
-    constitution?: number;
-    intelligence?: number;
-    wisdom?: number;
-    charisma?: number;
+  armourClass: number;
+  initiative: number;
+  speed: number;
+  hitPoints: {
+    current: number;
+    max: number;
+    temp: number;
   };
-  currency?: {
+  stats?: Stats;
+  skills: {
+    acrobatics?: number;
+    animalHandling?: number;
+    arcana?: number;
+    athletics?: number;
+    deception?: number;
+    history?: number;
+    insight?: number;
+    intimidation?: number;
+    investigation?: number;
+    medicine?: number;
+    nature?: number;
+    perception?: number;
+    performance?: number;
+    persuasion?: number;
+    religion?: number;
+    sleightOfHand?: number;
+    stealth?: number;
+    survival?: number;
+  };
+  savingThrows?: Stats;
+  currency: {
     gold?: number;
     silver?: number;
     copper?: number;
     electrum?: number;
     platinum?: number;
   };
-  weapons?: [];
-  thrownStats?: {
-    strength?: number;
-    dexterity?: number;
-    constitution?: number;
-    intelligence?: number;
-    wisdom?: number;
-    charisma?: number;
-  };
+  weapons: [];
+  thrownStats: Stats;
   race: Race;
   class: Class[];
 }
@@ -48,6 +63,22 @@ interface SheetUpdate {
   name?: string;
   race?: Race;
   class?: Class[];
+}
+
+interface Stats {
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+}
+
+export interface Sheet {
+  id: string;
+  data: SheetData;
+  campaign: string;
+  user: string;
 }
 
 interface Campaign {
@@ -58,18 +89,12 @@ interface Campaign {
 type StoreState = {
   user: any;
   setUser: (user: any) => void | any;
-  campaigns: Campaign[] | any;
-  sheets: Sheet[] | any;
   theme: string | any;
   toggleTheme: () => void | any;
   selectedCampaign: Campaign | null | any;
   selectedSheet: Sheet | null | any;
-  selectCampaign: (name: string) => void | any;
-  selectSheet: (name: string) => void | any;
-  updateSelectedSheet: (update: SheetUpdate) => void | any;
-  updateUsers: (users: any, campaignId: any, campaign: any) => void | any;
-  addCampaign: (name: string) => void | any;
-  addSheet: (name: string, campaignId?: string) => void | any;
+  setSelectedCampaign: (campaign: Campaign) => void | any;
+  setSelectedSheet: (sheet: Sheet) => void | any;
 };
 
 const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
@@ -85,88 +110,14 @@ export const useSheetStore = create<StoreState>()(
           })),
         user: null,
         setUser: (user) => set({ user }),
-        sheets: [],
-        campaigns: [],
         selectedCampaign: null,
         selectedSheet: null,
-        selectSheet: (name: string) =>
-          set((state) => ({
-            selectedSheet:
-              state.sheets.find((sheet: Sheet) => sheet.name === name) || null,
-          })),
-        selectCampaign: (name: string) =>
-          set((state) => ({
-            selectedCampaign:
-              state.campaigns.find(
-                (campaign: Campaign) => campaign.name === name
-              ) || null,
-          })),
-        updateUsers: (users, campaignId, campaign) =>
-          set((state) => {
-            const data = {
-              users: users,
-              dm: state.user.record.id,
-              name: campaign.name,
-            };
-
-            updateCampaign(campaignId, data)
-              .then((resp) => {
-                // setCampaign(resp);
-                toast.success("Campaign updated!");
-              })
-              .catch((err: any) => {
-                console.error(err);
-              });
-            return state;
-          }),
-        updateSelectedSheet: (update: SheetUpdate) =>
-          set((state) => {
-            if (state.selectedSheet) {
-              const updatedSheet = {
-                ...state.selectedSheet,
-                ...update,
-              };
-              const sheets = state.sheets.map((sheet: Sheet) =>
-                sheet.name === updatedSheet.name ? updatedSheet : sheet
-              );
-              return {
-                ...state,
-                sheets,
-                selectedSheet: updatedSheet,
-              };
-            }
-            return state;
-          }),
-        addCampaign: (name: string) =>
-          set((state) => {
-            const campaign: Campaign = {
-              name,
-              sheets: [],
-            };
-
-            pb.collection("campaigns")
-              .create({
-                name: name,
-                dm: state.user.record.id,
-              })
-              .then(() => {
-                toast.success("Campaign created!");
-              });
-
-            return {
-              campaigns: [...state.campaigns, campaign],
-              selectedCampaign: campaign,
-            };
-          }),
-        addSheet: (name, campaignId) =>
-          set((state) => {
-            console.log(state);
-
-            // return {
-            //   sheets: [...state.sheets, sheet],
-            //   selectedSheet: sheet,
-            // };
-          }),
+        setSelectedCampaign: (campaign) => {
+          set({ selectedCampaign: campaign });
+        },
+        setSelectedSheet: (sheet) => {
+          set({ selectedSheet: sheet });
+        },
       }),
       {
         name: "sheet-storage",

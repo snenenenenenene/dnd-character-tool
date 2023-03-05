@@ -1,5 +1,5 @@
 export interface Class {
-  name?: string;
+  name: string;
   level: number;
   image?: string;
   expansion?: Expansion;
