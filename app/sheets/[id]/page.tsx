@@ -16,7 +16,7 @@ import { Button } from "@/app/components/common/Button";
 
 export default function ClassSelection(context: any) {
   const groups = _.groupBy(classes, "expansion");
-  const [sheet, setSheet] = useState<Sheet>();
+  const [sheet, setSheet]: any = useState<Sheet>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedClass, setSelectedClass] = useState<Class>();
   const [selectedSkills, setSelectedSkills] = useState<any>([]);
@@ -38,9 +38,12 @@ export default function ClassSelection(context: any) {
       return toast.error("You can't be proficient in this skill");
 
     setSelectedSkills([...selectedSkills, skill]);
-    if (sheet.data.level < 5) sheet.data.skills[skill] += 2;
-    else if (sheet.data.level < 9) sheet.data.skills[skill] += 3;
-    else if (sheet.data.level < 13) sheet.data.skills[skill] += 4;
+    if (sheet?.data?.skills) {
+      if (sheet.data.level < 5) sheet.data.skills[skill] += 2;
+      else if (sheet.data.level < 9) sheet.data.skills[skill] += 3;
+      else if (sheet.data.level < 13) sheet.data.skills[skill] += 4;
+    }
+
     updateSheetWithId(
       context.params.id,
       {
