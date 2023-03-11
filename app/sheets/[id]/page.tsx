@@ -141,7 +141,7 @@ export default function ClassSelection(context: any) {
             Object.entries(sheet?.data?.skills!).map((skill: any) => (
               <label
                 className={`${
-                  sheet?.data?.class[0].proficiencies?.skills?.options
+                  sheet?.data?.class[0]?.proficiencies?.skills?.options
                     .map((s: any) => SkillTypes[s])
                     .includes(skill[0])
                     ? "font-semibold text-light-accent"

@@ -22,7 +22,7 @@ export default function SheetList() {
 
   async function createCharacter() {
     if (characterName && characterName !== "") {
-      addSheet(characterName, user.record.id, campaign)
+      addSheet(characterName, user?.record?.id, campaign)
         .then((res: any) => {
           toast.success("Created sheet successfully");
           router.push(`/sheets/${res.id}/race`);
