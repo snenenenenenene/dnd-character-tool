@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 
 export default function Sheets(context: any) {
-  const [sheet, setSheet] = useState<{
+  const [sheet, setSheet]: any = useState<{
     data: Sheet;
     campaign: string;
     user: string;
