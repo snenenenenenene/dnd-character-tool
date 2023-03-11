@@ -8,20 +8,14 @@ import { Button } from "../common/Button";
 import { Input } from "../common/Input";
 import { Modal } from "../common/Modal";
 
-interface SheetResponse {
-  id: string;
-  data: Sheet;
-  campaign: string;
-  user: string;
-}
 interface ListArgs {
-  sheets: SheetResponse[];
+  sheets: Sheet[];
 }
 
 export const List = ({ sheets }: ListArgs) => {
   const router = useRouter();
   const [showModal, setShowModal] = React.useState(false);
-  const [sheet, setSheet] = React.useState<SheetResponse>();
+  const [sheet, setSheet]: any = React.useState<Sheet>();
   const [options, setOptions] = React.useState<any>([]);
   const [campaign, setCampaign] = React.useState<string>();
 
