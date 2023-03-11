@@ -1,6 +1,6 @@
 "use client";
 import { StatSidebar } from "@/app/components/character/StatSidebar";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface LayoutArgs {
   children: React.ReactNode;

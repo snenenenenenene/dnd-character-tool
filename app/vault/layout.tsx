@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import { GiDiamondHilt } from "react-icons/gi";
 import { Button } from "../components/common/Button";
 import { Input } from "../components/common/Input";
-import { useSheetStore } from "../utils/store";
 import { getAllCampaigns } from "../utils/apiCalls";
 import { Modal } from "../components/common/Modal";
 interface LayoutArgs {
@@ -15,14 +14,11 @@ export default function Page({ children }: LayoutArgs) {
   const [campaignName, setCampaignName] = useState<string>("");
   const [campaigns, setCampaigns] = useState<any[]>([]);
 
-  const addCampaign = useSheetStore((state) => state.addCampaign);
-
   const router = useRouter();
 
   async function createCampaign() {
     if (campaignName && campaignName !== "") {
-      addCampaign(campaignName);
-      setShowTitleModal(false);
+      setShowModal(false);
       setCampaignName("");
       getAllCampaigns()
         .then((res) => {
