@@ -85,7 +85,6 @@ export default function Campaign(context: any) {
   }
 
   function DoUpdateUsers() {
-    updateUsers(users, context.params.id, campaign);
     const data = {
       users: users,
       dm: user.record.id,
