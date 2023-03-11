@@ -26,6 +26,12 @@ export const classes: Class[] = [
       skills: {
         amount: 2,
         options: [
+          // "animal handling",
+          // "athletics",
+          // "intimidation",
+          // "nature",
+          // "perception",
+          // "survival",
           SkillTypes["animal handling"],
           SkillTypes.athletics,
           SkillTypes.intimidation,
@@ -172,6 +178,12 @@ export const classes: Class[] = [
       skills: {
         amount: 2,
         options: [
+          // "acrobatics",
+          // "athletics",
+          // "history",
+          // "insight",
+          // "religion",
+          // "stealth",
           SkillTypes["acrobatics"],
           SkillTypes["athletics"],
           SkillTypes["history"],
@@ -313,12 +325,18 @@ export const classes: Class[] = [
       skills: {
         amount: 2,
         options: [
-          SkillTypes["athletics"],
-          SkillTypes["insight"],
-          SkillTypes["intimidation"],
-          SkillTypes["medicine"],
-          SkillTypes["persuasion"],
-          SkillTypes["religion"],
+          // "athletics",
+          // "insight",
+          // "intimidation",
+          // "medicine",
+          // "persuasion",
+          // "religion",
+          SkillTypes.athletics,
+          SkillTypes.insight,
+          SkillTypes.intimidation,
+          SkillTypes.medicine,
+          SkillTypes.persuasion,
+          SkillTypes.religion,
         ],
       },
     },
@@ -407,6 +425,7 @@ export const classes: Class[] = [
       skills: {
         amount: 3,
         options: [
+          // "animal handling","athletics","insight","investigation","nature","perception","stealth","survival"
           SkillTypes["animal handling"],
           SkillTypes["athletics"],
           SkillTypes["insight"],
@@ -510,6 +529,7 @@ export const classes: Class[] = [
       skills: {
         amount: 4,
         options: [
+          // "acrobatics","athletics","deception","insight","intimidation","investigation","perception","performance","persuasion","sleight of hand","stealth"
           SkillTypes.acrobatics,
           SkillTypes.athletics,
           SkillTypes.deception,
