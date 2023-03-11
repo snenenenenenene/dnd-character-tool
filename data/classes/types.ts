@@ -13,7 +13,7 @@ export interface Class {
     savingThrows?: Ability[];
     skills?: {
       amount: number;
-      options: SkillTypes;
+      options: SkillTypes[];
     };
   };
   features?: {

@@ -26,12 +26,6 @@ export const classes: Class[] = [
       skills: {
         amount: 2,
         options: [
-          // "animal handling",
-          // "athletics",
-          // "intimidation",
-          // "nature",
-          // "perception",
-          // "survival",
           SkillTypes["animal handling"],
           SkillTypes.athletics,
           SkillTypes.intimidation,
