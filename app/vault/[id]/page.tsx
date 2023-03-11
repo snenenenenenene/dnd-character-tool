@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/app/components/common/Button";
 import React, { useEffect, useState } from "react";
-import PocketBase from "pocketbase";
 import Select from "react-select";
 import { useSheetStore } from "@/app/utils/store";
 import { toast } from "react-toastify";
@@ -40,13 +39,15 @@ function UserEntry({
 
   return (
     <div className="w-full pr-10 flex items-center border-b-2 py-8 border-light-secondary dark:border-dark-secondary">
-      <Image
-        alt={sheet?.race.name}
-        className="object-contain w-32 h-32"
-        width={128}
-        height={128}
-        src={sheet?.race?.picture!}
-      />
+      {sheet && (
+        <Image
+          alt={sheet?.race?.name}
+          className="object-contain w-32 h-32"
+          width={128}
+          height={128}
+          src={sheet?.race?.picture!}
+        />
+      )}
       {sheet && (
         <>
           <section className="flex flex-col">
@@ -66,7 +67,6 @@ function UserEntry({
 }
 
 export default function Campaign(context: any) {
-  const updateUsers = useSheetStore((state) => state.updateUsers);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [options, setOptions] = useState([]);
   const [campaign, setCampaign] = useState<{ name: string; users: string[] }>();
