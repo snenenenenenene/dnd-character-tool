@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import _ from "lodash";
-import Link from "next/link";
-import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 import { ClassEditor } from "@/app/components/character/ClassEditor";
+import { Button } from "@/app/components/common/Button";
+import { Modal } from "@/app/components/common/Modal";
+import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
+import { Sheet } from "@/app/utils/store";
 import { classes } from "@/data/classes/classes";
 import { Class, Expansion, SkillTypes } from "@/data/classes/types";
-import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
+import _ from "lodash";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
 import { toast } from "react-toastify";
-import { Sheet } from "@/app/utils/store";
-import { Modal } from "@/app/components/common/Modal";
-import { Button } from "@/app/components/common/Button";
 
 export default function ClassSelection(context: any) {
   const groups = _.groupBy(classes, "expansion");
@@ -164,8 +164,12 @@ export default function ClassSelection(context: any) {
                 {`${skill[0]}: ${skill[1]}`}
               </label>
             ))}
-
-          <p>{sheet?.data?.skills?.acrobatics}</p>
+          <p className="text-2xl">AC</p>
+          <p>{sheet?.data.armourClass}</p>
+          <p className="text-2xl">Speed</p>
+          <p>{sheet?.data.speed}</p>
+          <p>{sheet?.data.initiative}</p>
+          <p>{sheet?.data.currency.gold}</p>
         </section>
       </section>
 
