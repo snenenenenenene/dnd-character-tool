@@ -1,0 +1,166 @@
+[
+  {
+    "id": "_pb_users_auth_",
+    "name": "users",
+    "type": "auth",
+    "system": false,
+    "schema": [
+      {
+        "id": "users_name",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      },
+      {
+        "id": "users_avatar",
+        "name": "avatar",
+        "type": "file",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "maxSelect": 1,
+          "maxSize": 5242880,
+          "mimeTypes": [
+            "image/jpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/gif",
+            "image/webp"
+          ],
+          "thumbs": null
+        }
+      }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "id = @request.auth.id",
+    "deleteRule": "id = @request.auth.id",
+    "options": {
+      "allowEmailAuth": true,
+      "allowOAuth2Auth": true,
+      "allowUsernameAuth": true,
+      "exceptEmailDomains": null,
+      "manageRule": null,
+      "minPasswordLength": 8,
+      "onlyEmailDomains": null,
+      "requireEmail": false
+    }
+  },
+  {
+    "id": "z3wz336xs141zue",
+    "name": "campaigns",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "lewby3dy",
+        "name": "users",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "maxSelect": null,
+          "displayFields": [
+            "username"
+          ]
+        }
+      },
+      {
+        "id": "baprrjv6",
+        "name": "dm",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "dyou0egm",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      }
+    ],
+    "listRule": "@request.auth.id = dm.id || @request.auth.id ?= users.id",
+    "viewRule": "@request.auth.id = dm.id || @request.auth.id ?= users.id",
+    "createRule": "",
+    "updateRule": "@request.auth.id = dm.id || @request.auth.id = @collection.campaigns.users",
+    "deleteRule": null,
+    "options": {}
+  },
+  {
+    "id": "dz5yxtcgh7964ef",
+    "name": "sheets",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "id": "9dvnsqxl",
+        "name": "data",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {}
+      },
+      {
+        "id": "98khrnfm",
+        "name": "campaign",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "z3wz336xs141zue",
+          "cascadeDelete": false,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      },
+      {
+        "id": "nm40iktd",
+        "name": "user",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "maxSelect": 1,
+          "displayFields": []
+        }
+      }
+    ],
+    "listRule": "",
+    "viewRule": "",
+    "createRule": "",
+    "updateRule": "",
+    "deleteRule": "",
+    "options": {}
+  }
+]

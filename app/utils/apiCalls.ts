@@ -20,6 +20,20 @@ export async function getAllCampaigns() {
   return await pb.collection("campaigns").getFullList(200);
 }
 
+export async function createCampaign({
+  name,
+  userId,
+}: {
+  name: string;
+  userId: string;
+}) {
+  return await pb.collection("campaigns").create({
+    users: [],
+    dm: userId,
+    name: name,
+  });
+}
+
 export async function getUserFromUserId(userId: string) {
   return await pb.collection("users").getOne(userId);
 }
