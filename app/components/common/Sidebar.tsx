@@ -3,8 +3,13 @@
 import { useSheetStore } from "@/app/utils/store";
 import { applyThemePreference } from "@/app/utils/themeUtils";
 import Link from "next/link";
-import React, { useEffect } from "react";
-import { GiDiceEightFacesEight, GiFlamingSheet } from "react-icons/gi";
+import { useEffect } from "react";
+import {
+  GiDiceEightFacesEight,
+  GiFlamingSheet,
+  GiMoon,
+  GiSun,
+} from "react-icons/gi";
 
 interface SidebarArgs {
   setShowAuthModal: (showAuthModal: any) => any;
@@ -54,9 +59,11 @@ export const Sidebar = ({ setShowAuthModal }: SidebarArgs) => {
       </section>
       <section>
         <button
-          className="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 dark:from-red-500 dark:to-orange-500 mx-4 mb-3 "
+          className="w-12 h-12 rounded-full bg-gradient-to-r flex text-light-primary dark:text-dark-primary  justify-center items-center text-4xl from-cyan-500 to-blue-500 dark:from-red-500 dark:to-orange-500 mx-4 mb-3 "
           onClick={() => toggleTheme()}
-        />
+        >
+          {theme === "light" ? <GiSun /> : <GiMoon />}
+        </button>
       </section>
     </nav>
   );

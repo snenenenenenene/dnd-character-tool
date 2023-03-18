@@ -6,7 +6,7 @@ import "./InitiativeStyle.css";
 export default function InitiativeTracker() {
   return (
     <div className="w-25 h-full flex">
-      <section className="w-64 text-center border-l-2 border-light-secondary h-full overflow-y-scroll scrollbar-hide">
+      <section className="w-64 text-center border-l-2 border-light-secondary dark:border-dark-secondary h-full overflow-y-scroll scrollbar-hide">
         <h1 className="underline">Initiative tracker</h1>
         <InitiativeList />
       </section>

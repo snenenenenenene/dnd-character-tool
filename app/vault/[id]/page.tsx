@@ -1,10 +1,6 @@
 "use client";
 import { Button } from "@/app/components/common/Button";
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import { useSheetStore } from "@/app/utils/store";
-import { toast } from "react-toastify";
-import InitiativeTracker from "../../components/vault/initiativeTracker";
+import { Modal } from "@/app/components/common/Modal";
 import {
   getAllUsers,
   getCampaignById,
@@ -12,10 +8,14 @@ import {
   getUserFromUserId,
   updateCampaign,
 } from "@/app/utils/apiCalls";
+import { useSheetStore } from "@/app/utils/store";
 import { Race } from "@/data/races/types";
-import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
 import Image from "next/image";
-import { Modal } from "@/app/components/common/Modal";
+import { useEffect, useState } from "react";
+import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
+import Select from "react-select";
+import { toast } from "react-toastify";
+import InitiativeTracker from "../../components/vault/initiativeTracker";
 
 function UserEntry({
   userId,
@@ -32,7 +32,6 @@ function UserEntry({
       setUser(res);
     });
     getSheetWithCampaignIdAndUserId(campaignId, userId).then((resp) => {
-      console.log(resp);
       setSheet(resp.data);
     });
   }, []);

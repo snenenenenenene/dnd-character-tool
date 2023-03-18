@@ -5,7 +5,6 @@ export const THEME_TYPES = {
 
 export const applyThemePreference = (theme: any) => {
   const { THEME_DARK, THEME_LIGHT } = THEME_TYPES;
-  console.log(theme);
   const root = window.document.documentElement;
   const isDark = theme === THEME_DARK;
   root.classList.remove(isDark ? THEME_LIGHT : THEME_DARK);
