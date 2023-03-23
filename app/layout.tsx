@@ -1,15 +1,14 @@
 /* eslint-disable react/jsx-no-undef */
 "use client";
-import { Sidebar } from "./components/common/Sidebar";
-import "./globals.css";
-import React, { useEffect, useState } from "react";
+import PocketBase from "pocketbase";
+import React, { useState } from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Button } from "./components/common/Button";
 import { Input } from "./components/common/Input";
-import PocketBase from "pocketbase";
+import { Sidebar } from "./components/common/Sidebar";
+import "./globals.css";
 import { useSheetStore } from "./utils/store";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { applyThemePreference } from "./utils/themeUtils";
 
 export default function RootLayout({
   children,
@@ -71,7 +70,7 @@ export default function RootLayout({
           >
             <div
               data-value="child"
-              className="w-1/3 h-4/6 min-w-[500px] flex flex-col bg-light-secondary rounded-md overflow-hidden"
+              className="w-1/3 h-5/6 min-w-[500px] flex flex-col bg-light-primary text-light-secondary border-2 border-light-secondary dark:bg-dark-primary dark:border-dark-secondary dark:text-dark-secondary rounded-md overflow-hidden"
             >
               {toggleSignUp ? (
                 <>
@@ -128,7 +127,10 @@ export default function RootLayout({
                         placeholder="Zanzibar"
                       />
                     </section>
-                    <Button className="mt-auto mb-5" onClick={() => signup()}>
+                    <Button
+                      className="mt-auto w-10/12 mb-5"
+                      onClick={() => signup()}
+                    >
                       Sign up
                     </Button>
                   </div>
@@ -174,7 +176,10 @@ export default function RootLayout({
                         placeholder="********"
                       />
                     </section>
-                    <Button className="mt-auto mb-5" onClick={() => login()}>
+                    <Button
+                      className="mt-auto w-10/12 mb-5"
+                      onClick={() => login()}
+                    >
                       Log in
                     </Button>
                   </div>
