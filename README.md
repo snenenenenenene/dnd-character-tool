@@ -1,38 +1,33 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## DnD Character Tool
 
-## Getting Started
+Welcome to the DnD Character Tool! As an avid Dungeons & Dragons player, I understand the challenges that come with creating and managing characters and campaigns. That's why I created this web application, to make the process easier and more streamlined.
 
-First, run the development server:
+With this tool, you can create and manage characters for your DnD campaigns with ease. Say goodbye to the hassle of filling out character sheets by hand and keeping track of campaign details on paper. Our application allows you to create new characters, edit existing ones, and even delete characters that are no longer needed.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Whether you're a seasoned player or just starting out, the DnD Character Tool is designed to simplify the character creation and management process, allowing you to focus on the fun of playing the game. So why wait? Start using the DnD Character Tool today and take your DnD experience to the next level!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Prerequisites
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- Node.js v10 or later
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+#### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Clone this repository: `git clone https://github.com/snenenenenenene/dnd-character-tool.git`
+- Change into the directory: `cd dnd-character-tool`
+- Install dependencies: `npm install`
 
-## Learn More
+#### Running the Application
 
-To learn more about Next.js, take a look at the following resources:
+- Start the pocketbase database server: `./database/pocketbase serve`
+- Start the development server: `npm run dev`
+  Open the application in your browser at http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Usage
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The application allows you to create and manage characters for your DnD campaigns. You can create new characters, edit existing ones, and delete them as needed.
 
-## Deploy on Vercel
+### Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you want to contribute to this project, open PRs galore!
