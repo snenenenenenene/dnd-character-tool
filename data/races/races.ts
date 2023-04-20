@@ -34,6 +34,13 @@ export const races: Array<Race> = [
   },
   {
     name: "Gnome",
+    traits: {
+      abilityScoreIncrease: { dexterity: +2 },
+      size: { size: "small" },
+      speed: {
+        baseWalkingSpeed: 25,
+      },
+    },
     picture:
       "https://www.dndbeyond.com/avatars/thumbnails/6/334/420/618/636272671553055253.png",
     expansion: "Player's Handbook / Basic Rules",

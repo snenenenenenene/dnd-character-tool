@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 "use client";
+import { classes } from "@/data/classes/classes";
+import { races } from "@/data/races/races";
 import { useState } from "react";
-
 export const SavingThrow = ({
   name,
   value,
@@ -165,44 +166,11 @@ export const Label = ({
 };
 
 export default function CharacterSheet() {
-  const Class = {
-    name: "Rogue",
-    hitDice: "d8",
-    primaryAbility: "Dexterity",
-    savingThrowProficiencies: ["Dexterity", "Intelligence"],
-    armorProficiencies: ["Light armor"],
-    weaponProficiencies: [
-      "Simple weapons",
-      "Hand crossbows",
-      "Longswords",
-      "Rapiers",
-      "Shortswords",
-    ],
-    toolProficiencies: ["Thieves' tools"],
-    subclassOptions: [
-      {
-        name: "Thief",
-        description: "Fast Hands",
-        abilities: ["Sleight of Hand", "Thieves' Cant"],
-      },
-    ],
-  };
-
-  const Race = {
-    name: "Elf",
-    speed: 30,
-    size: "Medium",
-    abilityBonuses: {
-      dexterity: 2,
-    },
-    traits: ["Darkvision", "Keen Senses", "Fey Ancestry"],
-  };
-
   const Sheet = {
     name: "Lyra",
-    class: Class,
+    class: classes[0],
     level: 5,
-    race: Race,
+    race: races[0],
     background: "Criminal",
     alignment: "Chaotic Neutral",
     experiencePoints: 3000,
@@ -325,13 +293,28 @@ export default function CharacterSheet() {
         <section className="misc border flex p-4 border-light-secondary rounded-xl w-full overflow-hidden">
           <ul className="flex flex-wrap">
             <li className="flex flex-col w-1/3">
-              <input
-                value={character.class.name + " " + character.level}
-                onChange={handleInputChange}
-                name="level"
-                className="border-b border-light-tertiary"
-                placeholder="Paladin 2"
-              />
+              <span className="flex">
+                <select
+                  value={character.class.name}
+                  onChange={handleInputChange}
+                  name="class"
+                  className="border-b flex w-full border-light-tertiary"
+                  placeholder="Paladin"
+                >
+                  {races.map((r) => (
+                    <option key={r.name} value={r.name}>
+                      {r.name}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  value={character.class.level}
+                  onChange={handleInputChange}
+                  name="level"
+                  className="border-b w-8 border-light-tertiary"
+                  placeholder="2"
+                />
+              </span>
               <Label className="uppercase font-normal" htmlFor="classlevel">
                 Class & Level
               </Label>
@@ -361,13 +344,19 @@ export default function CharacterSheet() {
               </Label>
             </li>
             <li className="flex flex-col w-1/3">
-              <input
+              <select
                 value={character.race.name}
                 onChange={handleInputChange}
                 name="race"
                 className="border-b border-light-tertiary"
                 placeholder="Half-elf"
-              />
+              >
+                {races.map((r) => (
+                  <option key={r.name} value={r.name}>
+                    {r.name}
+                  </option>
+                ))}
+              </select>
               <Label className="uppercase font-normal" htmlFor="race">
                 Race
               </Label>
@@ -726,7 +715,10 @@ export default function CharacterSheet() {
                 value={character.initiative}
                 name="Initiative"
               />
-              <BoxWithLabelBelow value={character.speed} name="Speed" />
+              <BoxWithLabelBelow
+                value={character.race.traits.speed.baseWalkingSpeed}
+                name="Speed"
+              />
             </section>
 
             <div className="hp flex flex-col gap-y-4 my-4">
@@ -1074,7 +1066,7 @@ export default function CharacterSheet() {
           </section>
           <section className="features border bg-white p-4 border-light-secondary rounded-xl h-full overflow-hidden flex flex-col">
             <textarea
-              value={character.race.traits.map((trait) => trait).join("\n")}
+              // value={character.race.traits.map((trait) => trait).join("\n")}
               name="features"
               className="h-full resize-none p-4"
             ></textarea>
