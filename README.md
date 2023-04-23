@@ -1,33 +1,34 @@
-## DnD Character Tool
+# 🎲 Dnd Character Tool
 
-Welcome to the [DnD Character Tool](https://dnd-character-tool.vercel.app/)! As an avid Dungeons & Dragons player, I understand the challenges that come with creating and managing characters and campaigns. That's why I created this web application, to make the process easier and more streamlined.
+This is a web application for creating and managing Dungeons and Dragons (Dnd) characters. It is built using modern web technologies such as Vercel, Next, Pocketbase, and Zustand.
 
-With this tool, you can create and manage characters for your DnD campaigns with ease. Say goodbye to the hassle of filling out character sheets by hand and keeping track of campaign details on paper. Our application allows you to create new characters, edit existing ones, and even delete characters that are no longer needed.
+## Features
 
-Whether you're a seasoned player or just starting out, the DnD Character Tool is designed to simplify the character creation and management process, allowing you to focus on the fun of playing the game. So why wait? Start using the DnD Character Tool today and take your DnD experience to the next level!
+- Create and manage Dnd characters
+- Choose from a variety of races, classes, and backgrounds
+- Customize character attributes, equipment, and abilities
+- Save and load characters for future use
+- Share characters with other players
 
-### Getting Started
+## Installation
 
-#### Prerequisites
+To install and run this application on your local machine, follow these steps:
 
-- Node.js v10 or later
+1. Clone this repository to your local machine
+2. Install the dependencies by running `npm install` in the project directory
+3. Start the development server by running `npm run dev`
+4. Open your web browser and navigate to `http://localhost:3000`
 
-#### Installation
+## Contributing
 
-- Clone this repository: `git clone https://github.com/snenenenenenene/dnd-character-tool.git`
-- Change into the directory: `cd dnd-character-tool`
-- Install dependencies: `npm install`
+If you would like to contribute to this project, please follow these steps:
 
-#### Running the Application
+1. Fork this repository to your own GitHub account and clone it to your local machine
+2. Create a new branch for your changes with `git checkout -b my-new-feature`
+3. Make your changes and commit them with `git commit -am 'Add some feature'`
+4. Push your changes to your fork with `git push origin my-new-feature`
+5. Create a new pull request on this repository
 
-- Start the pocketbase database server: `./database/pocketbase serve`
-- Start the development server: `npm run dev`
-  Open the application in your browser at http://localhost:3000
+## License
 
-### Usage
-
-The application allows you to create and manage characters for your DnD campaigns. You can create new characters, edit existing ones, and delete them as needed.
-
-### Contributing
-
-If you want to contribute to this project, open PRs galore!
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
