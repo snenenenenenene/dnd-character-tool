@@ -8,8 +8,9 @@ import _ from "lodash";
 import Image from "next/image";
 
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { GiBoomerang, GiBroadheadArrow } from "react-icons/gi";
+import { toast } from "react-toastify";
 
 export default function Sheets(context: any) {
   const [sheet, setSheet]: any = useState<{
@@ -31,7 +32,7 @@ export default function Sheets(context: any) {
   const groups = _.groupBy(races, "expansion");
 
   return (
-    <div className="w-full relative h-full flex flex-col">
+    <div className="w-full relative h-full flex flex-col overflow-y-scroll">
       <section
         id="title"
         className="w-full py-5 flex items-center border-b-2 pl-10 border-light-secondary"
@@ -40,7 +41,7 @@ export default function Sheets(context: any) {
       </section>
 
       <section className="flex flex-col px-10">
-        {Object.entries(groups).map(([expansion, races]) => {
+        {Object?.entries(groups).map(([expansion, races]) => {
           return (
             <>
               <h3 className="font-bold uppercase py-4" key={expansion}>
@@ -67,83 +68,12 @@ export default function Sheets(context: any) {
                         sheet?.user!
                       )
                         .then((res: any) => {
-                          console.log(res);
+                          toast.success("Updated sheet");
                           setSheet(res);
                         })
-                        .catch((err) => {
-                          console.log(err);
+                        .catch(() => {
+                          toast.error("Something went wrong");
                         });
-
-                      // setSheet((prev: any) => ({
-
-                      //   ...prev,
-                      //   data: {
-                      //     ...prev?.data,
-                      //     race: race,
-                      //     stats: {
-                      //       strength:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.strength) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.strength || 0
-                      //         ),
-                      //       dexterity:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.dexterity) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.dexterity || 0
-                      //         ),
-                      //       constitution:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.constitution) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.constitution || 0
-                      //         ),
-                      //       intelligence:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.intelligence) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.intelligence || 0
-                      //         ),
-                      //       wisdom:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.wisdom) + 10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.wisdom || 0
-                      //         ),
-                      //       charisma:
-                      //         Math.floor(
-                      //           (Number(prev?.data?.thrownStats?.charisma) +
-                      //             10) /
-                      //             2
-                      //         ) +
-                      //         Number(
-                      //           prev?.data?.race?.traits?.abilityScoreIncrease
-                      //             ?.charisma || 0
-                      //         ),
-                      //     },
-                      //   },
-                      // })),
-                      //   () => updateSheet();
                     }}
                   >
                     {/* // TODO: ADD NEXTJS IMAGE TAG */}

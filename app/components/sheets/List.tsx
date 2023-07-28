@@ -1,13 +1,18 @@
-import { getAllCampaigns, updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet } from "@/app/utils/store";
+import {
+  addSheet,
+  getAllCampaigns,
+  updateSheetWithId,
+} from "@/app/utils/apiCalls";
+import { Sheet, useSheetStore } from "@/app/utils/store";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { GiPencil } from "react-icons/gi";
 import Select from "react-select";
+import { toast } from "react-toastify";
 import { Button } from "../common/Button";
 import { Input } from "../common/Input";
 import { Modal } from "../common/Modal";
-
 interface ListArgs {
   sheets: Sheet[];
 }
@@ -15,9 +20,26 @@ interface ListArgs {
 export const List = ({ sheets }: ListArgs) => {
   const router = useRouter();
   const [showModal, setShowModal] = React.useState(false);
+  const [showNewSheetModal, setShowNewSheetModal] = React.useState(false);
   const [sheet, setSheet]: any = React.useState<Sheet>();
   const [options, setOptions] = React.useState<any>([]);
   const [campaign, setCampaign] = React.useState<string>();
+  const user = useSheetStore((state) => state.user);
+
+  async function createCharacter() {
+    if (characterName && characterName !== "") {
+      addSheet(characterName, user?.record?.id, campaign)
+        .then((res: any) => {
+          toast.success("Created sheet successfully");
+          router.push(`/sheets/${res.id}`);
+        })
+        .catch(() => {
+          toast.error("Failed to create sheet");
+        });
+    }
+  }
+
+  const [characterName, setCharacterName] = useState<string>("");
 
   useEffect(() => {
     getAllCampaigns().then((res) => {
@@ -30,53 +52,100 @@ export const List = ({ sheets }: ListArgs) => {
 
       setOptions(mappedCampaigns);
     });
-  }, []);
+  }, [sheet]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="grid grid-cols-5 w-full overflow-x-hidden overflow-y-scroll h-fit overflow-scroll p-20 gap-10 justify-center">
       {sheets && sheets.length > 0 ? (
-        sheets?.map((sheet, i) => (
-          <button
-            className="w-full flex justify-between items-center h-10 px-20 py-8 hover:text-light-primary border-b-2 border-light-secondary dark:border-dark-secondary hover:bg-light-secondary hover:dark:text-dark-primary hover:dark:bg-dark-secondary"
-            key={i}
-            data-value="view-sheet-button"
-            onClick={(e) => {
-              e.preventDefault();
-              let dataValue = (e.target as HTMLElement).getAttribute(
-                "data-value"
-              );
-              if (dataValue === "view-sheet-button") {
-                router.push(`/sheets/${sheet?.id}`);
-              }
-            }}
-          >
-            <p>{sheet?.data?.name}</p>
-            <p>{sheet?.data?.race?.name}</p>
-            <p>Level: {sheet?.data?.level}</p>
-            <p>{sheet?.campaign ? sheet?.campaign : <>None</>}</p>
+        <>
+          {sheets?.map((sheet, i) => (
             <button
-              id="edit-sheet-button"
-              data-value="edit-sheet-button"
-              onClick={() => {
-                setSheet(sheet);
-                setShowModal(true);
+              className="border-2 relative transition-all aspect-square filter flex justify-center items-center hover:scale-105 border-light-secondary dark:border-dark-secondary h-full flex-col py-1"
+              key={i}
+              data-value="view-sheet-button"
+              onClick={(e) => {
+                e.preventDefault();
+                let dataValue = (e.target as HTMLElement).getAttribute(
+                  "data-value"
+                );
+                if (dataValue === "view-sheet-button") {
+                  router.push(`/sheets/${sheet?.id}`);
+                }
               }}
-              className="bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary text-xl rounded-full flex justify-center items-center w-10 h-10"
             >
-              <GiPencil data-value="edit-sheet-button" />
+              <Image
+                className="w-36 h-36 object-contain"
+                data-value="view-sheet-button"
+                width={144}
+                height={144}
+                alt={sheet?.data?.race?.name}
+                src={sheet?.data?.race?.picture!}
+              />
+              <h2 className="uppercase font-bold text-3xl">
+                {sheet?.data?.name}
+              </h2>
+
+              <span className="absolute top-0 left-0 m-2 font-extrabold text-5xl">
+                {sheet?.data?.level}
+              </span>
+              <p>{sheet?.expand?.campaign && sheet?.expand?.campaign.name}</p>
+              <button
+                id="edit-sheet-button"
+                data-value="edit-sheet-button"
+                onClick={() => {
+                  setSheet(sheet);
+                  setShowModal(true);
+                }}
+                className="absolute top-0 right-0 m-2 font-extrabold bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary text-xl rounded-full flex justify-center items-center w-10 h-10"
+              >
+                <GiPencil data-value="edit-sheet-button" />
+              </button>
             </button>
-          </button>
-        ))
+          ))}
+        </>
       ) : (
         <section className="w-full h-full justify-center items-center uppercase font-bold text-3xl flex py-20 px-10">
           <p>No sheets! Create a sheet and start your adventure!</p>
         </section>
       )}
+      <button
+        className="border-2 transition-all dark:border-dark-secondary filter flex justify-center items-center hover:scale-105 border-light-secondary h-full aspect-square flex-col py-1"
+        data-value="view-sheet-button"
+        onClick={() => setShowNewSheetModal(true)}
+      >
+        Create
+      </button>
+
+      <Modal showModal={showNewSheetModal} setShowModal={setShowNewSheetModal}>
+        <section className="flex w-full h-full pt-10 flex-col justify-center items-center gap-10">
+          <Input
+            value={characterName}
+            className="w-1/2"
+            onChange={(e) => setCharacterName(e.target.value)}
+            placeholder="Character name"
+          />
+
+          <Select
+            className="w-1/2"
+            options={options}
+            onChange={(campaign: any) => setCampaign(campaign.value)}
+            noOptionsMessage={() => "No campaigns found"}
+            placeholder="Select a campaign"
+          />
+          <Button
+            className="w-11/12 mb-8 mt-auto"
+            onClick={() => createCharacter()}
+          >
+            Create
+          </Button>
+        </section>
+      </Modal>
 
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <Input
           value={sheet?.data.name}
           className="w-80"
+          placeholder="Character name"
           onChange={(e) => {
             updateSheetWithId(
               sheet?.id,
@@ -85,14 +154,13 @@ export const List = ({ sheets }: ListArgs) => {
               sheet?.user!
             )
               .then((res: any) => {
-                console.log(res);
+                toast.success("Updated sheet successfully");
                 setSheet(res);
               })
-              .catch((err) => {
-                console.log(err);
+              .catch(() => {
+                toast.error("Failed to update sheet");
               });
           }}
-          placeholder="Character name"
         />
 
         <Select
@@ -105,11 +173,11 @@ export const List = ({ sheets }: ListArgs) => {
           onClick={() =>
             updateSheetWithId(sheet?.id, sheet?.data, campaign, sheet?.user!)
               .then((res: any) => {
-                console.log(res);
+                toast.success("Added sheet to campaign");
                 setSheet(res);
               })
-              .catch((err) => {
-                console.log(err);
+              .catch(() => {
+                toast.error("Failed to add sheet to campaign");
               })
           }
         >
