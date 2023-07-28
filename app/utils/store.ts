@@ -3,29 +3,49 @@
 // import { Class } from "@/data/classes/types";
 // import { races } from "@/data/races/races";
 // import { Race } from "@/data/races/types";
-import { classes } from "@/data/classes/classes";
-import { Class, SkillTypes } from "@/data/classes/types";
-import { races } from "@/data/races/races";
+import { Class } from "@/data/classes/types";
 import { Race } from "@/data/races/types";
-import { create } from "zustand";
-import { persist, devtools } from "zustand/middleware";
 import PocketBase from "pocketbase";
-import { toast } from "react-toastify";
-import { updateCampaign } from "./apiCalls";
+import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 import { THEME_TYPES } from "./themeUtils";
 
 export interface SheetData {
   name: string;
   level: number;
+  background: string;
   armourClass: number;
   initiative: number;
+  alignment: string;
+  inspiration: boolean;
+  deathSaves: {
+    successes: number;
+    failures: number;
+  };
+  experiencePoints: number;
+  proficiencies: any;
   speed: number;
   hitPoints: {
     current: number;
     max: number;
-    temp: number;
+    temporary: number;
   };
   stats?: Stats;
+  attacks: {
+    name: string;
+    bonus: number;
+    damage: string;
+  }[];
+  equipment: {
+    name: string;
+    quantity: number;
+  }[];
+  spells: {
+    name: string;
+    level: number;
+    description: string;
+    prepared: boolean;
+  }[];
   skills: {
     acrobatics?: number;
     "animal handling"?: number;
@@ -77,6 +97,7 @@ interface Stats {
 export interface Sheet {
   id: string;
   data: SheetData;
+  expand?: any;
   campaign: string;
   user: string;
 }
