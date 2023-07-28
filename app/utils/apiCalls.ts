@@ -1,3 +1,4 @@
+import { classes } from "@/data/classes/classes";
 import { races } from "@/data/races/races";
 import PocketBase from "pocketbase";
 import { SheetData } from "./store";
@@ -6,10 +7,9 @@ const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
 pb.autoCancellation(false);
 
 export async function getAllSheets({ userId }: { userId: string }) {
-  console.log(userId);
   return await pb
     .collection("sheets")
-    .getFullList(200, { filter: `user.id = "${userId}"` });
+    .getFullList(200, { filter: `user.id = "${userId}"`, expand: "campaign" });
 }
 
 export async function getAllUsers() {
@@ -56,7 +56,9 @@ export async function getCampaignById(campaignId: string) {
 }
 
 export async function getSheetWithId(sheetId: string) {
-  return await pb.collection("sheets").getOne(sheetId);
+  return await pb.collection("sheets").getOne(sheetId, {
+    expand: "user",
+  });
 }
 
 export async function addSheet(
@@ -65,64 +67,22 @@ export async function addSheet(
   campaignId?: string
 ) {
   const sheet: SheetData = {
-    name,
+    name: "Lyra",
+    class: [classes[0]],
+    level: 5,
     race: races[0],
-    class: [],
-    level: 0,
-    currency: {
-      gold: 0,
-      silver: 0,
-      copper: 0,
-      electrum: 0,
-      platinum: 0,
-    },
-    weapons: [],
-    armourClass: 0,
-    initiative: 0,
-    speed: 0,
-    hitPoints: {
-      current: 0,
-      max: 0,
-      temp: 0,
-    },
-    skills: {
-      acrobatics: 0,
-      "animal handling": 0,
-      arcana: 0,
-      athletics: 0,
-      deception: 0,
-      history: 0,
-      insight: 0,
-      intimidation: 0,
-      investigation: 0,
-      medicine: 0,
-      nature: 0,
-      perception: 0,
-      performance: 0,
-      persuasion: 0,
-      religion: 0,
-      "sleight of hand": 0,
-      stealth: 0,
-      survival: 0,
-    },
-
+    background: "Criminal",
+    alignment: "Chaotic Neutral",
+    experiencePoints: 3000,
     thrownStats: {
-      strength: 3,
-      dexterity: 3,
-      constitution: 3,
-      intelligence: 3,
-      wisdom: 3,
-      charisma: 3,
+      strength: 10,
+      dexterity: 10,
+      constitution: 10,
+      intelligence: 10,
+      wisdom: 10,
+      charisma: 10,
     },
     stats: {
-      strength: -4,
-      dexterity: -4,
-      constitution: -4,
-      intelligence: -4,
-      wisdom: -4,
-      charisma: -4,
-    },
-    savingThrows: {
       strength: 0,
       dexterity: 0,
       constitution: 0,
@@ -130,6 +90,64 @@ export async function addSheet(
       wisdom: 0,
       charisma: 0,
     },
+
+    inspiration: true,
+    proficiencies: {
+      acrobatics: true,
+      deception: true,
+      persuasion: true,
+      "thieves' tools": true,
+    },
+    armourClass: 16,
+    initiative: 4,
+    speed: 30,
+    hitPoints: {
+      max: 38,
+      current: 28,
+      temporary: 0,
+    },
+    deathSaves: {
+      successes: 1,
+      failures: 2,
+    },
+    attacks: [
+      {
+        name: "Shortsword",
+        bonus: 7,
+        damage: "1d6+4",
+      },
+      {
+        name: "Shortbow",
+        bonus: 7,
+        damage: "1d6+4",
+      },
+    ],
+    equipment: [
+      {
+        name: "Shortsword",
+        quantity: 2,
+      },
+      {
+        name: "Shortbow",
+        quantity: 1,
+      },
+      {
+        name: "Arrows",
+        quantity: 20,
+      },
+      {
+        name: "Thieves' tools",
+        quantity: 1,
+      },
+    ],
+    spells: [
+      {
+        name: "Disguise Self",
+        level: 1,
+        description: "Allows you to change your appearance for up to 1 hour.",
+        prepared: true,
+      },
+    ],
   };
 
   return pb.collection("sheets").create({
