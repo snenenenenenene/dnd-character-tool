@@ -1,5 +1,6 @@
 import {
   addSheet,
+  deleteSheetWithId,
   getAllCampaigns,
   updateSheetWithId,
 } from "@/app/utils/apiCalls";
@@ -14,7 +15,7 @@ import { Button } from "../common/Button";
 import { Input } from "../common/Input";
 import { Modal } from "../common/Modal";
 interface ListArgs {
-  sheets: Sheet[];
+  sheets: Sheet[] | undefined;
 }
 
 export const List = ({ sheets }: ListArgs) => {
@@ -65,7 +66,7 @@ export const List = ({ sheets }: ListArgs) => {
     <div className="grid grid-cols-5 w-full overflow-x-hidden z-0 overflow-y-scroll h-fit overflow-scroll p-20 gap-10 justify-center">
       {sheets && sheets.length > 0 && (
         <>
-          {sheets?.map((sheet, i) => (
+          {sheets?.map((sheet: Sheet, i: number) => (
             <button
               className="border-2 relative transition-all aspect-square filter flex justify-center items-center hover:scale-105 border-light-secondary dark:border-dark-secondary h-full flex-col py-1"
               key={i}
@@ -76,7 +77,7 @@ export const List = ({ sheets }: ListArgs) => {
                   "data-value"
                 );
                 if (dataValue === "view-sheet-button") {
-                  router.push(`/sheets/${selectedSheet?.id}`);
+                  router.push(`/sheets/${sheet?.id}`);
                 }
               }}
             >
@@ -85,20 +86,17 @@ export const List = ({ sheets }: ListArgs) => {
                 data-value="view-sheet-button"
                 width={144}
                 height={144}
-                alt={selectedSheet?.data?.race?.name}
-                src={selectedSheet?.data?.race?.picture!}
+                alt={sheet?.data?.race?.name}
+                src={sheet?.data?.race?.picture!}
               />
               <h2 className="uppercase font-bold text-3xl">
-                {selectedSheet?.data?.name}
+                {sheet?.data?.name}
               </h2>
 
               <span className="absolute top-0 left-0 m-2 font-extrabold text-5xl">
-                {selectedSheet?.data?.level}
+                {sheet?.data?.level}
               </span>
-              <p>
-                {selectedSheet?.expand?.campaign &&
-                  selectedSheet?.expand?.campaign.name}
-              </p>
+              <p>{sheet?.expand?.campaign && sheet?.expand?.campaign.name}</p>
               <button
                 id="edit-sheet-button"
                 data-value="edit-sheet-button"
@@ -115,7 +113,7 @@ export const List = ({ sheets }: ListArgs) => {
         </>
       )}
       <button
-        className="border-2 transition-all dark:border-dark-secondary filter flex justify-center items-center hover:scale-105 border-light-secondary h-full aspect-square flex-col py-1"
+        className="border-2 transition-all uppercase font-bold text-3xl dark:border-dark-secondary filter flex justify-center items-center hover:scale-105 border-light-secondary h-full aspect-square flex-col py-1"
         data-value="view-sheet-button"
         onClick={() => setShowNewSheetModal(true)}
       >
@@ -147,7 +145,7 @@ export const List = ({ sheets }: ListArgs) => {
         </section>
       </Modal>
 
-      <Modal showModal={showModal} setShowModal={setShowModal}>
+      <Modal className="p-4" showModal={showModal} setShowModal={setShowModal}>
         <Input
           value={selectedSheet?.data?.name}
           className="w-80"
@@ -175,25 +173,45 @@ export const List = ({ sheets }: ListArgs) => {
           noOptionsMessage={() => "No campaigns found"}
           placeholder="Select a campaign"
         />
-        <Button
-          onClick={() =>
-            updateSheetWithId(
-              selectedSheet?.id,
-              selectedSheet?.data,
-              campaign,
-              selectedSheet?.user!
-            )
-              .then((res: any) => {
-                toast.success("Added sheet to campaign");
-                setSelectedSheet(res);
+        <section className="flex mt-auto w-full justify-end gap-x-4">
+          <Button
+            onClick={() =>
+              updateSheetWithId(
+                selectedSheet?.id,
+                selectedSheet?.data,
+                campaign,
+                selectedSheet?.user!
+              )
+                .then((res: any) => {
+                  toast.success("Added sheet to campaign");
+                  setSelectedSheet(res);
+                })
+                .catch(() => {
+                  toast.error("Failed to add sheet to campaign");
+                })
+            }
+          >
+            Update
+          </Button>
+          <Button
+            className="bg-red-600 border-red-600"
+            onClick={() =>
+              deleteSheetWithId({
+                sheetId: selectedSheet?.id,
+                userId: user.record.id,
               })
-              .catch(() => {
-                toast.error("Failed to add sheet to campaign");
-              })
-          }
-        >
-          Update
-        </Button>
+                .then(() => {
+                  toast.success("Removed sheet!");
+                })
+                .catch((e) => {
+                  console.log(e);
+                  toast.error("Failed to remove sheet");
+                })
+            }
+          >
+            Delete
+          </Button>
+        </section>
       </Modal>
     </div>
   );

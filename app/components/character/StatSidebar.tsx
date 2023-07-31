@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { useSheetStore } from "@/app/utils/store";
+import { Sheet, useSheetStore } from "@/app/utils/store";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Input } from "../common/Input";
@@ -17,7 +17,7 @@ export const StatEntry = ({
   title: string;
   sheetId: string;
   calculateStat: (thrownStat: number | string) => number;
-  setSelectedSheet: any;
+  setSelectedSheet: Sheet;
 }) => {
   return (
     <>

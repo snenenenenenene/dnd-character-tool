@@ -17,7 +17,7 @@ export default function Class(context: any) {
   }, []);
 
   return (
-    <section className="flex flex-col w-1/2 h-full overflow-y-scroll gap-5 pr-4">
+    <section className="flex flex-col w-1/2 h-full overflow-y-hidden gap-5 pr-4">
       {selectedSheet?.data?.class &&
         selectedSheet?.data?.class?.length > 0 &&
         selectedSheet?.data?.class?.map((c: ClassT, i: number) => (

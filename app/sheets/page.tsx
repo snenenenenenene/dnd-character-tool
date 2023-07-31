@@ -1,32 +1,21 @@
 "use client";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { List } from "../components/sheets/List";
 import { getAllSheets } from "../utils/apiCalls";
-import { useSheetStore } from "../utils/store";
+import { Sheet, useSheetStore } from "../utils/store";
 
 export default function SheetList() {
-  const [sheets, setSheets]: any = useState();
+  const [sheets, setSheets] = useState<Sheet[]>();
   const user = useSheetStore((state) => state.user);
 
-  // const [options, setOptions] = useState<any>([]);
   useEffect(() => {
-    // getAllCampaigns().then((res) => {
-    //   const mappedCampaigns = res.map((campaign: any) => {
-    //     return {
-    //       value: campaign.id,
-    //       label: campaign.name,
-    //     };
-    //   });
-
-    //   setOptions(mappedCampaigns);
-    // });
-
     getAllSheets({ userId: user?.record?.id })
-      .then((res) => {
+      .then((res: any) => {
         setSheets(res);
       })
       .catch((err) => {
-        console.error(err);
+        toast.error(err.message);
       });
   }, []);
 

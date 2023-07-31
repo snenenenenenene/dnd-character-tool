@@ -81,7 +81,7 @@ export default function Page({ children, params }: LayoutArgs) {
               })}
             </section>
 
-            <div className="h-full w-full flex flex-col p-4">
+            <div className="h-full w-full flex flex-col p-4 overflow-hidden">
               <span className="uppercase font-bold pb-4 flex">
                 <h2 className="text-4xl">{selectedSheet?.data?.name}</h2>
                 <p className="text-2xl font-medium my-auto pl-4">
@@ -112,26 +112,26 @@ export default function Page({ children, params }: LayoutArgs) {
                 </Link>
 
                 <Link
-                  href={`/sheets/${params.id}/gear`}
+                  href={`/sheets/${params.id}/personality`}
                   className="bg-red-600 h-14 w-40 flex justify-center items-center text-light-primary"
                 >
                   Personality
                 </Link>
                 <Link
-                  href={`/sheets/${params.id}/gear`}
+                  href={`/sheets/${params.id}/spells`}
                   className="bg-blue-600 h-14 w-40 flex justify-center items-center text-light-primary"
                 >
                   Spells
                 </Link>
                 <Link
-                  href={`/sheets/${params.id}/gear`}
+                  href={`/sheets/${params.id}/wildshapes`}
                   className="bg-orange-600 h-14 w-40 flex justify-center items-center text-light-primary"
                 >
                   Shapes
                 </Link>
               </section>
 
-              <section className="w-full h-full flex px-8 pt-5">
+              <section className="w-full h-full flex px-8 pt-5 overflow-hidden">
                 {children}
               </section>
             </div>

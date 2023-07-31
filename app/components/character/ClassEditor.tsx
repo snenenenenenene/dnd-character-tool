@@ -26,7 +26,10 @@ export const ClassEditor = ({
   const [featuresVisible, setFeaturesVisible] = useState<boolean>(false);
 
   return (
-    <div className="flex flex-col w-full relative px-10" key={currClass?.name}>
+    <div
+      className="flex flex-col w-full h-full relative px-10 overflow-hidden"
+      key={currClass?.name}
+    >
       <button
         className="w-8 h-8 flex justify-center items-center text-2xl bg-gradient-to-r from-yellow-500 to-red-500 shadow-2xl absolute top-0 right-0 rounded-full"
         onClick={() =>
@@ -111,7 +114,7 @@ export const ClassEditor = ({
         }}
         placeholder="0"
       />
-      <section>
+      <section className="flex flex-col h-full overflow-hidden">
         <h4
           className="text-3xl font-bold"
           onClick={() => setFeaturesVisible(!featuresVisible)}
@@ -119,7 +122,7 @@ export const ClassEditor = ({
           Features
         </h4>
         <section
-          className={`flex flex-col w-full ${
+          className={`flex flex-col w-full h-2/3 overflow-y-scroll gap-y-4 py-8 ${
             featuresVisible ? "flex flex-col" : "hidden"
           }`}
         >
