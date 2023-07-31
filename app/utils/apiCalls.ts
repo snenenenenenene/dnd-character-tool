@@ -176,3 +176,15 @@ export async function updateSheetWithId(
     user: userId,
   });
 }
+
+export async function deleteSheetWithId({
+  sheetId,
+  userId,
+}: {
+  sheetId: string;
+  userId: string;
+}) {
+  return await pb.collection("sheets").delete(sheetId, {
+    user: userId,
+  });
+}
