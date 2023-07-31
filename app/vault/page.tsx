@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { GiDiamondHilt } from "react-icons/gi";
+import { toast } from "react-toastify";
 import { Button } from "../components/common/Button";
 import { Input } from "../components/common/Input";
 import { Modal } from "../components/common/Modal";
@@ -28,7 +29,7 @@ export default function Vault() {
           setCampaignName("");
         })
         .catch((err) => {
-          console.error(err);
+          toast.error(err.message);
         });
     }
   }
@@ -39,7 +40,7 @@ export default function Vault() {
         setCampaigns(res);
       })
       .catch((err) => {
-        console.error(err);
+        toast.error(err.message);
       });
   }, []);
 
@@ -63,7 +64,7 @@ export default function Vault() {
             </button>
           ))
         ) : (
-          <p className="mt-5">No campaigns</p>
+          <p className="mt-5">No Campaigns</p>
         )}
       </section>
       <button

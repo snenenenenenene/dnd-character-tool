@@ -25,36 +25,32 @@ function UserEntry({
   campaignId: string;
 }) {
   const [user, setUser] = useState<{ username: string }>();
-
-  const selectedSheet = useSheetStore((state) => state.selectedSheet);
-  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
+  const [sheet, setSheet] = useState<any>();
 
   useEffect(() => {
     getUserFromUserId(userId).then((res: any) => {
       setUser(res);
     });
     getSheetWithCampaignIdAndUserId(campaignId, userId).then((resp) => {
-      setSelectedSheet(resp.data);
+      setSheet(resp.data);
     });
   }, []);
 
   return (
     <div className="w-full pr-10 flex items-center border-b-2 py-8 border-light-secondary dark:border-dark-secondary">
-      {selectedSheet && (
+      {sheet && (
         <Image
-          alt={selectedSheet?.race?.name}
+          alt={sheet?.race?.name}
           className="object-contain w-32 h-32"
           width={128}
           height={128}
-          src={selectedSheet?.race?.picture!}
+          src={sheet?.race?.picture!}
         />
       )}
-      {selectedSheet && (
+      {sheet && (
         <>
           <section className="flex flex-col">
-            <p className="uppercase font-semibold text-3xl">
-              {selectedSheet?.name}
-            </p>
+            <p className="uppercase font-semibold text-3xl">{sheet?.name}</p>
             <p>{user?.username}</p>
           </section>
           <button
@@ -100,7 +96,7 @@ export default function Campaign(context: any) {
         toast.success("Campaign updated!");
       })
       .catch((err: any) => {
-        console.error(err);
+        toast.error(err.message);
       });
     toggleModal();
   }
@@ -108,11 +104,10 @@ export default function Campaign(context: any) {
   useEffect(() => {
     getCampaignById(context.params.id)
       .then((res: any) => {
-        console.log(res);
         setCampaign(res);
       })
       .catch((err: any) => {
-        console.error(err);
+        toast.error(err.message);
       });
   }, []);
 
@@ -121,16 +116,22 @@ export default function Campaign(context: any) {
       <div className="w-full h-full">
         <section className="h-40 flex gap-x-4 p-4">
           <Link
-            href={`/sheets/${context.params.id}/race`}
+            href={`/campaigns/${context.params.id}/sheets`}
             className="bg-light-accent h-14 w-40 flex justify-center items-center text-light-primary"
           >
             Sheets
           </Link>
           <Link
-            href={`/sheets/${context.params.id}`}
+            href={`/campaigns/${context.params.id}/assets`}
             className="bg-orange-600 h-14 w-40 flex justify-center items-center text-light-primary"
           >
             Assets
+          </Link>
+          <Link
+            href={`/campaigns/${context.params.id}/calendar`}
+            className="bg-green-600 h-14 w-40 flex justify-center items-center text-light-primary"
+          >
+            Calendar
           </Link>
         </section>
         <button
