@@ -21,14 +21,21 @@ export const List = ({ sheets }: ListArgs) => {
   const router = useRouter();
   const [showModal, setShowModal] = React.useState(false);
   const [showNewSheetModal, setShowNewSheetModal] = React.useState(false);
-  const [sheet, setSheet]: any = React.useState<Sheet>();
+
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
+
   const [options, setOptions] = React.useState<any>([]);
   const [campaign, setCampaign] = React.useState<string>();
   const user = useSheetStore((state) => state.user);
 
   async function createCharacter() {
     if (characterName && characterName !== "") {
-      addSheet(characterName, user?.record?.id, campaign)
+      addSheet({
+        characterName: characterName,
+        userId: user?.record?.id,
+        campaignId: campaign,
+      })
         .then((res: any) => {
           toast.success("Created sheet successfully");
           router.push(`/sheets/${res.id}`);
@@ -52,11 +59,11 @@ export const List = ({ sheets }: ListArgs) => {
 
       setOptions(mappedCampaigns);
     });
-  }, [sheet]);
+  }, [selectedSheet]);
 
   return (
-    <div className="grid grid-cols-5 w-full overflow-x-hidden overflow-y-scroll h-fit overflow-scroll p-20 gap-10 justify-center">
-      {sheets && sheets.length > 0 ? (
+    <div className="grid grid-cols-5 w-full overflow-x-hidden z-0 overflow-y-scroll h-fit overflow-scroll p-20 gap-10 justify-center">
+      {sheets && sheets.length > 0 && (
         <>
           {sheets?.map((sheet, i) => (
             <button
@@ -69,7 +76,7 @@ export const List = ({ sheets }: ListArgs) => {
                   "data-value"
                 );
                 if (dataValue === "view-sheet-button") {
-                  router.push(`/sheets/${sheet?.id}`);
+                  router.push(`/sheets/${selectedSheet?.id}`);
                 }
               }}
             >
@@ -78,22 +85,25 @@ export const List = ({ sheets }: ListArgs) => {
                 data-value="view-sheet-button"
                 width={144}
                 height={144}
-                alt={sheet?.data?.race?.name}
-                src={sheet?.data?.race?.picture!}
+                alt={selectedSheet?.data?.race?.name}
+                src={selectedSheet?.data?.race?.picture!}
               />
               <h2 className="uppercase font-bold text-3xl">
-                {sheet?.data?.name}
+                {selectedSheet?.data?.name}
               </h2>
 
               <span className="absolute top-0 left-0 m-2 font-extrabold text-5xl">
-                {sheet?.data?.level}
+                {selectedSheet?.data?.level}
               </span>
-              <p>{sheet?.expand?.campaign && sheet?.expand?.campaign.name}</p>
+              <p>
+                {selectedSheet?.expand?.campaign &&
+                  selectedSheet?.expand?.campaign.name}
+              </p>
               <button
                 id="edit-sheet-button"
                 data-value="edit-sheet-button"
                 onClick={() => {
-                  setSheet(sheet);
+                  setSelectedSheet(sheet);
                   setShowModal(true);
                 }}
                 className="absolute top-0 right-0 m-2 font-extrabold bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary text-xl rounded-full flex justify-center items-center w-10 h-10"
@@ -103,10 +113,6 @@ export const List = ({ sheets }: ListArgs) => {
             </button>
           ))}
         </>
-      ) : (
-        <section className="w-full h-full justify-center items-center uppercase font-bold text-3xl flex py-20 px-10">
-          <p>No sheets! Create a sheet and start your adventure!</p>
-        </section>
       )}
       <button
         className="border-2 transition-all dark:border-dark-secondary filter flex justify-center items-center hover:scale-105 border-light-secondary h-full aspect-square flex-col py-1"
@@ -143,19 +149,19 @@ export const List = ({ sheets }: ListArgs) => {
 
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <Input
-          value={sheet?.data.name}
+          value={selectedSheet?.data.name}
           className="w-80"
           placeholder="Character name"
           onChange={(e) => {
             updateSheetWithId(
-              sheet?.id,
-              { ...sheet?.data, name: e.target.value },
-              sheet?.campaign,
-              sheet?.user!
+              selectedSheet?.id,
+              { ...selectedSheet?.data, name: e.target.value },
+              selectedSheet?.campaign,
+              selectedSheet?.user!
             )
               .then((res: any) => {
                 toast.success("Updated sheet successfully");
-                setSheet(res);
+                setSelectedSheet(res);
               })
               .catch(() => {
                 toast.error("Failed to update sheet");
@@ -171,10 +177,15 @@ export const List = ({ sheets }: ListArgs) => {
         />
         <Button
           onClick={() =>
-            updateSheetWithId(sheet?.id, sheet?.data, campaign, sheet?.user!)
+            updateSheetWithId(
+              selectedSheet?.id,
+              selectedSheet?.data,
+              campaign,
+              selectedSheet?.user!
+            )
               .then((res: any) => {
                 toast.success("Added sheet to campaign");
-                setSheet(res);
+                setSelectedSheet(res);
               })
               .catch(() => {
                 toast.error("Failed to add sheet to campaign");

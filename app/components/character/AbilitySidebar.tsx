@@ -1,61 +1,64 @@
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet } from "@/app/utils/store";
+import { useSheetStore } from "@/app/utils/store";
 import { SkillTypes } from "@/data/classes/types";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
   const [selectedSkills, setSelectedSkills] = useState<any>([]);
-  const [sheet, setSheet]: any = useState<Sheet>();
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
     getSheetWithId(sheetId).then((res: any) => {
-      setSheet(res);
+      setSelectedSheet(res);
     });
   }, []);
 
   function handleSelectedSkills(skill: any) {
     if (
       selectedSkills.length >=
-      sheet?.data?.class[0].proficiencies?.skills?.amount
+      selectedSheet?.data?.class[0].proficiencies?.skills?.amount
     )
       return toast.error(
-        `You've already selected the maximum number of ${sheet?.data?.class[0].proficiencies?.skills?.amount} skills`
+        `You've already selected the maximum number of ${selectedSheet?.data?.class[0].proficiencies?.skills?.amount} skills`
       );
 
     if (
-      !sheet?.data?.class[0].proficiencies?.skills?.options
+      !selectedSheet?.data?.class[0].proficiencies?.skills?.options
         .map((s: any) => SkillTypes[s])
         .includes(skill)
     )
       return toast.error("You can't be proficient in this skill");
 
     setSelectedSkills([...selectedSkills, skill]);
-    if (sheet?.data?.skills) {
-      if (sheet.data.level < 5) sheet.data.skills[skill] += 2;
-      else if (sheet.data.level < 9) sheet.data.skills[skill] += 3;
-      else if (sheet.data.level < 13) sheet.data.skills[skill] += 4;
+    if (selectedSheet?.data?.skills) {
+      if (selectedSheet.data.level < 5) selectedSheet.data.skills[skill] += 2;
+      else if (selectedSheet.data.level < 9)
+        selectedSheet.data.skills[skill] += 3;
+      else if (selectedSheet.data.level < 13)
+        selectedSheet.data.skills[skill] += 4;
     }
 
     updateSheetWithId(
       sheetId,
       {
-        ...sheet?.data,
+        ...selectedSheet?.data,
         skills: {
-          ...sheet?.data?.skills,
-          [skill]: sheet.data.skills[skill],
+          ...selectedSheet?.data?.skills,
+          [skill]: selectedSheet.data.skills[skill],
         },
       },
-      sheet?.campaign,
-      sheet?.user!
+      selectedSheet?.campaign,
+      selectedSheet?.user!
     )
       .then((res: any) => {
-        setSheet(res);
+        setSelectedSheet(res);
         // setShowModal(false);
       })
       .catch((err) => {
-        console.log(err);
+        toast.error(err.message);
       });
   }
 
@@ -66,28 +69,52 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
         onClick={() => setIsVisible(!isVisible)}
       ></button>
       <div
-        className={`  flex flex-col transition-all duration-200 ${
-          isVisible ? "w-80 px-4 border-l-2 border-light-secondary" : "w-0"
+        className={`transition-all duration-200 ${
+          isVisible
+            ? "w-80 px-4 border-l-2 border-light-secondary flex flex-col"
+            : "w-0 hidden"
         }`}
       >
-        {sheet?.data?.class && sheet?.data?.class?.length > 0 && (
-          <>
-            <p>Max HP</p>
-            <p>{sheet?.data?.hitPoints?.max}</p>
-          </>
-        )}
-        <p>Skills</p>
-        {sheet?.data?.skills &&
-          Object.entries(sheet?.data?.skills!).map((skill: any) => (
-            <label
+        {selectedSheet?.data?.class &&
+          selectedSheet?.data?.class?.length > 0 && (
+            <section className="flex justify-between uppercase">
+              <span>
+                <p className="font-bold">Max</p>
+                <p>{selectedSheet?.data?.hitPoints?.max}</p>
+              </span>
+              <span>
+                <p className="font-bold">Current</p>
+                <input
+                  placeholder={selectedSheet?.data?.hitPoints?.max}
+                  value={selectedSheet?.data?.hitPoints?.current}
+                  max={selectedSheet?.data?.hitPoints?.max}
+                  type="number"
+                  className="bg-light-primary"
+                />
+              </span>
+              <span>
+                <p className="font-bold">Temp</p>
+                <input
+                  placeholder={selectedSheet?.data?.hitPoints?.max}
+                  value={selectedSheet?.data?.hitPoints?.temp}
+                  type="number"
+                  className="bg-light-primary"
+                />
+              </span>
+            </section>
+          )}
+        <p className="font-bold uppercase text-xl">Skills</p>
+        {selectedSheet?.data?.skills &&
+          Object.entries(selectedSheet?.data?.skills!).map((skill: any) => (
+            <span
+              key={skill[0]}
               className={`${
-                sheet?.data?.class[0]?.proficiencies?.skills?.options
+                selectedSheet?.data?.class[0]?.proficiencies?.skills?.options
                   .map((s: any) => SkillTypes[s])
                   .includes(skill[0])
                   ? "font-semibold text-light-accent"
                   : "text-light-secondary font-medium"
-              } uppercase font-medium`}
-              key={skill[0]}
+              } uppercase font-medium flex w-full`}
             >
               <input
                 type={"radio"}
@@ -98,15 +125,16 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
                 }}
               />
 
-              {`${skill[0]}: ${skill[1]}`}
-            </label>
+              <p className="mr-auto">{`${skill[0]}`}</p>
+              <p> {`${skill[1]}`}</p>
+            </span>
           ))}
         <p className="text-2xl">AC</p>
-        <p>{sheet?.data.armourClass}</p>
+        <p>{selectedSheet?.data.armourClass}</p>
         <p className="text-2xl">Speed</p>
-        <p>{sheet?.data.speed}</p>
-        <p>{sheet?.data.initiative}</p>
-        <p>{sheet?.data.currency?.gold}</p>
+        <p>{selectedSheet?.data.speed}</p>
+        <p>{selectedSheet?.data.initiative}</p>
+        <p>{selectedSheet?.data.currency?.gold}</p>
       </div>
     </>
   );

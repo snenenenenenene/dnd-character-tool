@@ -4,8 +4,9 @@
 import { useSheetStore } from "@/app/utils/store";
 import { applyThemePreference } from "@/app/utils/themeUtils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import PocketBase from "pocketbase";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   GiDiceEightFacesEight,
   GiFlamingSheet,
@@ -15,23 +16,25 @@ import {
 import { toast } from "react-toastify";
 import { Button } from "./Button";
 import { Input } from "./Input";
+import { Modal } from "./Modal";
 
 export const Sidebar = () => {
   const theme = useSheetStore((state) => state.theme);
   const toggleTheme = useSheetStore((state) => state.toggleTheme);
   const user = useSheetStore((state) => state.user);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
+  const [showAccountModal, setShowAccountModal] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const router = useRouter();
   const [toggleSignUp, setToggleSignUp] = useState<boolean>(false);
   const setUser = useSheetStore((state) => state.setUser);
   const pb = new PocketBase(process.env.NEXT_PUBLIC_API_URL);
 
   async function signup() {
-    //use pocketbase and add user to db
-
     await pb
       .collection("users")
       .create({
@@ -64,6 +67,10 @@ export const Sidebar = () => {
   useEffect(() => {
     applyThemePreference(theme);
   }, [theme]);
+
+  useEffect(() => {
+    console.log(showAccountModal);
+  }, [showAccountModal]);
 
   const routes = [
     {
@@ -100,8 +107,7 @@ export const Sidebar = () => {
               if (!user) {
                 setShowAuthModal((showAuthModal: any) => !showAuthModal);
               } else {
-                toast.success("Logging out...");
-                setUser(undefined);
+                setShowAccountModal((showAccountModal) => !showAccountModal);
               }
             }}
           >
@@ -112,14 +118,6 @@ export const Sidebar = () => {
                 src={user?.record?.gravatar}
               />
             )}
-          </button>
-        </section>
-        <section>
-          <button
-            className="w-12 h-12 rounded-full bg-gradient-to-r flex text-light-primary dark:text-dark-secondary  justify-center items-center text-4xl from-cyan-500 to-blue-500 dark:from-transparent dark:to-transparent mx-4 mb-3 "
-            onClick={() => toggleTheme()}
-          >
-            {theme === "light" ? <GiSun /> : <GiMoon />}
           </button>
         </section>
       </nav>
@@ -140,7 +138,7 @@ export const Sidebar = () => {
         >
           <div
             data-value="child"
-            className="w-1/3 h-5/6 min-w-[500px] flex flex-col bg-light-primary text-light-secondary border-2 border-light-secondary dark:bg-dark-primary dark:border-dark-secondary dark:text-dark-secondary rounded-md overflow-hidden"
+            className="w-1/3 h-5/6 min-w-[500px] flex z-50 flex-col bg-light-primary text-light-secondary border-2 border-light-secondary dark:bg-dark-primary dark:border-dark-secondary dark:text-dark-secondary rounded-md overflow-hidden"
           >
             {toggleSignUp ? (
               <>
@@ -258,6 +256,77 @@ export const Sidebar = () => {
           </div>
         </div>
       )}
+      <Modal showModal={showAccountModal} setShowModal={setShowAccountModal}>
+        <div className="flex w-full h-full">
+          <section className="flex flex-col w-full">
+            <p>{user?.record?.username}</p>
+            <p>{user?.record?.email}</p>
+          </section>
+          <section className="w-full h-full justify-end flex flex-col">
+            <section className="bg-lime-500 w-full aspect-square flex rounded-full overflow-hidden relative">
+              <img
+                src={user?.record?.gravatar}
+                alt="gravatar"
+                onClick={() => fileInputRef.current?.click()}
+                className=" flex w-full h-full z-0 object-cover cursor-pointer hover:opacity-75"
+              />
+              <label htmlFor="file">Lol</label>
+              <input
+                id="file"
+                type="file"
+                className="hidden absolute w-full h-full bg-light-secondary opacity-0 hover:opacity-60"
+                placeholder="Upload an image"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  //set the user?.record?.gravatar to the file
+                  if (e.target.files) {
+                    const file = e.target.files[0];
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onloadend = () => {
+                      const base64String = reader.result;
+                      if (typeof base64String === "string") {
+                        setUser((user: any) => ({
+                          ...user,
+                          record: {
+                            ...user?.record,
+                            gravatar: base64String,
+                          },
+                        }));
+                      }
+                    };
+                  }
+                }}
+              />
+            </section>
+          </section>
+        </div>
+        <section className="flex mt-auto justify-end gap-x-4 w-full p-4">
+          <Button onClick={() => toggleTheme()}>
+            {theme === "light" ? <GiSun /> : <GiMoon />}
+          </Button>
+          <Button
+            onClick={() => {
+              toast("Logged out");
+              setUser(undefined);
+              setShowAccountModal(false);
+              router.push("/");
+            }}
+          >
+            Logout
+          </Button>
+
+          <Button
+            className="bg-red-700 border-red-700"
+            onClick={() => {
+              toast("Logged out");
+              setUser(undefined);
+            }}
+          >
+            Remove Account
+          </Button>
+        </section>
+      </Modal>
     </>
   );
 };

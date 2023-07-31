@@ -761,7 +761,8 @@ export const classes: Class[] = [
     primaryAbility: [Ability.intelligence],
     saves: [Ability.constitution, Ability.intelligence],
     level: 0,
-    image: "",
+    image:
+      "https://static.wixstatic.com/media/e5199c_f611688fa3074b13ab0cd165f301f46d~mv2.png/v1/fill/w_560,h_800,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/Alchemist.png",
   },
   {
     name: "Blood Hunter",

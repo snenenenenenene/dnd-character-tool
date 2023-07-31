@@ -22,6 +22,7 @@ const nextConfig = {
       "www.dndbeyond.com",
       "rpgrunkleplaysgames.files.wordpress.com",
       "source.boringavatars.com",
+      "static.wixstatic.com",
     ],
   },
 };

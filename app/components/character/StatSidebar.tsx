@@ -1,22 +1,23 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { useEffect, useState } from "react";
+import { useSheetStore } from "@/app/utils/store";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Input } from "../common/Input";
 
 export const StatEntry = ({
-  sheet,
+  selectedSheet,
   title,
   sheetId,
   calculateStat,
-  setSheet,
+  setSelectedSheet,
 }: {
-  sheet: any;
+  selectedSheet: any;
   title: string;
   sheetId: string;
   calculateStat: (thrownStat: number | string) => number;
-  setSheet: any;
+  setSelectedSheet: any;
 }) => {
   return (
     <>
@@ -25,9 +26,9 @@ export const StatEntry = ({
         className="bg-light-primary text-light-secondary w-16 h-16 text-center flex justify-center items-center text-3xl px-0 py-0"
         id={title}
       >
-        {sheet?.data?.stats?.[title] > 0
-          ? "+" + sheet?.data?.stats?.[title]
-          : sheet.data?.stats?.[title]}
+        {selectedSheet?.data?.stats?.[title] > 0
+          ? "+" + selectedSheet?.data?.stats?.[title]
+          : selectedSheet.data?.stats?.[title]}
       </div>
       <input
         className="bg-light-primary w-8 h-8 text-center flex justify-center text-light-secondary items-center p-0 text-sm rounded-none"
@@ -35,27 +36,27 @@ export const StatEntry = ({
         type={"number"}
         min={3}
         max={18}
-        value={sheet?.data?.thrownStats?.[title]}
+        value={selectedSheet?.data?.thrownStats?.[title]}
         onChange={(e) =>
           updateSheetWithId(
             sheetId,
             {
-              ...sheet?.data,
+              ...selectedSheet?.data,
               thrownStats: {
-                ...sheet?.data?.thrownStats,
+                ...selectedSheet?.data?.thrownStats,
                 [title]: e.target.value,
               },
               stats: {
-                ...sheet?.data?.stats,
+                ...selectedSheet?.data?.stats,
                 [title]: calculateStat(e.target.value),
               },
             },
-            sheet?.campaign,
-            sheet?.user
+            selectedSheet?.campaign,
+            selectedSheet?.user
           )
             .then((res) => {
               toast.success(`Updated ${title}`);
-              setSheet(res);
+              setSelectedSheet(res);
             })
             .catch(() => {
               toast.error(`Something went wrong while updating ${title}`);
@@ -67,18 +68,16 @@ export const StatEntry = ({
 };
 
 export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
-  const [sheet, setSheet] = useState<any>({});
+  const selectedSheet: any = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet: any = useSheetStore(
+    (state) => state.setSelectedSheet
+  );
 
   useEffect(() => {
     getSheetWithId(sheetId).then((res) => {
-      setSheet(res);
+      setSelectedSheet(res);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(sheetId);
-    console.log(sheet);
-  }, [sheet]);
 
   function calculateStat(thrownStat: number | string): number {
     return Math.floor((Number(thrownStat) - 10) / 2);
@@ -91,67 +90,66 @@ export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
         className="bg-light-primary w-16 h-16 text-center text-3xl px-0 py-0"
         type="number"
         id="strength"
-        value={sheet?.data?.level}
+        value={selectedSheet?.data?.level}
         onChange={(e) =>
           updateSheetWithId(
             sheetId,
             {
-              ...sheet?.data,
+              ...selectedSheet?.data,
               level: Number(e.target.value),
             },
-            sheet?.campaign,
-            sheet?.user
+            selectedSheet?.campaign,
+            selectedSheet?.user
           )
             .then((res) => {
-              console.log(res);
-              setSheet(res);
+              setSelectedSheet(res);
             })
             .catch((err) => {
-              console.log(err);
+              toast.error(err.message);
             })
         }
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"strength"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"dexterity"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"constitution"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"intelligence"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"wisdom"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
-        sheet={sheet}
+        selectedSheet={selectedSheet}
         title={"charisma"}
         sheetId={sheetId}
         calculateStat={calculateStat}
-        setSheet={setSheet}
+        setSelectedSheet={setSelectedSheet}
       />
     </section>
   );

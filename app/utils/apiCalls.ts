@@ -61,15 +61,19 @@ export async function getSheetWithId(sheetId: string) {
   });
 }
 
-export async function addSheet(
-  name: string,
-  userId: string,
-  campaignId?: string
-) {
+export async function addSheet({
+  characterName,
+  userId,
+  campaignId,
+}: {
+  characterName: string;
+  userId: string;
+  campaignId?: string;
+}) {
   const sheet: SheetData = {
-    name: "Lyra",
+    name: characterName || "Lyra",
     class: [classes[0]],
-    level: 5,
+    level: 0,
     race: races[0],
     background: "Criminal",
     alignment: "Chaotic Neutral",
@@ -140,6 +144,9 @@ export async function addSheet(
         quantity: 1,
       },
     ],
+    skills: {},
+    currency: {},
+    weapons: [],
     spells: [
       {
         name: "Disguise Self",
@@ -153,7 +160,7 @@ export async function addSheet(
   return pb.collection("sheets").create({
     data: sheet,
     user: userId,
-    campaign: campaignId ? campaignId : null,
+    campaign: campaignId || null,
   });
 }
 

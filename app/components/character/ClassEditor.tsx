@@ -1,9 +1,11 @@
+/* eslint-disable @next/next/no-img-element */
 /* eslint-disable no-unused-vars */
 import { updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
 import React, { useState } from "react";
 import { GiFlamer } from "react-icons/gi";
+import { toast } from "react-toastify";
 import { Input } from "../common/Input";
 
 interface CharacterFormArgs {
@@ -40,19 +42,22 @@ export const ClassEditor = ({
             sheet?.user!
           )
             .then((res: any) => {
-              console.log(res);
               setSheet(res);
             })
             .catch((err) => {
-              console.log(err);
+              toast.error(err.message);
             })
         }
       >
         <GiFlamer />
       </button>
       <section className="flex justify-between h-48">
-        <h4 className="text-6xl font-bold">{currClass?.name}</h4>
-        <img src={currClass?.image} className="w-40 h-40 object-contain" />
+        <h4 className="text-5xl font-bold">{currClass?.name}</h4>
+        <img
+          alt={currClass?.name}
+          src={currClass?.image}
+          className="w-40 h-40 object-contain"
+        />
       </section>
       <label htmlFor="level">Level</label>
       <Input
@@ -94,11 +99,13 @@ export const ClassEditor = ({
               sheet?.user!
             )
               .then((res: any) => {
-                console.log(res);
+                toast.success(
+                  `You are now a level ${newLevel} ${currClass.name}!`
+                );
                 setSheet(res);
               })
               .catch((err) => {
-                console.log(err);
+                toast.error(err.message);
               });
           }
         }}
@@ -113,7 +120,7 @@ export const ClassEditor = ({
         </h4>
         <section
           className={`flex flex-col w-full ${
-            featuresVisible ? "visible" : "invisible"
+            featuresVisible ? "flex flex-col" : "hidden"
           }`}
         >
           {currClass.features ? (

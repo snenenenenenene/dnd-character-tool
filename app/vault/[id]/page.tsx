@@ -9,8 +9,8 @@ import {
   updateCampaign,
 } from "@/app/utils/apiCalls";
 import { useSheetStore } from "@/app/utils/store";
-import { Race } from "@/data/races/types";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
 import Select from "react-select";
@@ -25,32 +25,36 @@ function UserEntry({
   campaignId: string;
 }) {
   const [user, setUser] = useState<{ username: string }>();
-  const [sheet, setSheet] = useState<{ name: string; race: Race }>();
+
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
 
   useEffect(() => {
     getUserFromUserId(userId).then((res: any) => {
       setUser(res);
     });
     getSheetWithCampaignIdAndUserId(campaignId, userId).then((resp) => {
-      setSheet(resp.data);
+      setSelectedSheet(resp.data);
     });
   }, []);
 
   return (
     <div className="w-full pr-10 flex items-center border-b-2 py-8 border-light-secondary dark:border-dark-secondary">
-      {sheet && (
+      {selectedSheet && (
         <Image
-          alt={sheet?.race?.name}
+          alt={selectedSheet?.race?.name}
           className="object-contain w-32 h-32"
           width={128}
           height={128}
-          src={sheet?.race?.picture!}
+          src={selectedSheet?.race?.picture!}
         />
       )}
-      {sheet && (
+      {selectedSheet && (
         <>
           <section className="flex flex-col">
-            <p className="uppercase font-semibold text-3xl">{sheet?.name}</p>
+            <p className="uppercase font-semibold text-3xl">
+              {selectedSheet?.name}
+            </p>
             <p>{user?.username}</p>
           </section>
           <button
@@ -115,6 +119,20 @@ export default function Campaign(context: any) {
   return (
     <div className="w-full h-full flex">
       <div className="w-full h-full">
+        <section className="h-40 flex gap-x-4 p-4">
+          <Link
+            href={`/sheets/${context.params.id}/race`}
+            className="bg-light-accent h-14 w-40 flex justify-center items-center text-light-primary"
+          >
+            Sheets
+          </Link>
+          <Link
+            href={`/sheets/${context.params.id}`}
+            className="bg-orange-600 h-14 w-40 flex justify-center items-center text-light-primary"
+          >
+            Assets
+          </Link>
+        </section>
         <button
           className="fixed bottom-20 right-5 bg-gradient-to-r from-cyan-500 to-blue-500 text-light-text w-12 h-12 rounded-full flex justify-center items-center hover:to-cyan-500 transition-colors text-xl"
           onClick={() => toggleModal()}

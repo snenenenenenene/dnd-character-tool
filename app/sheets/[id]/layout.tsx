@@ -3,9 +3,9 @@ import AbilitySidebar from "@/app/components/character/AbilitySidebar";
 import { Button } from "@/app/components/common/Button";
 import { Modal } from "@/app/components/common/Modal";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet } from "@/app/utils/store";
+import { SheetData, useSheetStore } from "@/app/utils/store";
 import { classes } from "@/data/classes/classes";
-import { Class, Expansion } from "@/data/classes/types";
+import { ArmorTypes, Class, Expansion, HitDie } from "@/data/classes/types";
 import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,40 +20,38 @@ interface LayoutArgs {
 }
 export default function Page({ children, params }: LayoutArgs) {
   const groups = _.groupBy(classes, "expansion");
-  const [sheet, setSheet]: any = useState<Sheet>();
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [selectedClass, setSelectedClass] = useState<Class>();
 
   useEffect(() => {
     getSheetWithId(params.id).then((res: any) => {
-      setSheet(res);
+      setSelectedSheet(res);
     });
   }, []);
 
   return (
     <div className="flex w-full h-full">
       <div className="flex flex-col w-full">
-        {/* <div className="h-10 text-light-primary justify-center items-center flex w-full border-b-2 border-light-secondary"> */}
-        {/* Lol */}
-        {/* </div> */}
         <section className="w-full h-full flex">
           <div className="w-full h-full flex">
             <section className="w-60 text-center  border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll">
               <Link
-                href={`/sheets/${sheet?.id}/race`}
-                className="border-b-2 pt-3 border-light-secondary dark:border-dark-secondary pb-5 hover:bg-light-secondary hover:dark:bg-dark-secondary hover:text-light-primary hover:dark:text-dark-primary"
+                href={`/sheets/${selectedSheet?.id}/race`}
+                className="border-b-2 pt-3 flex justify-center transition-all duration-200 border-light-secondary dark:border-dark-secondary pb-5 hover:bg-light-secondary hover:dark:bg-dark-secondary hover:text-light-primary hover:dark:text-dark-primary"
               >
-                {sheet?.data?.race.picture && (
+                {selectedSheet?.data?.race.picture && (
                   <Image
-                    src={sheet.data.race.picture}
-                    alt={sheet.data.race.name}
+                    src={selectedSheet.data.race.picture}
+                    alt={selectedSheet.data.race.name}
                     className="w-40 h-40 object-contain"
                     width={160}
                     height={160}
                   />
                 )}
                 {/* <h2 className="mx-auto text-xl font-semibold ">
-            {sheet?.data?.race?.name}
+            {selectedSheet?.data?.race?.name}
           </h2> */}
               </Link>
               {Object.entries(groups).map(([expansion, c]: any) => {
@@ -84,14 +82,15 @@ export default function Page({ children, params }: LayoutArgs) {
 
             <div className="h-full w-full flex flex-col p-4">
               <span className="uppercase font-bold pb-4 flex">
-                <h2 className="text-4xl">{sheet?.data?.name}</h2>
+                <h2 className="text-4xl">{selectedSheet?.data?.name}</h2>
                 <p className="text-2xl font-medium my-auto pl-4">
-                  {sheet?.data?.class && sheet?.data?.class[0].name}
+                  {selectedSheet?.data?.class &&
+                    selectedSheet?.data?.class[0]?.name}
                   &nbsp;
-                  {sheet?.data.race && sheet?.data.race.name}
+                  {selectedSheet?.data.race && selectedSheet?.data.race.name}
                 </p>
               </span>
-              <section className="h-40 flex gap-x-4">
+              <section className="h-20 w-full flex gap-x-4 overflow-scroll">
                 <Link
                   href={`/sheets/${params.id}/race`}
                   className="bg-light-accent h-14 w-40 flex justify-center items-center text-light-primary"
@@ -99,10 +98,35 @@ export default function Page({ children, params }: LayoutArgs) {
                   Race
                 </Link>
                 <Link
-                  href={`/sheets/${params.id}`}
+                  href={`/sheets/${params.id}/class`}
                   className="bg-orange-600 h-14 w-40 flex justify-center items-center text-light-primary"
                 >
                   Class
+                </Link>
+                <Link
+                  href={`/sheets/${params.id}/gear`}
+                  className="bg-green-600 h-14 w-40 flex justify-center items-center text-light-primary"
+                >
+                  Gear
+                </Link>
+
+                <Link
+                  href={`/sheets/${params.id}/gear`}
+                  className="bg-red-600 h-14 w-40 flex justify-center items-center text-light-primary"
+                >
+                  Personality
+                </Link>
+                <Link
+                  href={`/sheets/${params.id}/gear`}
+                  className="bg-blue-600 h-14 w-40 flex justify-center items-center text-light-primary"
+                >
+                  Spells
+                </Link>
+                <Link
+                  href={`/sheets/${params.id}/gear`}
+                  className="bg-orange-600 h-14 w-40 flex justify-center items-center text-light-primary"
+                >
+                  Shapes
                 </Link>
               </section>
 
@@ -111,41 +135,88 @@ export default function Page({ children, params }: LayoutArgs) {
               </section>
             </div>
 
-            <Modal showModal={showModal} setShowModal={setShowModal}>
-              <section className="w-full h-full flex flex-col items-center">
-                <h2 className="text-2xl font-bold">{selectedClass?.name}</h2>
-                {selectedClass?.image && (
-                  <Image
-                    src={selectedClass?.image}
-                    alt={selectedClass?.name}
-                    className="w-40 h-40 object-contain"
-                    width={160}
-                    height={160}
-                  />
-                )}
-                <p>{selectedClass?.hitDie}</p>
-                <p>{selectedClass?.proficiencies?.armor}</p>
+            <Modal
+              showModal={showModal}
+              setShowModal={setShowModal}
+              className="overflow-y-scroll "
+            >
+              <section className="w-full overflow-y-scroll h-fit flex flex-col p-4">
+                <section className="flex w-full h-full overflow-y-scroll">
+                  <span className="w-3/4">
+                    <h2 className="text-6xl  uppercase font-bold">
+                      {selectedClass?.name}
+                    </h2>
+                    {/* {selectedClass?.hitDie?.map((hitDie: any) => ( */}
+                    <p className="uppercase font-semibold">
+                      {HitDie[selectedClass?.hitDie!]}
+                    </p>
+                    {/* ))} */}
+                    <span className="flex gap-x-4">
+                      {selectedClass?.proficiencies?.armor!.map((armour) => (
+                        <p className="uppercase font-semibold" key={armour}>
+                          {ArmorTypes[armour]}
+                        </p>
+                      ))}
+                    </span>
+                    <section className="flex flex-col text-xs gap-y-2 text-justify w-10/12">
+                      {selectedClass?.features?.map((f) => (
+                        <span className="flex flex-col" key={f.name}>
+                          <p className="font-semibold uppercase">{f.name}</p>
+                          <p>{f.description}</p>
+                        </span>
+                      ))}
+                    </section>
+                  </span>
+                  <picture className="w-1/4 flex relative">
+                    {selectedClass?.image && (
+                      <Image
+                        className="object-contain"
+                        src={selectedClass?.image}
+                        alt={selectedClass?.name}
+                        fill
+                      />
+                    )}
+                  </picture>
+                </section>
                 <Button
-                  className="w-11/12 mb-5 mt-auto"
+                  className="w-full my-1 mx-auto"
                   onClick={() => {
                     let total = 0;
-                    sheet?.data?.class?.forEach((c: any) => {
+                    selectedSheet?.data?.class?.forEach((c: Class) => {
                       total += c.level;
                     });
 
-                    if (sheet?.data?.class?.length! < 2) {
-                      if (total >= sheet?.data?.level!)
+                    if (selectedSheet?.data?.class?.length! < 2) {
+                      if (total >= selectedSheet?.data?.level!)
                         return toast.error(
                           "You have reached the maximum level for your character."
                         );
                       updateSheetWithId(
                         params.id,
                         {
-                          ...sheet?.data,
-                          class: [...sheet.data.class, selectedClass],
+                          ...selectedSheet?.data,
+                          // calculate HP based on the halve of the hitdie + 1  and add con modifier times the level
+                          // get the hitdie value from the enum, this wil retrieve a d(number) remove the d and parse it to a number
+                          hitPoints: {
+                            ...selectedSheet?.data?.hitPoints,
+                            max:
+                              (selectedSheet?.data?.level +
+                                selectedSheet?.data?.stats.constitution) *
+                              Math.floor(
+                                Number(
+                                  HitDie[selectedClass?.hitDie!].replace(
+                                    "d",
+                                    ""
+                                  )
+                                ) /
+                                  2 +
+                                  1
+                              ),
+                          },
+                          class: [...selectedSheet.data.class, selectedClass],
                           skills: {
                             // eslint-disable-next-line no-unsafe-optional-chaining
-                            ...sheet?.data?.skills,
+                            ...selectedSheet?.data?.skills,
                             acrobatics: 0,
                             "animal handling": 0,
                             arcana: 0,
@@ -165,17 +236,17 @@ export default function Page({ children, params }: LayoutArgs) {
                             stealth: 0,
                             survival: 0,
                           },
-                        },
-                        sheet?.campaign,
-                        sheet?.user!
+                        } as SheetData,
+                        selectedSheet?.campaign,
+                        selectedSheet?.user!
                       )
                         .then((res: any) => {
                           toast.success(`${selectedClass?.name} added!`);
-                          setSheet(res);
+                          setSelectedSheet(res);
                           setShowModal(false);
                         })
-                        .catch(() => {
-                          toast.error("Something went wrong.");
+                        .catch((e) => {
+                          toast.error(e.message);
                         });
                     }
                   }}

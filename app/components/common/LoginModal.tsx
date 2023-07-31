@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import { useState } from "react";
 
-export const LoginModal = () => {
+export const AccountModal = () => {
   const [showModal, setShowModal] = useState(false);
 
   const toggleModal = () => {

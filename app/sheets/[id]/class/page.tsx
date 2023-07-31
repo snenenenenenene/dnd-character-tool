@@ -2,26 +2,28 @@
 
 import { ClassEditor } from "@/app/components/character/ClassEditor";
 import { getSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet } from "@/app/utils/store";
+import { useSheetStore } from "@/app/utils/store";
 import { Class as ClassT } from "@/data/classes/types";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 export default function Class(context: any) {
-  const [sheet, setSheet]: any = useState<Sheet>();
+  const selectedSheet = useSheetStore((state) => state.selectedSheet);
+  const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
+
   useEffect(() => {
     getSheetWithId(context.params.id).then((res: any) => {
-      setSheet(res);
+      setSelectedSheet(res);
     });
   }, []);
   return (
     <section className="flex flex-col w-1/2 h-full overflow-y-scroll gap-5 pr-4">
-      {sheet?.data?.class &&
-        sheet?.data?.class?.length > 0 &&
-        sheet?.data?.class?.map((c: ClassT, i: number) => (
+      {selectedSheet?.data?.class &&
+        selectedSheet?.data?.class?.length > 0 &&
+        selectedSheet?.data?.class?.map((c: ClassT, i: number) => (
           <ClassEditor
-            setSheet={setSheet}
+            setSheet={setSelectedSheet}
             sheetId={context.params.id}
-            sheet={sheet}
+            sheet={selectedSheet}
             currClass={c}
             classIndex={i}
             key={c.name}
