@@ -149,7 +149,7 @@ export const List = ({ sheets }: ListArgs) => {
 
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <Input
-          value={selectedSheet?.data.name}
+          value={selectedSheet?.data?.name}
           className="w-80"
           placeholder="Character name"
           onChange={(e) => {

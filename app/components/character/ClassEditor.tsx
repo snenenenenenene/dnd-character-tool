@@ -34,7 +34,7 @@ export const ClassEditor = ({
             sheetId,
             {
               ...sheet?.data,
-              class: sheet.data.class.filter(
+              class: sheet.data?.class.filter(
                 (c: Class) => c.name !== currClass.name
               ),
             },
@@ -67,7 +67,7 @@ export const ClassEditor = ({
         value={currClass.level}
         onChange={(e) => {
           const newLevel: number = Number(e.target.value);
-          const otherClasses = sheet.data.class.filter(
+          const otherClasses = sheet.data?.class.filter(
             (c: Class, i: number) => i !== classIndex
           );
           const totalOtherLevels = otherClasses.reduce(
@@ -81,7 +81,7 @@ export const ClassEditor = ({
             Number(e.target.value) > 0 &&
             Number(e.target.value) <= sheet?.data?.level - totalOtherLevels
           ) {
-            const newClass = sheet.data.class.map((c: Class, i: number) => {
+            const newClass = sheet.data?.class.map((c: Class, i: number) => {
               if (currClass.name === c.name) {
                 return { ...c, level: Number(e.target.value) };
               } else {

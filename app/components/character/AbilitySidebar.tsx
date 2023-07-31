@@ -34,10 +34,10 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
 
     setSelectedSkills([...selectedSkills, skill]);
     if (selectedSheet?.data?.skills) {
-      if (selectedSheet.data.level < 5) selectedSheet.data.skills[skill] += 2;
-      else if (selectedSheet.data.level < 9)
+      if (selectedSheet.data?.level < 5) selectedSheet.data.skills[skill] += 2;
+      else if (selectedSheet.data?.level < 9)
         selectedSheet.data.skills[skill] += 3;
-      else if (selectedSheet.data.level < 13)
+      else if (selectedSheet.data?.level < 13)
         selectedSheet.data.skills[skill] += 4;
     }
 
@@ -47,7 +47,7 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
         ...selectedSheet?.data,
         skills: {
           ...selectedSheet?.data?.skills,
-          [skill]: selectedSheet.data.skills[skill],
+          [skill]: selectedSheet.data?.skills[skill],
         },
       },
       selectedSheet?.campaign,
@@ -130,11 +130,11 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
             </span>
           ))}
         <p className="text-2xl">AC</p>
-        <p>{selectedSheet?.data.armourClass}</p>
+        <p>{selectedSheet?.data?.armourClass}</p>
         <p className="text-2xl">Speed</p>
-        <p>{selectedSheet?.data.speed}</p>
-        <p>{selectedSheet?.data.initiative}</p>
-        <p>{selectedSheet?.data.currency?.gold}</p>
+        <p>{selectedSheet?.data?.speed}</p>
+        <p>{selectedSheet?.data?.initiative}</p>
+        <p>{selectedSheet?.data?.currency?.gold}</p>
       </div>
     </>
   );

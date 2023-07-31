@@ -44,8 +44,8 @@ export default function Page({ children, params }: LayoutArgs) {
               >
                 {selectedSheet?.data?.race?.picture && (
                   <Image
-                    src={selectedSheet.data.race.picture}
-                    alt={selectedSheet.data.race.name}
+                    src={selectedSheet.data?.race.picture}
+                    alt={selectedSheet.data?.race.name}
                     className="w-40 h-40 object-contain"
                     width={160}
                     height={160}
@@ -88,7 +88,7 @@ export default function Page({ children, params }: LayoutArgs) {
                   {selectedSheet?.data?.class &&
                     selectedSheet?.data?.class[0]?.name}
                   &nbsp;
-                  {selectedSheet?.data.race && selectedSheet?.data.race.name}
+                  {selectedSheet?.data?.race && selectedSheet?.data?.race.name}
                 </p>
               </span>
               <section className="h-20 w-full flex gap-x-4 overflow-scroll">
