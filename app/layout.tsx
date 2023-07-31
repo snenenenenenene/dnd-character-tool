@@ -15,7 +15,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="h-screen w-screen bg-light-primary dark:bg-dark-primary dark:text-dark-secondary text-light-secondary flex">
-        <ToastContainer />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={1000}
+          limit={1}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover={false}
+          theme="dark"
+        />
         <Sidebar />
         <div className="w-full h-full pl-20 flex flex-col">{children}</div>
       </body>
