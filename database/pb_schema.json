@@ -37,6 +37,18 @@
           ],
           "thumbs": null
         }
+      },
+      {
+        "id": "zc7f9jfe",
+        "name": "gravatar",
+        "type": "url",
+        "system": false,
+        "required": false,
+        "unique": false,
+        "options": {
+          "exceptDomains": [],
+          "onlyDomains": []
+        }
       }
     ],
     "listRule": "",
@@ -72,9 +84,7 @@
           "collectionId": "_pb_users_auth_",
           "cascadeDelete": false,
           "maxSelect": null,
-          "displayFields": [
-            "username"
-          ]
+          "displayFields": ["username"]
         }
       },
       {
