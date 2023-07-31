@@ -1,3 +1,4 @@
+// @ts-ignore: Object is possibly 'null'.
 "use client";
 import AbilitySidebar from "@/app/components/character/AbilitySidebar";
 import { Button } from "@/app/components/common/Button";
@@ -41,7 +42,7 @@ export default function Page({ children, params }: LayoutArgs) {
                 href={`/sheets/${selectedSheet?.id}/race`}
                 className="border-b-2 pt-3 flex justify-center transition-all duration-200 border-light-secondary dark:border-dark-secondary pb-5 hover:bg-light-secondary hover:dark:bg-dark-secondary hover:text-light-primary hover:dark:text-dark-primary"
               >
-                {selectedSheet?.data?.race.picture && (
+                {selectedSheet?.data?.race?.picture && (
                   <Image
                     src={selectedSheet.data.race.picture}
                     alt={selectedSheet.data.race.name}
@@ -213,7 +214,7 @@ export default function Page({ children, params }: LayoutArgs) {
                                   1
                               ),
                           },
-                          class: [...selectedSheet.data.class, selectedClass],
+                          class: [...selectedSheet.data!.class, selectedClass],
                           skills: {
                             // eslint-disable-next-line no-unsafe-optional-chaining
                             ...selectedSheet?.data?.skills,

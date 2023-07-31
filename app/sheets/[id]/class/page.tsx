@@ -15,6 +15,7 @@ export default function Class(context: any) {
       setSelectedSheet(res);
     });
   }, []);
+
   return (
     <section className="flex flex-col w-1/2 h-full overflow-y-scroll gap-5 pr-4">
       {selectedSheet?.data?.class &&
