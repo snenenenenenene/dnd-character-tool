@@ -38,6 +38,5 @@ next-env.d.ts
 .env
 
 database/pb_migrations
-database/pb_data/logs.db-wall
-database/pb_data/logs.db-shm
-database/pb_data/logs.db
+database/pb_data
+database/pb_data/*
