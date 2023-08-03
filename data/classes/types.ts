@@ -6,6 +6,26 @@ export interface Class {
   hitDie?: HitDie;
   primaryAbility?: Ability[];
   saves?: Ability[];
+  // add type based on this
+  /* levelUpDetails: {
+      1: {
+        proficiencyBonus: 2,
+        cantripsKnown: 2,
+        spellsKnown: 2,
+        spellSlots: 1,
+        spellSlotLevel: 1,
+        invocationsKnown: 0,
+      },
+    },*/
+  levelUpDetails?: {
+    level: number;
+    proficiencyBonus?: number;
+    cantripsKnown?: number;
+    spellsKnown?: number;
+    spellSlots?: number;
+    spellSlotLevel?: number;
+    invocationsKnown?: number;
+  }[];
   proficiencies?: {
     armor?: ArmorTypes[];
     weapons?: WeaponTypes[];

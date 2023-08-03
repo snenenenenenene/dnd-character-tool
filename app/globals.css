@@ -14,6 +14,8 @@
 
 html {
   font-family: "Poppins";
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 input {
@@ -27,6 +29,11 @@ button {
 /* width */
 ::-webkit-scrollbar {
   width: 0;
+}
+
+.button-section {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Track */

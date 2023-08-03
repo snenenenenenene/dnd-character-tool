@@ -56,7 +56,6 @@ export const Sidebar = () => {
       .collection("users")
       .authWithPassword(email, password)
       .then((res: any) => {
-        console.log(res.record.gravatar);
         setUser(res);
         toast(`Welcome ${res.record.username}!`);
       });
@@ -67,10 +66,6 @@ export const Sidebar = () => {
   useEffect(() => {
     applyThemePreference(theme);
   }, [theme]);
-
-  useEffect(() => {
-    console.log(showAccountModal);
-  }, [showAccountModal]);
 
   const routes = [
     {

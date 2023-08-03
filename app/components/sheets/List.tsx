@@ -66,50 +66,54 @@ export const List = ({ sheets }: ListArgs) => {
     <div className="grid grid-cols-5 w-full overflow-x-hidden z-0 overflow-y-scroll h-fit overflow-scroll p-20 gap-10 justify-center">
       {sheets && sheets.length > 0 && (
         <>
-          {sheets?.map((sheet: Sheet, i: number) => (
-            <button
-              className="border-2 relative transition-all aspect-square filter flex justify-center items-center hover:scale-105 border-light-secondary dark:border-dark-secondary h-full flex-col py-1"
-              key={i}
-              data-value="view-sheet-button"
-              onClick={(e) => {
-                e.preventDefault();
-                let dataValue = (e.target as HTMLElement).getAttribute(
-                  "data-value"
-                );
-                if (dataValue === "view-sheet-button") {
-                  router.push(`/sheets/${sheet?.id}`);
-                }
-              }}
-            >
-              <Image
-                className="w-36 h-36 object-contain"
-                data-value="view-sheet-button"
-                width={144}
-                height={144}
-                alt={sheet?.data?.race?.name}
-                src={sheet?.data?.race?.picture!}
-              />
-              <h2 className="uppercase font-bold text-3xl">
-                {sheet?.data?.name}
-              </h2>
-
-              <span className="absolute top-0 left-0 m-2 font-extrabold text-5xl">
-                {sheet?.data?.level}
-              </span>
-              <p>{sheet?.expand?.campaign && sheet?.expand?.campaign.name}</p>
+          {sheets
+            .sort((a: Sheet, b: Sheet) => {
+              return Date.parse(b.updated) - Date.parse(a.updated);
+            })
+            .map((sheet: Sheet, i: number) => (
               <button
-                id="edit-sheet-button"
-                data-value="edit-sheet-button"
-                onClick={() => {
-                  setSelectedSheet(sheet);
-                  setShowModal(true);
+                className="border-2 relative transition-all aspect-square filter flex justify-center items-center hover:scale-105 border-light-secondary dark:border-dark-secondary h-full flex-col py-1"
+                key={i}
+                data-value="view-sheet-button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  let dataValue = (e.target as HTMLElement).getAttribute(
+                    "data-value"
+                  );
+                  if (dataValue === "view-sheet-button") {
+                    router.push(`/sheets/${sheet?.id}`);
+                  }
                 }}
-                className="absolute top-0 right-0 m-2 font-extrabold bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary text-xl rounded-full flex justify-center items-center w-10 h-10"
               >
-                <GiPencil data-value="edit-sheet-button" />
+                <Image
+                  className="w-36 h-36 object-contain"
+                  data-value="view-sheet-button"
+                  width={144}
+                  height={144}
+                  alt={sheet?.data?.race?.name}
+                  src={sheet?.data?.race?.picture!}
+                />
+                <h2 className="uppercase font-bold text-3xl">
+                  {sheet?.data?.name}
+                </h2>
+
+                <span className="absolute top-0 left-0 m-2 font-extrabold text-5xl">
+                  {sheet?.data?.level}
+                </span>
+                <p>{sheet?.expand?.campaign && sheet?.expand?.campaign.name}</p>
+                <button
+                  id="edit-sheet-button"
+                  data-value="edit-sheet-button"
+                  onClick={() => {
+                    setSelectedSheet(sheet);
+                    setShowModal(true);
+                  }}
+                  className="absolute top-0 right-0 m-2 font-extrabold bg-light-secondary dark:bg-dark-secondary text-light-primary dark:text-dark-primary text-xl rounded-full flex justify-center items-center w-10 h-10"
+                >
+                  <GiPencil data-value="edit-sheet-button" />
+                </button>
               </button>
-            </button>
-          ))}
+            ))}
         </>
       )}
       <button

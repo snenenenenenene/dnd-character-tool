@@ -147,14 +147,7 @@ export async function addSheet({
     skills: {},
     currency: {},
     weapons: [],
-    spells: [
-      {
-        name: "Disguise Self",
-        level: 1,
-        description: "Allows you to change your appearance for up to 1 hour.",
-        prepared: true,
-      },
-    ],
+    spells: [],
   };
 
   return pb.collection("sheets").create({

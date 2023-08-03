@@ -5,6 +5,7 @@
 // import { Race } from "@/data/races/types";
 import { Class } from "@/data/classes/types";
 import { Race } from "@/data/races/types";
+import { Spell } from "@/data/spells/spellts";
 import PocketBase from "pocketbase";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
@@ -40,12 +41,7 @@ export interface SheetData {
     name: string;
     quantity: number;
   }[];
-  spells: {
-    name: string;
-    level: number;
-    description: string;
-    prepared: boolean;
-  }[];
+  spells: Spell[];
   skills: {
     acrobatics?: number;
     "animal handling"?: number;
@@ -97,6 +93,7 @@ interface Stats {
 export interface Sheet {
   id: string;
   data: SheetData;
+  updated: string;
   expand?: any;
   campaign: string;
   user: string;
