@@ -65,11 +65,11 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
   return (
     <div className="relative">
       <button
-        className="bg-light-secondary border-2 border-light-accent border-r-0 absolute right-0 top-16 w-10 h-10 rounded-l-full "
+        className="bg-light-secondary border-2 z-50 border-light-accent border-r-0 absolute right-0 top-16 w-10 h-10 rounded-l-full "
         onClick={() => setIsVisible(!isVisible)}
       ></button>
       <div
-        className={`transition-all duration-200 ${
+        className={`transition-all duration-200 absolute bg-light-primary right-0 bottom-0 h-full overflow-hidden ${
           isVisible
             ? "w-80 px-4 border-l-2 border-light-secondary flex flex-col"
             : "w-0 hidden"

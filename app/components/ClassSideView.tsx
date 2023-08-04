@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getSheetWithId, updateSheetWithId } from "../utils/apiCalls";
-import { SheetData, useSheetStore } from "../utils/store";
+import { useSheetStore } from "../utils/store";
 import { Button } from "./common/Button";
 import { Modal } from "./common/Modal";
 
@@ -29,7 +29,7 @@ export default function ClassSideView() {
       <section
         className={`${
           isVisible ? "w-60 flex flex-col" : "w-0 hidden"
-        } text-center  border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll`}
+        } text-center border-r-2 border-r-light-secondary dark:border-r-dark-secondary h-full overflow-y-scroll`}
       >
         <Link
           href={`/sheets/${selectedSheet?.id}/race`}
@@ -134,49 +134,54 @@ export default function ClassSideView() {
                   return toast.error(
                     "You have reached the maximum level for your character."
                   );
+
+                const newClass = selectedSheet.data.class
+                  ? {
+                      ...selectedSheet?.data,
+                      // calculate HP based on the halve of the hitdie + 1  and add con modifier times the level
+                      // get the hitdie value from the enum, this wil retrieve a d(number) remove the d and parse it to a number
+                      hitPoints: {
+                        ...selectedSheet?.data?.hitPoints,
+                        max:
+                          (selectedSheet?.data?.level +
+                            selectedSheet?.data?.stats.constitution) *
+                          Math.floor(
+                            Number(
+                              HitDie[selectedClass?.hitDie!].replace("d", "")
+                            ) /
+                              2 +
+                              1
+                          ),
+                      },
+                      class: [...selectedSheet.data!.class, selectedClass],
+                      skills: {
+                        // eslint-disable-next-line no-unsafe-optional-chaining
+                        ...selectedSheet?.data?.skills,
+                        acrobatics: 0,
+                        "animal handling": 0,
+                        arcana: 0,
+                        athletics: 0,
+                        deception: 0,
+                        history: 0,
+                        insight: 0,
+                        intimidation: 0,
+                        investigation: 0,
+                        medicine: 0,
+                        nature: 0,
+                        perception: 0,
+                        performance: 0,
+                        persuasion: 0,
+                        religion: 0,
+                        "sleight of hand": 0,
+                        stealth: 0,
+                        survival: 0,
+                      },
+                    }
+                  : [selectedClass];
+
                 updateSheetWithId(
                   selectedSheet.id,
-                  {
-                    ...selectedSheet?.data,
-                    // calculate HP based on the halve of the hitdie + 1  and add con modifier times the level
-                    // get the hitdie value from the enum, this wil retrieve a d(number) remove the d and parse it to a number
-                    hitPoints: {
-                      ...selectedSheet?.data?.hitPoints,
-                      max:
-                        (selectedSheet?.data?.level +
-                          selectedSheet?.data?.stats.constitution) *
-                        Math.floor(
-                          Number(
-                            HitDie[selectedClass?.hitDie!].replace("d", "")
-                          ) /
-                            2 +
-                            1
-                        ),
-                    },
-                    class: [...selectedSheet.data!.class, selectedClass],
-                    skills: {
-                      // eslint-disable-next-line no-unsafe-optional-chaining
-                      ...selectedSheet?.data?.skills,
-                      acrobatics: 0,
-                      "animal handling": 0,
-                      arcana: 0,
-                      athletics: 0,
-                      deception: 0,
-                      history: 0,
-                      insight: 0,
-                      intimidation: 0,
-                      investigation: 0,
-                      medicine: 0,
-                      nature: 0,
-                      perception: 0,
-                      performance: 0,
-                      persuasion: 0,
-                      religion: 0,
-                      "sleight of hand": 0,
-                      stealth: 0,
-                      survival: 0,
-                    },
-                  } as SheetData,
+                  newClass,
                   selectedSheet?.campaign,
                   selectedSheet?.user!
                 )

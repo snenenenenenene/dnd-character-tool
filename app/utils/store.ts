@@ -4,6 +4,7 @@
 // import { races } from "@/data/races/races";
 // import { Race } from "@/data/races/types";
 import { Class } from "@/data/classes/types";
+import { Gear } from "@/data/gear/gear";
 import { Race } from "@/data/races/types";
 import { Spell } from "@/data/spells/spellts";
 import PocketBase from "pocketbase";
@@ -37,10 +38,7 @@ export interface SheetData {
     bonus: number;
     damage: string;
   }[];
-  equipment: {
-    name: string;
-    quantity: number;
-  }[];
+  gear: Gear[];
   spells: Spell[];
   skills: {
     acrobatics?: number;
