@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 "use client";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
-import { Sheet, useSheetStore } from "@/app/utils/store";
+import { useSheetStore } from "@/app/utils/store";
+import { Record } from "pocketbase";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { Input } from "../common/Input";
@@ -17,7 +18,7 @@ export const StatEntry = ({
   title: string;
   sheetId: string;
   calculateStat: (thrownStat: number | string) => number;
-  setSelectedSheet: Sheet;
+  setSelectedSheet: (newSheet: Record) => any;
 }) => {
   return (
     <>
@@ -54,9 +55,9 @@ export const StatEntry = ({
             selectedSheet?.campaign,
             selectedSheet?.user
           )
-            .then((res) => {
+            .then((newSheet) => {
               toast.success(`Updated ${title}`);
-              setSelectedSheet(res);
+              setSelectedSheet(newSheet);
             })
             .catch(() => {
               toast.error(`Something went wrong while updating ${title}`);
