@@ -37,9 +37,6 @@ export default function Spells(context: any) {
 
       selectedSheet.data?.class?.forEach((c: Class) => {
         const level = c.levelUpDetails?.find((l) => l.level === c.level);
-        console.log(c.levelUpDetails);
-        console.log(level);
-        console.log(c.level);
 
         spellInfo.proficiencyBonus += level?.proficiencyBonus || 0;
         spellInfo.cantripsKnown += level?.cantripsKnown || 0;

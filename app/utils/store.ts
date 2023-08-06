@@ -18,7 +18,9 @@ export interface SheetData {
   background: string;
   armourClass: number;
   initiative: number;
-  alignment: string;
+  personality: {
+    alignment: string;
+  };
   inspiration: boolean;
   deathSaves: {
     successes: number;
