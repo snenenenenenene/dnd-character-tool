@@ -61,7 +61,7 @@ export default function Page({ children, params }: LayoutArgs) {
     <div className="flex w-full h-full">
       <div className="flex flex-col w-full">
         <section className="w-full h-full flex">
-          <div className="w-full h-full flex">
+          <div className="w-full h-full flex relative">
             <ClassSideView />
 
             <div className="h-full w-full flex flex-col">

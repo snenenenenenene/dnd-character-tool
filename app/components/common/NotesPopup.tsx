@@ -19,19 +19,19 @@ export default function NotesPopup() {
   }, []);
 
   return (
-    <div className="absolute top-o z-[60] right-0 w-[95.8%] h-full pointer-events-none">
+    <div className="relative top-0 z-[60] right-0 pointer-events-none">
       <button
         className={`pointer-events-auto bg-light-secondary border-2  border-light-accent border-r-0 absolute  w-10 h-10 rounded-l-full ${
           isVisible
             ? "rounded-full top-10 right-10 z-50"
-            : "right-48 top-32 z-10"
+            : "right-0 top-32 z-10"
         }`}
         onClick={() => setIsVisible(!isVisible)}
-      ></button>
+      />
       <div
-        className={`pointer-events-auto transition-all duration-200 absolute bg-light-primary right-0 bottom-0  overflow-hidden ${
+        className={`absolute right-0 top-0 pointer-events-auto w-full transition-all duration-200 bg-white overflow-hidden ${
           isVisible
-            ? "w-full h-full px-4 border-l-2 p-10 border-light-secondary flex flex-col"
+            ? "w-[60rem] h-full px-4 prose border-l-2 p-10 border-light-secondary flex flex-col"
             : "w-0 hidden h-0"
         }`}
       >

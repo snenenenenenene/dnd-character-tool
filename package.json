@@ -30,6 +30,7 @@
     "zustand": "^4.3.3"
   },
   "devDependencies": {
+    "@tailwindcss/typography": "^0.5.9",
     "@types/lodash": "^4.14.191",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.21",
