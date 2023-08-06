@@ -7,7 +7,6 @@ import { Race } from "@/data/races/types";
 import _ from "lodash";
 import ErrorPage from "next/error";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -31,8 +30,7 @@ export default function Sheets(context: any) {
 
   const groups = _.groupBy(races, "expansion");
 
-  const router = useRouter();
-  if (!router.isFallback && !selectedSheet?.data) {
+  if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;
   }
   return (

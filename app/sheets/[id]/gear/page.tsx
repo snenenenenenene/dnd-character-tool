@@ -7,7 +7,6 @@ import { Sheet, useSheetStore } from "@/app/utils/store";
 import { gear, Gear } from "@/data/gear/gear";
 import _ from "lodash";
 import ErrorPage from "next/error";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -54,8 +53,7 @@ export default function GearPage(context: any) {
     );
   };
 
-  const router = useRouter();
-  if (!router.isFallback && !selectedSheet?.data) {
+  if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;
   }
 
