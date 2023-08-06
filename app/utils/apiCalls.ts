@@ -128,24 +128,7 @@ export async function addSheet({
         damage: "1d6+4",
       },
     ],
-    equipment: [
-      {
-        name: "Shortsword",
-        quantity: 2,
-      },
-      {
-        name: "Shortbow",
-        quantity: 1,
-      },
-      {
-        name: "Arrows",
-        quantity: 20,
-      },
-      {
-        name: "Thieves' tools",
-        quantity: 1,
-      },
-    ],
+    gear: [],
     skills: {},
     currency: {},
     weapons: [],
