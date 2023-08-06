@@ -65,7 +65,7 @@ export default function AbilitySidebar() {
   return (
     <div className="relative">
       <button
-        className="bg-light-secondary border-2 z-50 border-light-accent border-r-0 absolute right-0 top-16 w-10 h-10 rounded-l-full "
+        className="bg-light-secondary border-2 z-10 border-light-accent border-r-0 absolute right-0 top-48 w-10 h-10 rounded-l-full "
         onClick={() => setIsVisible(!isVisible)}
       ></button>
       <div

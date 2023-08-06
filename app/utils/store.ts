@@ -17,6 +17,7 @@ export interface SheetData {
   level: number;
   background: string;
   armourClass: number;
+  notes: string;
   initiative: number;
   personality: {
     alignment: string;

@@ -75,6 +75,7 @@ export async function addSheet({
     class: [classes[0]],
     level: 0,
     race: races[0],
+    notes: "",
     background: "Criminal",
     personality: {
       alignment: "Chaotic Neutral",
@@ -144,7 +145,7 @@ export async function addSheet({
 
 export async function updateSheetWithId(
   sheetId: string,
-  sheet: any,
+  sheet: SheetData,
   campaignId: string | undefined,
   userId: string
 ) {

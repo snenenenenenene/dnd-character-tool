@@ -4,6 +4,7 @@
 import AbilitySidebar from "@/app/components/character/AbilitySidebar";
 import ClassSideView from "@/app/components/character/ClassSideView";
 import { StatSidebar } from "@/app/components/character/StatSidebar";
+import NotesPopup from "@/app/components/common/NotesPopup";
 import { PulsingNotifier } from "@/app/components/common/PulsingNotifier";
 import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
@@ -97,6 +98,7 @@ export default function Page({ children, params }: LayoutArgs) {
               </section>
             </div>
           </div>
+          <NotesPopup />
           <AbilitySidebar />
         </section>
       </div>
