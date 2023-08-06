@@ -40,7 +40,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/class`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("class")
+                        window?.location.pathname.includes("class")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
                       }`}
@@ -50,7 +50,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     {/* <Link
                   href={`/sheets/${params.id}/class`}
                   className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                    window.location.pathname.includes("class")
+                    window?.location.pathname.includes("class")
                       ? "border-0"
                       : "border-2 bg-light-secondary text-light-primary"
                   }`}
@@ -60,7 +60,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/race`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("race")
+                        window?.location.pathname.includes("race")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
                       }`}
@@ -71,7 +71,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/gear`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("gear")
+                        window?.location.pathname.includes("gear")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
                       }`}
@@ -85,7 +85,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/personality`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("personality")
+                        window?.location.pathname.includes("personality")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
                       }`}
@@ -97,7 +97,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/spells`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("spells")
+                        window?.location.pathname.includes("spells")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-50 text-light-primary"
                       }`}
@@ -110,7 +110,7 @@ export default function Page({ children, params }: LayoutArgs) {
                     <Link
                       href={`/sheets/${params.id}/wildshapes`}
                       className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window.location.pathname.includes("wildshapes")
+                        window?.location.pathname.includes("wildshapes")
                           ? "border-0"
                           : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
                       }`}
