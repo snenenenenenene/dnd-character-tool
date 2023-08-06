@@ -34,11 +34,11 @@ export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
 
     setSelectedSkills([...selectedSkills, skill]);
     if (selectedSheet?.data?.skills) {
-      if (selectedSheet.data?.level < 5) selectedSheet.data?.skills[skill] += 2;
-      else if (selectedSheet.data?.level < 9)
-        selectedSheet.data?.skills[skill] += 3;
+      if (selectedSheet.data?.level < 5) selectedSheet.data.skills[skill] += 2;
+      else if (selectedSheet.data.level < 9)
+        selectedSheet.data.skills[skill] += 3;
       else if (selectedSheet.data?.level < 13)
-        selectedSheet.data?.skills[skill] += 4;
+        selectedSheet.data.skills[skill] += 4;
     }
 
     updateSheetWithId(
