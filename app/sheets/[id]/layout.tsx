@@ -35,7 +35,7 @@ export default function Page({ children, params }: LayoutArgs) {
 
             <div className="h-full w-full flex flex-col">
               <section className="button-section uppercase font-semibold h-24 w-full px-14 flex gap-x-4 items-end bg-light-secondary">
-                {window && (
+                {window !== undefined && (
                   <>
                     <Link
                       href={`/sheets/${params.id}/class`}
