@@ -42,7 +42,7 @@ export default function AbilitySidebar() {
     }
 
     updateSheetWithId(
-      sheetId,
+      selectedSheet.id,
       {
         ...selectedSheet?.data,
         skills: {
