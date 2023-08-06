@@ -7,7 +7,6 @@ import { Sheet, useSheetStore } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
 import { Spell, spells } from "@/data/spells/spells";
 import ErrorPage from "next/error";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FiInfo } from "react-icons/fi";
 import { toast } from "react-toastify";
@@ -52,8 +51,7 @@ export default function Spells(context: any) {
     }
   }, [selectedSheet]);
 
-  const router = useRouter();
-  if (!router.isFallback && !selectedSheet.data) {
+  if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;
   }
 

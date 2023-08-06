@@ -4,7 +4,6 @@ import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import ErrorPage from "next/error";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -18,8 +17,7 @@ export default function Class(context: any) {
     });
   }, []);
 
-  const router = useRouter();
-  if (!router.isFallback && !selectedSheet?.data) {
+  if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;
   }
 
