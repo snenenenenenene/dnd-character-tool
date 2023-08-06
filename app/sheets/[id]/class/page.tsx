@@ -35,7 +35,7 @@ export default function Class(context: any) {
         </span>
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Alignment</h2>
-          <p>{selectedSheet?.data?.alignment}</p>
+          <p>{selectedSheet?.data?.personality.alignment}</p>
         </span>
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Race</h2>
