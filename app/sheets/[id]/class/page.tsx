@@ -193,7 +193,7 @@ export default function Class(context: any) {
               // concat all features from all classes in the sheet and sort them by level also filter out features that are higher level than the class level
               selectedSheet?.data?.class &&
                 selectedSheet?.data?.class?.length > 0 &&
-                selectedSheet.data.class
+                selectedSheet.data?.class
                   .map((c) => {
                     return c.features?.filter((f) => f.level <= c.level);
                   })
@@ -212,7 +212,7 @@ export default function Class(context: any) {
 
           {/* {selectedSheet?.data?.class &&
             selectedSheet?.data?.class?.length > 0 &&
-            selectedSheet.data.class.map((c) => {
+            selectedSheet.data?.class.map((c) => {
               return (
                 c.features &&
                 c.features.length > 0 &&

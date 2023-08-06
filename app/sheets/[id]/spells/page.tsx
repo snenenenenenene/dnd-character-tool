@@ -60,12 +60,12 @@ export default function Spells(context: any) {
         </p>
         <p className="text-light-secondary text-xl font-bold">
           Cantrip Slots:&nbsp;
-          {selectedSheet.data.spells.filter((s) => s.level === 0).length} /
+          {selectedSheet.data?.spells.filter((s) => s.level === 0).length} /
           {selectedSheetSpellInfo?.cantripsKnown || 0}
         </p>
         <p className="text-light-secondary text-xl font-bold">
           Spells Known:&nbsp;
-          {selectedSheet.data.spells.filter((s) => s.level > 0).length}/
+          {selectedSheet.data?.spells.filter((s) => s.level > 0).length}/
           {selectedSheetSpellInfo?.spellsKnown || 0}
         </p>
         <p className="text-light-secondary text-xl font-bold">
@@ -129,7 +129,7 @@ export default function Spells(context: any) {
             className="cursor-pointer border-2 border-light-secondary bg-light-secondary text-light-primary text-3xl mt-auto p-2 flex justify-center items-center"
           >
             {selectedSheetSpellInfo?.cantripsKnown !==
-            selectedSheet.data.spells.filter((s) => s.level === 0).length ? (
+            selectedSheet.data?.spells.filter((s) => s.level === 0).length ? (
               <p>+</p>
             ) : (
               <FiInfo />
@@ -183,7 +183,7 @@ export default function Spells(context: any) {
             className="cursor-pointer border-2 border-light-secondary bg-light-secondary text-light-primary text-3xl mt-auto p-2 flex justify-center items-center"
           >
             {selectedSheetSpellInfo?.spellsKnown !==
-            selectedSheet.data.spells.filter((s) => s.level > 0).length ? (
+            selectedSheet.data?.spells.filter((s) => s.level > 0).length ? (
               <p>+</p>
             ) : (
               <FiInfo />
@@ -273,14 +273,14 @@ const SpellModalContent = ({
           <Button
             onClick={() => {
               if (
-                selectedSheet.data.spells.filter((s) => s.level > 0).length ===
+                selectedSheet.data?.spells.filter((s) => s.level > 0).length ===
                 selectedSheetSpellInfo?.spellsKnown
               )
                 return toast.error(
                   "You have reached the maximum amount of spells known"
                 );
               if (
-                selectedSheet?.data.spells?.find(
+                selectedSheet?.data?.spells?.find(
                   (s) => s.name === selectedSpell.name
                 )
               )
@@ -290,10 +290,10 @@ const SpellModalContent = ({
 
               updateSheetWithId(
                 selectedSheet?.id,
-                selectedSheet.data.spells
+                selectedSheet.data?.spells
                   ? {
                       ...selectedSheet?.data,
-                      spells: [...selectedSheet.data.spells, selectedSpell],
+                      spells: [...selectedSheet.data?.spells, selectedSpell],
                     }
                   : {
                       ...selectedSheet?.data,
@@ -373,13 +373,13 @@ const CantripModalContent = ({
             onClick={() => {
               if (
                 selectedSheetSpellInfo?.cantripsKnown! ===
-                selectedSheet.data.spells.filter((s) => s.level === 0).length
+                selectedSheet.data?.spells.filter((s) => s.level === 0).length
               )
                 return toast.error(
                   "You have reached the maximum amount of cantrips known"
                 );
               if (
-                selectedSheet?.data.spells?.find(
+                selectedSheet?.data?.spells?.find(
                   (s) => s.name === selectedSpell.name
                 )
               )
@@ -387,10 +387,12 @@ const CantripModalContent = ({
 
               updateSheetWithId(
                 selectedSheet?.id,
-                selectedSheet.data.spells
+                selectedSheet.data?.spells
                   ? {
                       ...selectedSheet?.data,
-                      spells: [...selectedSheet.data.spells, selectedSpell],
+                      spells: selectedSheet.data?.spells
+                        ? [...selectedSheet.data.spells, selectedSpell]
+                        : [selectedSpell],
                     }
                   : {
                       ...selectedSheet?.data,

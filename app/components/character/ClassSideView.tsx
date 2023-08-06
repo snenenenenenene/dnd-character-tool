@@ -135,7 +135,7 @@ export default function ClassSideView() {
                     "You have reached the maximum level for your character."
                   );
 
-                const newClass = selectedSheet.data.class
+                const newClass = selectedSheet.data?.class
                   ? {
                       ...selectedSheet?.data,
                       // calculate HP based on the halve of the hitdie + 1  and add con modifier times the level

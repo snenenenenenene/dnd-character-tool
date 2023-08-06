@@ -29,7 +29,7 @@ export default function GearPage(context: any) {
       <div className="border-2 border-light-secondary p-4 flex flex-col w-full aspect-square h-max">
         <h2 className="text-3xl uppercase font-bold">{gearType}</h2>
         <div className="flex flex-col h-full">
-          {selectedSheet?.data.gear
+          {selectedSheet?.data?.gear
             ?.filter((e) => e.type === gearType)
             // @ts-ignore
             .map((e: Gear) => (
@@ -58,7 +58,7 @@ export default function GearPage(context: any) {
         {/* <div className="border-2 border-light-secondary p-4 flex flex-col w-full aspect-square h-max">
           <h2 className="text-3xl uppercase font-bold">Armour & Shields</h2>
           <div className="flex flex-col h-full">
-            {selectedSheet?.data.gear
+            {selectedSheet?.data?.gear
               ?.filter((e) => e.type === "Armour")
               // @ts-ignore
               .map((e: Armour) => (
