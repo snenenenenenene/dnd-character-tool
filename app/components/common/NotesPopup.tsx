@@ -3,7 +3,6 @@ import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { useSheetStore } from "@/app/utils/store";
 import { MDXEditor } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
-import * as crypto from "crypto";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
