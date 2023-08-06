@@ -64,12 +64,12 @@ export default function Spells(context: any) {
         </p>
         <p className="text-light-secondary text-xl font-bold">
           Cantrip Slots:&nbsp;
-          {selectedSheet.data?.spells.filter((s) => s.level === 0).length} /
+          {selectedSheet.data?.spells?.filter((s) => s.level === 0).length} /
           {selectedSheetSpellInfo?.cantripsKnown || 0}
         </p>
         <p className="text-light-secondary text-xl font-bold">
           Spells Known:&nbsp;
-          {selectedSheet.data?.spells.filter((s) => s.level > 0).length}/
+          {selectedSheet.data?.spells?.filter((s) => s.level > 0).length}/
           {selectedSheetSpellInfo?.spellsKnown || 0}
         </p>
         <p className="text-light-secondary text-xl font-bold">
@@ -133,7 +133,7 @@ export default function Spells(context: any) {
             className="cursor-pointer border-2 border-light-secondary bg-light-secondary text-light-primary text-3xl mt-auto p-2 flex justify-center items-center"
           >
             {selectedSheetSpellInfo?.cantripsKnown !==
-            selectedSheet.data?.spells.filter((s) => s.level === 0).length ? (
+            selectedSheet.data?.spells?.filter((s) => s.level === 0).length ? (
               <p>+</p>
             ) : (
               <FiInfo />
@@ -187,7 +187,7 @@ export default function Spells(context: any) {
             className="cursor-pointer border-2 border-light-secondary bg-light-secondary text-light-primary text-3xl mt-auto p-2 flex justify-center items-center"
           >
             {selectedSheetSpellInfo?.spellsKnown !==
-            selectedSheet.data?.spells.filter((s) => s.level > 0).length ? (
+            selectedSheet.data?.spells?.filter((s) => s.level > 0).length ? (
               <p>+</p>
             ) : (
               <FiInfo />
