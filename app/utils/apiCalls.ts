@@ -76,7 +76,9 @@ export async function addSheet({
     level: 0,
     race: races[0],
     background: "Criminal",
-    alignment: "Chaotic Neutral",
+    personality: {
+      alignment: "Chaotic Neutral",
+    },
     experiencePoints: 3000,
     thrownStats: {
       strength: 10,
