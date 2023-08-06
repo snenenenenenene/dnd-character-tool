@@ -8,7 +8,6 @@ import NotesPopup from "@/app/components/common/NotesPopup";
 import { PulsingNotifier } from "@/app/components/common/PulsingNotifier";
 import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
-import * as crypto from "crypto";
 import ErrorPage from "next/error";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -31,7 +30,7 @@ export default function Page({ children, params }: LayoutArgs) {
     });
   }, [params]);
 
-  if (!selectedSheet || !selectedSheet?.data || crypto) {
+  if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;
   }
 

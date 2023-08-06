@@ -10,6 +10,7 @@ import ErrorPage from "next/error";
 import { useEffect, useState } from "react";
 import { FiInfo } from "react-icons/fi";
 import { toast } from "react-toastify";
+
 export default function Spells(context: any) {
   const selectedSheet: Sheet = useSheetStore((state) => state.selectedSheet);
   const user = useSheetStore((state) => state.user);
