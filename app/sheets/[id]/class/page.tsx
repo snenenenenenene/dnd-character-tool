@@ -2,7 +2,9 @@
 
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
+import ErrorPage from "next/error";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 
@@ -15,6 +17,11 @@ export default function Class(context: any) {
       setSelectedSheet(res);
     });
   }, []);
+
+  const router = useRouter();
+  if (!router.isFallback && !selectedSheet?.data) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <section className="flex w-full h-full overflow-y-hidden pr-4 relative">

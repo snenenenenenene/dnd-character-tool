@@ -6,6 +6,8 @@ import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import { gear, Gear } from "@/data/gear/gear";
 import _ from "lodash";
+import ErrorPage from "next/error";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -51,6 +53,11 @@ export default function GearPage(context: any) {
       </div>
     );
   };
+
+  const router = useRouter();
+  if (!router.isFallback && !selectedSheet?.data) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <div className="p-10 flex w-full h-full">

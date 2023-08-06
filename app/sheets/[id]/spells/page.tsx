@@ -6,10 +6,11 @@ import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
 import { Spell, spells } from "@/data/spells/spells";
+import ErrorPage from "next/error";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { FiInfo } from "react-icons/fi";
 import { toast } from "react-toastify";
-
 export default function Spells(context: any) {
   const selectedSheet: Sheet = useSheetStore((state) => state.selectedSheet);
   const user = useSheetStore((state) => state.user);
@@ -50,6 +51,11 @@ export default function Spells(context: any) {
       setSelectedSheetSpellInfo(spellInfo);
     }
   }, [selectedSheet]);
+
+  const router = useRouter();
+  if (!router.isFallback && !selectedSheet.data) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <div className="w-full h-full flex flex-col px-10">
