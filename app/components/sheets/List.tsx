@@ -75,13 +75,14 @@ export const List = ({ sheets }: ListArgs) => {
                 className="border-2 relative transition-all aspect-square filter flex justify-center items-center hover:scale-105 border-light-secondary dark:border-dark-secondary h-full flex-col py-1"
                 key={i}
                 data-value="view-sheet-button"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.preventDefault();
                   let dataValue = (e.target as HTMLElement).getAttribute(
                     "data-value"
                   );
                   if (dataValue === "view-sheet-button") {
-                    router.push(`/sheets/${sheet?.id}`);
+                    await setSelectedSheet(sheet);
+                    await router.push(`/sheets/${sheet?.id}`);
                   }
                 }}
               >

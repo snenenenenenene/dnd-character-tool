@@ -28,7 +28,7 @@ export default function Page({ children, params }: LayoutArgs) {
     getSheetWithId(params.id).then((res: any) => {
       setSelectedSheet(res);
     });
-  }, []);
+  }, [params]);
 
   if (!selectedSheet || !selectedSheet?.data) {
     return <ErrorPage statusCode={404} />;

@@ -153,7 +153,9 @@ export default function ClassSideView() {
                               1
                           ),
                       },
-                      class: [...selectedSheet.data!.class, selectedClass],
+                      class: selectedSheet?.class
+                        ? [...selectedSheet.data.class, selectedClass]
+                        : [selectedClass],
                       skills: {
                         // eslint-disable-next-line no-unsafe-optional-chaining
                         ...selectedSheet?.data?.skills,

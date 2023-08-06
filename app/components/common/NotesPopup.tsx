@@ -1,5 +1,5 @@
 "use client";
-import { updateSheetWithId } from "@/app/utils/apiCalls";
+import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { useSheetStore } from "@/app/utils/store";
 import { MDXEditor } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
@@ -13,23 +13,9 @@ export default function NotesPopup() {
   const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
 
   useEffect(() => {
-    if (selectedSheet?.data?.notes) {
-      setSelectedSheet({
-        ...selectedSheet,
-        data: {
-          ...selectedSheet.data,
-          notes: selectedSheet.data.notes,
-        },
-      });
-    } else {
-      setSelectedSheet({
-        ...selectedSheet,
-        data: {
-          ...selectedSheet.data,
-          notes: "",
-        },
-      });
-    }
+    getSheetWithId(selectedSheet.id).then((res: any) => {
+      setSelectedSheet(res);
+    });
   }, []);
 
   return (
@@ -68,7 +54,7 @@ export default function NotesPopup() {
                 toast.error("Can't save notes right now. Try again later.");
               });
           }}
-          markdown={selectedSheet?.data?.notes}
+          markdown={selectedSheet.data?.notes}
         />
       </div>
     </div>
