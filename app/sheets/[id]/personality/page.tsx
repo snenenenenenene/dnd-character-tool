@@ -1,5 +1,6 @@
 "use client";
 
+import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import ErrorPage from "next/error";
 import { useEffect } from "react";
@@ -8,7 +9,9 @@ export default function Personality(context: any) {
   const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
 
   useEffect(() => {
-    setSelectedSheet(context?.params?.id);
+    getSheetWithId(context?.params?.id).then((res: any) => {
+      setSelectedSheet(res);
+    });
   }, []);
 
   if (!selectedSheet || !selectedSheet?.data) {
