@@ -1,6 +1,8 @@
 "use client";
+
 import { Button } from "@/app/components/common/Button";
 import { Modal } from "@/app/components/common/Modal";
+import InitiativeTracker from "@/app/components/vault/initiativeTracker";
 import {
   getAllUsers,
   getCampaignById,
@@ -15,7 +17,6 @@ import { useEffect, useState } from "react";
 import { GiEmbryo, GiFlamingSheet } from "react-icons/gi";
 import Select from "react-select";
 import { toast } from "react-toastify";
-import InitiativeTracker from "../../components/vault/initiativeTracker";
 
 function UserEntry({
   userId,

@@ -5,10 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getSheetWithId, updateSheetWithId } from "../utils/apiCalls";
-import { useSheetStore } from "../utils/store";
-import { Button } from "./common/Button";
-import { Modal } from "./common/Modal";
+import { getSheetWithId, updateSheetWithId } from "../../utils/apiCalls";
+import { useSheetStore } from "../../utils/store";
+import { Button } from "../common/Button";
+import { Modal } from "../common/Modal";
 
 export default function ClassSideView() {
   const [isVisible, setIsVisible] = useState(false);

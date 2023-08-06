@@ -1,12 +1,15 @@
 // @ts-ignore: Object is possibly 'null'.
 "use client";
-import AbilitySidebar from "@/app/components/character/AbilitySidebar";
-import ClassSideView from "@/app/components/ClassSideView";
+import {
+  default as AbilitySidebar,
+  default as ClassSideView,
+} from "@/app/components/character/ClassSideView";
+import { StatSidebar } from "@/app/components/character/StatSidebar";
+import { PulsingNotifier } from "@/app/components/common/PulsingNotifier";
 import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import Link from "next/link";
 import React, { useEffect } from "react";
-import { StatSidebar } from "../../components/character/StatSidebar";
 interface LayoutArgs {
   children: React.ReactNode;
   params: {
@@ -123,16 +126,10 @@ export default function Page({ children, params }: LayoutArgs) {
               </section>
             </div>
           </div>
-          <AbilitySidebar sheetId={params?.id} />
+          <AbilitySidebar />
         </section>
       </div>
       <StatSidebar sheetId={params?.id} />
     </div>
-  );
-}
-
-export function PulsingNotifier() {
-  return (
-    <div className="bg-light-accent ml-2 animate-pulse duration-500 rounded-full w-3 h-3" />
   );
 }
