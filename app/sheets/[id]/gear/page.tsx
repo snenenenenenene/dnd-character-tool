@@ -5,6 +5,7 @@ import { Modal } from "@/app/components/common/Modal";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import { gear, Gear } from "@/data/gear/gear";
+import _ from "lodash";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
