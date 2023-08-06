@@ -8,8 +8,10 @@ import { StatSidebar } from "@/app/components/character/StatSidebar";
 import { PulsingNotifier } from "@/app/components/common/PulsingNotifier";
 import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
+import ErrorPage from "next/error";
 import Link from "next/link";
 import React, { useEffect } from "react";
+
 interface LayoutArgs {
   children: React.ReactNode;
   params: {
@@ -25,6 +27,10 @@ export default function Page({ children, params }: LayoutArgs) {
       setSelectedSheet(res);
     });
   }, []);
+
+  if (!selectedSheet || !selectedSheet?.data) {
+    return <ErrorPage statusCode={404} />;
+  }
 
   return (
     <div className="flex w-full h-full">
