@@ -36,15 +36,15 @@ export default function Class(context: any) {
       <section className="bg-light-primary border-2 border-light-secondary w-[80%] p-4">
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Name</h2>
-          <p>{selectedSheet?.data?.name}</p>
+          <p>{selectedSheet?.data?.name || "None"}</p>
         </span>
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Alignment</h2>
-          <p>{selectedSheet?.data?.personality.alignment}</p>
+          <p>{selectedSheet?.data?.personality?.alignment || "None"}</p>
         </span>
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Race</h2>
-          <p>{selectedSheet?.data?.race?.name}</p>
+          <p>{selectedSheet?.data?.race?.name || "None"}</p>
         </span>
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">
