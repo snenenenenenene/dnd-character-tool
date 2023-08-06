@@ -3,6 +3,7 @@ import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { useSheetStore } from "@/app/utils/store";
 import { MDXEditor } from "@mdxeditor/editor";
 import "@mdxeditor/editor/style.css";
+import * as crypto from "crypto";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -17,6 +18,10 @@ export default function NotesPopup() {
       setSelectedSheet(res);
     });
   }, []);
+
+  if (!crypto) {
+    return null;
+  }
 
   return (
     <div className="relative top-0 z-[60] right-0 pointer-events-none">
