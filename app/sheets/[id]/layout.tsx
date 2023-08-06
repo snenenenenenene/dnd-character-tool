@@ -1,15 +1,15 @@
 // @ts-ignore: Object is possibly 'null'.
 "use client";
-import {
-  default as AbilitySidebar,
-  default as ClassSideView,
-} from "@/app/components/character/ClassSideView";
+
+import AbilitySidebar from "@/app/components/character/AbilitySidebar";
+import ClassSideView from "@/app/components/character/ClassSideView";
 import { StatSidebar } from "@/app/components/character/StatSidebar";
 import { PulsingNotifier } from "@/app/components/common/PulsingNotifier";
 import { getSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import ErrorPage from "next/error";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 
 interface LayoutArgs {
@@ -18,6 +18,7 @@ interface LayoutArgs {
     id: string;
   };
 }
+
 export default function Page({ children, params }: LayoutArgs) {
   const selectedSheet: Sheet = useSheetStore((state) => state.selectedSheet);
   const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
@@ -32,6 +33,29 @@ export default function Page({ children, params }: LayoutArgs) {
     return <ErrorPage statusCode={404} />;
   }
 
+  const LinkTab = ({
+    name,
+    notificationTrigger,
+  }: {
+    name: string;
+    notificationTrigger?: boolean;
+  }) => {
+    return (
+      <Link
+        href={`/sheets/${params.id}/${name}`}
+        className={` border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
+          // use next router to check if the current path includes the name of the tab
+          usePathname()?.includes(name)
+            ? "border-0 bg-light-primary dark:bg-light-secondary dark:text-teal-400"
+            : "border-2 bg-light-secondary hover:opacity-50 text-light-primary"
+        }`}
+      >
+        {name}
+        {notificationTrigger && <PulsingNotifier />}
+      </Link>
+    );
+  };
+
   return (
     <div className="flex w-full h-full">
       <div className="flex flex-col w-full">
@@ -43,86 +67,27 @@ export default function Page({ children, params }: LayoutArgs) {
               <section className="button-section uppercase font-semibold h-24 w-full px-14 flex gap-x-4 items-end bg-light-secondary">
                 {typeof window !== "undefined" && (
                   <>
-                    <Link
-                      href={`/sheets/${params.id}/class`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("class")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
-                      }`}
-                    >
-                      Overview
-                    </Link>
-                    {/* <Link
-                  href={`/sheets/${params.id}/class`}
-                  className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                    window?.location.pathname.includes("class")
-                      ? "border-0"
-                      : "border-2 bg-light-secondary text-light-primary"
-                  }`}
-                >
-                  Class
-                </Link> */}
-                    <Link
-                      href={`/sheets/${params.id}/race`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("race")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
-                      }`}
-                    >
-                      Race
-                    </Link>
-
-                    <Link
-                      href={`/sheets/${params.id}/gear`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("gear")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
-                      }`}
-                    >
-                      Gear
-                      {selectedSheet?.data?.gear?.length === 0 && (
-                        <PulsingNotifier />
-                      )}
-                    </Link>
-
-                    <Link
-                      href={`/sheets/${params.id}/personality`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("personality")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
-                      }`}
-                    >
-                      Personality
-                      {selectedSheet?.data?.personality?.alignment?.length ===
-                        0 && <PulsingNotifier />}
-                    </Link>
-                    <Link
-                      href={`/sheets/${params.id}/spells`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("spells")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-50 text-light-primary"
-                      }`}
-                    >
-                      Spells
-                      {!selectedSheet?.data?.spells?.length && (
-                        <PulsingNotifier />
-                      )}
-                    </Link>
-                    <Link
-                      href={`/sheets/${params.id}/wildshapes`}
-                      className={`bg-light-primary border-2 rounded-t-xl border-light-secondary h-14 w-40 flex justify-center items-center ${
-                        window?.location.pathname.includes("wildshapes")
-                          ? "border-0"
-                          : "border-2 bg-light-secondary hover:opacity-5 text-light-primary"
-                      }`}
-                    >
-                      Shapes
-                    </Link>
+                    <LinkTab name="class" />
+                    <LinkTab name="race" />
+                    <LinkTab
+                      name="gear"
+                      notificationTrigger={
+                        selectedSheet?.data?.gear?.length === 0
+                      }
+                    />
+                    <LinkTab
+                      name="personality"
+                      notificationTrigger={
+                        selectedSheet?.data?.personality?.alignment.length === 0
+                      }
+                    />
+                    <LinkTab
+                      name="spells"
+                      notificationTrigger={
+                        selectedSheet?.data?.spells?.length === 0
+                      }
+                    />
+                    <LinkTab name="wildshapes" />
                   </>
                 )}
               </section>
@@ -135,7 +100,7 @@ export default function Page({ children, params }: LayoutArgs) {
           <AbilitySidebar />
         </section>
       </div>
-      <StatSidebar sheetId={params?.id} />
+      <StatSidebar />
     </div>
   );
 }

@@ -4,14 +4,14 @@ import { SkillTypes } from "@/data/classes/types";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-export default function AbilitySidebar({ sheetId }: { sheetId: string }) {
+export default function AbilitySidebar() {
   const [selectedSkills, setSelectedSkills] = useState<any>([]);
   const selectedSheet = useSheetStore((state) => state.selectedSheet);
   const setSelectedSheet = useSheetStore((state) => state.setSelectedSheet);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
   useEffect(() => {
-    getSheetWithId(sheetId).then((res: any) => {
+    getSheetWithId(selectedSheet?.id).then((res: any) => {
       setSelectedSheet(res);
     });
   }, []);

@@ -33,7 +33,7 @@ export default function Class(context: any) {
           alt="player avatar"
         />
       )}
-      <section className="bg-light-primary border-2 border-light-secondary w-[80%] p-4">
+      <section className="bg-light-primary dark:bg-light-secondary dark:border-light-primary border-2 border-light-secondary w-[80%] p-4">
         <span className="flex flex-col">
           <h2 className="uppercase font-bold">Name</h2>
           <p>{selectedSheet?.data?.name || "None"}</p>
@@ -190,7 +190,7 @@ export default function Class(context: any) {
         </span>
       </section>
       <section className="bg-transparent w-full text-light-primary p-4" />
-      <section className="bg-light-primary border-2 border-light-secondary w-full p-4">
+      <section className="bg-light-primary border-2 border-light-secondary dark:bg-light-secondary dark:border-light-primary w-full p-4">
         <span className="flex flex-col pb-4">
           <h2 className="uppercase font-bold">Feats</h2>
           <span>

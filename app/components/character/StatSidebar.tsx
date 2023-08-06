@@ -68,14 +68,14 @@ export const StatEntry = ({
   );
 };
 
-export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
+export const StatSidebar = () => {
   const selectedSheet: any = useSheetStore((state) => state.selectedSheet);
   const setSelectedSheet: any = useSheetStore(
     (state) => state.setSelectedSheet
   );
 
   useEffect(() => {
-    getSheetWithId(sheetId).then((res) => {
+    getSheetWithId(selectedSheet?.id).then((res) => {
       setSelectedSheet(res);
     });
   }, []);
@@ -85,7 +85,7 @@ export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
   }
 
   return (
-    <section className="flex w-48 pt-5 gap-2 bg-light-secondary text-light-text flex-col h-full items-center px-12">
+    <section className="flex w-48 pt-5 gap-2 bg-light-secondary dark:border-light-primary border-l-2 border-light-secondary text-light-text flex-col h-full items-center px-12">
       <h1 className={"uppercase font-medium"}>Level</h1>
       <Input
         className="bg-light-primary w-16 h-16 text-center text-3xl px-0 py-0"
@@ -94,7 +94,7 @@ export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
         value={selectedSheet?.data?.level}
         onChange={(e) =>
           updateSheetWithId(
-            sheetId,
+            selectedSheet?.id,
             {
               ...selectedSheet?.data,
               level: Number(e.target.value),
@@ -113,42 +113,42 @@ export const StatSidebar = ({ sheetId }: { sheetId: string }) => {
       <StatEntry
         selectedSheet={selectedSheet}
         title={"strength"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
         selectedSheet={selectedSheet}
         title={"dexterity"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
         selectedSheet={selectedSheet}
         title={"constitution"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
         selectedSheet={selectedSheet}
         title={"intelligence"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
         selectedSheet={selectedSheet}
         title={"wisdom"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />
       <StatEntry
         selectedSheet={selectedSheet}
         title={"charisma"}
-        sheetId={sheetId}
+        sheetId={selectedSheet?.id}
         calculateStat={calculateStat}
         setSelectedSheet={setSelectedSheet}
       />

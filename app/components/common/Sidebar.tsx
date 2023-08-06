@@ -87,7 +87,7 @@ export const Sidebar = () => {
         <section className="flex w-full h-full flex-col ">
           {routes.map((route) => (
             <Link
-              className="w-full h-20 flex hover:bg-light-secondary hover:dark:bg-dark-secondary transition-all hover:dark:text-light-primary justify-center text-4xl items-center  hover:text-orange-500 text-dark-secondary dark:text-dark-secondary"
+              className="w-full h-20 flex transition-all justify-center text-4xl items-center  hover:text-orange-500 text-dark-secondary"
               href={route.route}
               key={route.title}
             >

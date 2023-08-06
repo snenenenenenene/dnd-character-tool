@@ -27,7 +27,7 @@ export default function GearPage(context: any) {
 
   const GearType = ({ gearType }: { gearType: string }) => {
     return (
-      <div className="border-2 border-light-secondary p-4 flex flex-col w-full aspect-square h-max">
+      <div className="border-2 border-light-secondary dark:border-light-primary p-4 flex flex-col w-full aspect-square h-max">
         <h2 className="text-3xl uppercase font-bold">{gearType}</h2>
         <div className="flex flex-col h-full">
           {selectedSheet?.data?.gear
@@ -93,7 +93,7 @@ export default function GearPage(context: any) {
       </div>
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <div className="flex w-full h-full">
-          <div className="flex flex-col w-1/4 border-r-2 border-light-secondary">
+          <div className="flex flex-col w-1/4 border-r-2 dark:border-light-primary border-light-secondary">
             <h2 className="text-3xl uppercase p-4 font-bold">
               {selectedGearType}
             </h2>
