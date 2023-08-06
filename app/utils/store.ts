@@ -6,7 +6,7 @@
 import { Class } from "@/data/classes/types";
 import { Gear } from "@/data/gear/gear";
 import { Race } from "@/data/races/types";
-import { Spell } from "@/data/spells/spellts";
+import { Spell } from "@/data/spells/spells";
 import PocketBase from "pocketbase";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";

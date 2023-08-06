@@ -5,7 +5,7 @@ import { Modal } from "@/app/components/common/Modal";
 import { getSheetWithId, updateSheetWithId } from "@/app/utils/apiCalls";
 import { Sheet, useSheetStore } from "@/app/utils/store";
 import { Class } from "@/data/classes/types";
-import { Spell, spells } from "@/data/spells/spellts";
+import { Spell, spells } from "@/data/spells/spells";
 import { useEffect, useState } from "react";
 import { FiInfo } from "react-icons/fi";
 import { toast } from "react-toastify";

@@ -105,6 +105,7 @@ export type Spell = {
     | "15 feet"
     | "10 feet"
     | "5 feet"
+    | "Self (15-foot cone)"
     | "Touch"
     | "Self"
     | "Self (5-foot radius)"
